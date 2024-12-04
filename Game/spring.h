@@ -1,0 +1,1 @@
+float spring(float vel, float pos, float tpos, float sptif, float demp);

@@ -1,0 +1,120 @@
+
+!
+EntityFlags
+27
+
+Transform
+0.0 700.0 0
+0.0 0.0 0.0
+0.0 0.0 0.0
+50.0 0.5 1.0
+
+Collider
+0 0 0
+50 50
+
+Sprite
+0.0 0.0 0.0
+50.0 50.0
+0 0 50 50
+
+Assets/Art/hitbox.png
+#
+
+Render
+
+Collision
+
+
+
+
+
+!
+sys
+0
+EntityFlags
+27
+Transform
+500.0 30.0 2
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+50 50
+Sprite
+0.0 0.0 0.0
+64.0 64.0
+0 0 64 64
+Assets/Art/smil.png
+#
+Render
+Collision
+
+
+!
+sys
+0
+EntityFlags
+25
+Transform
+500.0 180.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+50 50
+Sprite
+0.0 0.0 0.0
+50.0 50.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+!
+sys
+0
+EntityFlags
+25
+Transform
+650.0 30.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+50 50
+Sprite
+0.0 0.0 0.0
+50.0 50.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+!
+sys
+0
+EntityFlags
+25
+Transform
+650.0 180.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+50 50
+Sprite
+0.0 0.0 0.0
+50.0 50.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision

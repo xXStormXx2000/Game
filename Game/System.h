@@ -1,0 +1,41 @@
+#pragma once
+#include "Entity.h"
+#include "Scene.h"
+#include "DynamicArray.h"
+#include <thread>
+#include <string>
+#include "SharedResources.h"
+#include "CollisionEvent.h"
+
+class System {
+	SharedResources* sharedResources;
+
+	Scene* scene;
+	DynamicArray<Entity> entitys;
+public:
+	void setSharedResources(SharedResources*);
+	void setScene(Scene*);
+	void run(void (System::*)(Entity));
+
+	void setEntitys(DynamicArray<Entity>& entitys);
+
+	template<class T>
+	T& getComponent(int entityId) {
+		return this->scene->getComponent<T>(entityId);
+	};
+
+	DynamicArray<Entity>& getEntitys();
+
+	double getDeltaTime();
+
+	virtual void onCollision(const CollisionEvent&);
+	virtual void start(Entity);
+
+	virtual void preUpdate(Entity);
+	virtual void update(Entity);
+	virtual void postUpdate(Entity);
+
+
+	virtual void end(Entity);
+};
+
