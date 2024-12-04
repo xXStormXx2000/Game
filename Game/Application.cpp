@@ -70,10 +70,19 @@ void Application::start() {
 
 void Application::handleEvents(){
 	SDL_Event event;
+	char keys = 0;
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case(SDL_QUIT):
 			this->appRunning = false;
+			break;
+		case SDL_KEYDOWN:
+			keys = event.key.keysym.scancode - SDL_SCANCODE_A + 'a';
+			if('a' <= keys && keys <= 'z') this->sharedResources.setKeyPressed(keys, true);
+			break;
+		case SDL_KEYUP:
+			keys = event.key.keysym.scancode - SDL_SCANCODE_A + 'a';
+			if ('a' <= keys && keys <= 'z') this->sharedResources.setKeyPressed(keys, false);
 			break;
 		default:
 			break;
@@ -96,6 +105,7 @@ void Application::collisionHandling() {
 void Application::update() {
 
 	this->sharedResources.setDeltaTime(timer.stop());
+	debugMessage(timer.stop() / 1'000);
 	if (this->sharedResources.getDeltaTime() < 1'000'000/fps) std::this_thread::sleep_for(std::chrono::microseconds(int(1'000'000/fps - this->sharedResources.getDeltaTime())));
 	this->sharedResources.setDeltaTime(timer.stop()/1'000'000);
 	this->timer.start();
@@ -110,6 +120,7 @@ void Application::update() {
 		ef.setMovedX(false);
 		ef.setMovedY(false);
 	}
+	//this->sharedResources.resetKeysPressed();
 }
 
 

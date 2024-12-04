@@ -31,6 +31,11 @@ void Softbody::preUpdate(Entity entity) {
 void Softbody::update(Entity entity) {
 	Transform& tf = getComponent<Transform>(entity.getId());
 	if (tf.velocity.y < 500) tf.velocity.y += 30;
+
+	tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 200;
+	if (this->keyDown('w')) tf.velocity.y = -500;
+
+
 	if (entity.getId() != softbodys[0].getId()) return;
 	Transform otherTf = getComponent<Transform>(softbodys[3].getId());
 	Collider otherCl = getComponent<Collider>(softbodys[3].getId());

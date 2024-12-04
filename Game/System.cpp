@@ -27,6 +27,10 @@ double System::getDeltaTime() {
 	return this->sharedResources->getDeltaTime();
 }
 
+bool System::keyDown(char key) {
+	return this->sharedResources->getKeyPressed(key);
+}
+
 void System::onCollision(const CollisionEvent& colEvent) {
 }
 

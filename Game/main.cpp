@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[]) {
 
-	Application game("Game", 1600, 900, 60);
+	Application game("Game", 1120, 630, 60);
 
 	game.addSystem(new Softbody());
 

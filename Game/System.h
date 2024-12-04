@@ -28,6 +28,8 @@ public:
 
 	double getDeltaTime();
 
+	bool keyDown(char);
+
 	virtual void onCollision(const CollisionEvent&);
 	virtual void start(Entity);
 
