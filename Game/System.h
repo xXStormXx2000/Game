@@ -28,7 +28,9 @@ public:
 
 	double getDeltaTime();
 
+	bool keyPressed(char);
 	bool keyDown(char);
+	bool keyReleased(char);
 
 	virtual void onCollision(const CollisionEvent&);
 	virtual void start(Entity);

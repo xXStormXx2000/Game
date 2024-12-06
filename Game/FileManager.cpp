@@ -1,10 +1,5 @@
 #include "FileManager.h"
 
-
-
-FileManager::FileManager(Scene* scene, Renderer* renderer, PhysicsEngine* physicsEngine): scene(scene), renderer(renderer), physicsEngine(physicsEngine){
-}
-
 void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
 
     assert(path[path.size() - 4] == '.' && path[path.size() - 3] == 'w' && path[path.size() - 2] == 'g' && path[path.size() - 1] == 'f'
@@ -24,12 +19,16 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
 
     DrawMap entitysToRender;
     DynamicArray<Entity> collisionEntitys;
+    DynamicArray<Entity> staticCollisionEntitys;
     
     std::ifstream file(path);
     std::string str;
     while (file >> str) {
         if (str == "!") {
             entitys.pushBack(this->createEntity());
+            EntityFlags ef;
+            file >> ef.flags >> ef.components;
+            entitysFlags[entitys.back().getId()] = ef;
             continue;
         }
 
@@ -37,13 +36,6 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
             int num;
             file >> num;
             systemsEntitys[num].pushBack(entitys.back());
-            continue;
-        }
-
-        if (str == "EntityFlags") {
-            EntityFlags ef;
-            file >> ef.flags;
-            entitysFlags[entitys.back().getId()] = ef;
             continue;
         }
 
@@ -89,11 +81,17 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
             sprites[entitys.back().getId()] = sr;
             continue;
         }
+
         if (str == "Render") {
             entitysToRender[transforms[entitys.back().getId()].position.z].pushBack(entitys.back());
         }
+
         if (str == "Collision") {
-            collisionEntitys.pushBack(entitys.back());
+            if (entitysFlags[entitys.back().getId()].getFlag(Static)) {
+                staticCollisionEntitys.pushBack(entitys.back());
+            } else {
+                collisionEntitys.pushBack(entitys.back());
+            }
         }
     }
 
@@ -109,11 +107,29 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
     this->scene->setComponents(sprites);
 
     this->renderer->setEntitys(entitysToRender);
+
     this->physicsEngine->setCollisionEntitys(collisionEntitys);
+    this->physicsEngine->setStaticCollisionEntitys(staticCollisionEntitys);
 }
 
 Entity FileManager::createEntity() {
     Entity entity(this->entityCount);
     this->entityCount++;
     return entity;
+}
+
+void FileManager::setScene(Scene* scene) {
+    this->scene = scene;
+}
+
+void FileManager::setRenderer(Renderer* renderer) {
+    this->renderer = renderer;
+}
+
+void FileManager::setPhysicsEngine(PhysicsEngine* physicsEngine) {
+    this->physicsEngine = physicsEngine;
+}
+
+void FileManager::setAudioManager(AudioManager* audioManager) {
+    this->audioManager = audioManager;
 }

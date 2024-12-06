@@ -9,6 +9,7 @@
 #include "PhysicsEngine.h"
 #include "SharedResources.h"
 #include "DynamicArray.h"
+#include "AudioManager.h"
 
 #include "System.h"
 
@@ -18,6 +19,7 @@
 class Application {
 	SDL_Window* window;
 	Renderer renderer;
+	AudioManager audioManager;
 	bool appRunning = false;
 
 	Scene scene;
@@ -34,6 +36,7 @@ class Application {
 	PhysicsEngine physicsEngine;
 
 	SharedResources sharedResources;
+
 
 public:
 

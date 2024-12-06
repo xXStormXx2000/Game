@@ -1,7 +1,5 @@
 
-!
-EntityFlags
-27
+! 27 11
 
 Transform
 0.0 700.0 0
@@ -25,71 +23,50 @@ Render
 
 Collision
 
+! 27 11
 
 
-
-
-!
-sys
-0
-EntityFlags
-27
 Transform
-500.0 30.0 2
-0 0 0.0
+700.0 400.0 0
 0.0 0.0 0.0
-1.0 1.0 1.0
+0.0 0.0 0.0
+3.0 6 1.0
+
 Collider
 0 0 0
 50 50
-Sprite
-0.0 0.0 0.0
-64.0 64.0
-0 0 64 64
-Assets/Art/smil.png
-#
-Render
-Collision
 
-
-!
-sys
-0
-EntityFlags
-25
-Transform
-500.0 180.0 0
-0 0 0.0
-0.0 0.0 0.0
-1.0 1.0 1.0
-Collider
-0 0 0
-50 50
 Sprite
 0.0 0.0 0.0
 50.0 50.0
 0 0 50 50
+
 Assets/Art/hitbox.png
 #
+
 Render
+
 Collision
 
-!
+
+
+
+
+! 11 11
 sys
 0
-EntityFlags
-25
+
 Transform
-650.0 30.0 0
+0.0 0.0 0
 0 0 0.0
 0.0 0.0 0.0
 1.0 1.0 1.0
 Collider
 0 0 0
-50 50
+15 15
 Sprite
 0.0 0.0 0.0
-50.0 50.0
+15.0 15.0
 0 0 50 50
 Assets/Art/hitbox.png
 #
@@ -97,22 +74,1370 @@ Render
 Collision
 
 
-!
+! 11 11
 sys
 0
-EntityFlags
-25
+
 Transform
-650.0 180.0 0
+0.0 0.0 0
 0 0 0.0
 0.0 0.0 0.0
 1.0 1.0 1.0
 Collider
 0 0 0
-50 50
+15 15
 Sprite
 0.0 0.0 0.0
-50.0 50.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render
+Collision
+
+
+! 11 11
+sys
+0
+
+Transform
+0.0 0.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Collider
+0 0 0
+15 15
+Sprite
+0.0 0.0 0.0
+15.0 15.0
 0 0 50 50
 Assets/Art/hitbox.png
 #

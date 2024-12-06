@@ -15,7 +15,7 @@ void System::setEntitys(DynamicArray<Entity>& entitys) {
 void System::run(void (System::*function)(Entity)) {
 	for (Entity entity : entitys) {
 		EntityFlags flags = this->scene->getComponent<EntityFlags>(entity.getId());
-		if (flags.getActive()) (this->*function)(entity);
+		if (flags.getFlag(Active)) (this->*function)(entity);
 	}
 }
 
@@ -27,8 +27,16 @@ double System::getDeltaTime() {
 	return this->sharedResources->getDeltaTime();
 }
 
-bool System::keyDown(char key) {
+bool System::keyPressed(char key) {
 	return this->sharedResources->getKeyPressed(key);
+}
+
+bool System::keyDown(char key) {
+	return this->sharedResources->getKeyDown(key);
+}
+
+bool System::keyReleased(char key) {
+	return this->sharedResources->getKeyReleased(key);
 }
 
 void System::onCollision(const CollisionEvent& colEvent) {

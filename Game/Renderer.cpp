@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-Renderer::Renderer(SDL_Window* window, Scene* scene): window(window), renderer(NULL), scene(scene) {
+Renderer::Renderer(SDL_Window* window): window(window), renderer(NULL), scene(nullptr) {
 
 	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
 		debugMessage("SDL_image could not initialize! SDL_image Error: " << IMG_GetError());
@@ -14,7 +14,11 @@ Renderer::Renderer(SDL_Window* window, Scene* scene): window(window), renderer(N
 	}
 }
 
-Renderer::Renderer(): renderer(NULL), window(NULL) {
+Renderer::Renderer(): window(NULL), renderer(NULL), scene(nullptr) {
+}
+
+void Renderer::setScene(Scene* scene) {
+	this->scene = scene;
 }
 
 Renderer& Renderer::operator=(Renderer&& other) noexcept {
@@ -36,7 +40,7 @@ void Renderer::render() {
 
 	for (auto entityList: this->entitys) for (Entity entity: entityList.second) {
 		EntityFlags flags = this->scene->getComponent<EntityFlags>(entity.getId());
-		if (!flags.getActive() || !flags.getVisible()) continue;
+		if (!flags.getFlag(Active) || !flags.getFlag(Visible)) continue;
 		assert(this->scene != nullptr && "Renderer can't find scene");
 		Transform& tf = this->scene->getComponent<Transform>(entity.getId());
 
@@ -59,6 +63,7 @@ SDL_Texture* Renderer::createTexture(int width, int height) {
 	SDL_Texture* texture;
 	texture = SDL_CreateTexture(this->renderer, SDL_PIXELFORMAT_UNKNOWN, SDL_TEXTUREACCESS_TARGET, width, height);
 	if(texture == NULL) debugMessage("SDL_image Error: " << IMG_GetError());
+	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 	return texture;
 }
 void Renderer::addToTexture(const std::string& path, SDL_Texture* spr) {

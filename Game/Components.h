@@ -31,32 +31,46 @@ struct Sprite {
 	SDL_Texture* sprite = NULL;
 };
 
+enum Flags {
+	Active,
+	Visible,
+	Muted,
+	Solid,
+	Static,
+	MovedX,
+	MovedY
+};
+enum ComponentFlags {
+	TransformFlag,
+	ColliderFlag,
+	RigidbodyFlag,
+	SpriteFlag
+};
+
 struct EntityFlags {
 	/*
 	0b0000'0001 = Active
 	0b0000'0010 = Visible
 	0b0000'0100 = Muted
 	0b0000'1000 = Solid
-	0b0001'0000 = MovedX
-	0b0010'0000 = MovedY
+	0b0001'0000 = Static
+	0b0010'0000 = MovedX
+	0b0100'0000 = MovedY
 	*/
-	int flags = 0b0001'1011;
+	int flags;
 
-	bool getActive();
-	void setActive(bool);
+	/*
+	0b0000'0001 = Transform
+	0b0000'0010 = Collider
+	0b0000'0100 = Rigidbody
+	0b0000'1000 = Sprite
+	*/
+	int components;
 
-	bool getVisible();
-	void setVisible(bool);
+	bool getFlag(Flags);
+	void setFlag(Flags, bool);
+	bool checkFlags(int);
 
-	bool getMuted();
-	void setMuted(bool);
-
-	bool getSolid();
-	void setSolid(bool);
-
-	bool getMovedX();
-	void setMovedX(bool);
-
-	bool getMovedY();
-	void setMovedY(bool);
+	bool haveComponent(ComponentFlags);
+	bool checkComponents(int);
 };

@@ -17,11 +17,12 @@ class PhysicsEngine {
 	SharedResources* sharedResources;
 
 	DynamicArray<Entity> collisionEntitys;
+	DynamicArray<Entity> staticCollisionEntitys;
 	DynamicArray<Entity> physicsEntitys;
 	systemFunctionMap customCollisionResolve;
 
 
-	DynamicArray<CollisionEvent> CheckForCollision(Entity, int);
+	DynamicArray<CollisionEvent> checkForCollision(Entity, int);
 	std::pair<double, double> calculateCollisionTime(double, double, double, double);
 	void resolveCollision(const CollisionEvent&);
 	CollisionEvent createCollisionEvent(Entity, Entity, Vector3D, double);
@@ -29,10 +30,19 @@ class PhysicsEngine {
 
 public:
 	void addCustomCollisionResolve(int, System*);
-	PhysicsEngine(Scene* = nullptr, DynamicArray<System*>* = nullptr, SharedResources* = nullptr);
+
+	void setScene(Scene*);
+	void setSystems(DynamicArray<System*>*);
+	void setSharedResources(SharedResources*);
+
+
 	CollisionEventMap checkAndResolveAllCollisions();
+
 	void setCollisionEntitys(DynamicArray<Entity>&);
+	void setStaticCollisionEntitys(DynamicArray<Entity>&);
+
 	void applyVelocity(int);
-	bool simpleCollisionCheck(int, double, double);
+
+	bool simpleCollisionCheck(int, double, double, int, double, double);
 };
 

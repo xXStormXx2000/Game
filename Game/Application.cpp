@@ -1,25 +1,35 @@
 #include "Application.h"
 
 Application::Application(const char* title, int width, int height, int fps): window(NULL), fps(fps) { 
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+
+	if(this->audioManager.failure()) return;
+
+	if (SDL_Init(SDL_INIT_EVENTS) < 0) {
 		debugMessage("SDL could not initialize! SDL_Error: " << SDL_GetError());
 		return;
 	}
+	
+
 	this->window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
 	if (this->window == NULL) {
 		debugMessage("Window could not be created! SDL_Error: " << SDL_GetError());
-		SDL_Quit();
 		return;
 	}
 
-	this->renderer = Renderer(this->window, &this->scene);
-	if (!this->renderer.exist()) {
-		SDL_DestroyWindow(this->window);
-		SDL_Quit();
-		return;
-	}
-	this->physicsEngine = PhysicsEngine(&this->scene, &this->systems, &this->sharedResources);
-	this->fileManager = FileManager(&this->scene, &this->renderer, &this->physicsEngine);
+	this->renderer = Renderer(this->window);
+	if (!this->renderer.exist()) return;
+	this->renderer.setScene(&this->scene);
+
+
+
+	this->physicsEngine.setScene(&this->scene);
+	this->physicsEngine.setSharedResources(&this->sharedResources);
+	this->physicsEngine.setSystems(&this->systems);
+
+	this->fileManager.setScene(&this->scene);
+	this->fileManager.setRenderer(&this->renderer);
+	this->fileManager.setPhysicsEngine(&this->physicsEngine);
+
 	this->appRunning = true;
 
 }
@@ -29,7 +39,6 @@ bool Application::getRunning() {
 }
 
 void Application::run() {
-
 	for (System* system : this->systems) {
 		system->setScene(&this->scene);
 		system->setSharedResources(&this->sharedResources);
@@ -70,19 +79,21 @@ void Application::start() {
 
 void Application::handleEvents(){
 	SDL_Event event;
-	char keys = 0;
+	char key = 0;
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case(SDL_QUIT):
 			this->appRunning = false;
 			break;
 		case SDL_KEYDOWN:
-			keys = event.key.keysym.scancode - SDL_SCANCODE_A + 'a';
-			if('a' <= keys && keys <= 'z') this->sharedResources.setKeyPressed(keys, true);
+			key = event.key.keysym.scancode - SDL_SCANCODE_A + 'a';
+			if('a' <= key && key <= 'z' && !this->sharedResources.getKeyDown(key)) this->sharedResources.setKeyPressed(key);
+			if (this->sharedResources.getKeyPressed(key)) this->sharedResources.setKeyDown(key, true);
 			break;
 		case SDL_KEYUP:
-			keys = event.key.keysym.scancode - SDL_SCANCODE_A + 'a';
-			if ('a' <= keys && keys <= 'z') this->sharedResources.setKeyPressed(keys, false);
+			key = event.key.keysym.scancode - SDL_SCANCODE_A + 'a';
+			if ('a' <= key && key <= 'z') this->sharedResources.setKeyReleased(key);
+			if ('a' <= key && key <= 'z') this->sharedResources.setKeyDown(key, false);
 			break;
 		default:
 			break;
@@ -91,22 +102,21 @@ void Application::handleEvents(){
 }
 
 void Application::collisionHandling() {
-	CollisionEventMap col;
-	for (int i = 0; i < 10; i++) {
-		col = this->physicsEngine.checkAndResolveAllCollisions();
-		if (col.size() == 0) break;
-	}
+	CollisionEventMap collisions;
+
+	collisions = this->physicsEngine.checkAndResolveAllCollisions();
+
 	for (const std::pair<int, Transform>& pair : this->scene.getComponents<Transform>()) {
-		this->physicsEngine.applyVelocity(pair.first);
+		if(!this->scene.getComponent<EntityFlags>(pair.first).getFlag(Static))
+			this->physicsEngine.applyVelocity(pair.first);
 	}
 }
 
 
 void Application::update() {
-
 	this->sharedResources.setDeltaTime(timer.stop());
-	debugMessage(timer.stop() / 1'000);
-	if (this->sharedResources.getDeltaTime() < 1'000'000/fps) std::this_thread::sleep_for(std::chrono::microseconds(int(1'000'000/fps - this->sharedResources.getDeltaTime())));
+	//debugMessage(1'000'000 / timer.stop());
+	//if (this->sharedResources.getDeltaTime() < 1'000'000/fps) std::this_thread::sleep_for(std::chrono::microseconds(int(1'000'000/fps - this->sharedResources.getDeltaTime())));
 	this->sharedResources.setDeltaTime(timer.stop()/1'000'000);
 	this->timer.start();
 
@@ -115,12 +125,15 @@ void Application::update() {
 		sys->run(&System::update);
 		sys->run(&System::postUpdate);
 	}
+
 	for (Entity entity : this->scene.getEntitys()) {
 		EntityFlags& ef = this->scene.getComponent<EntityFlags>(entity.getId());
-		ef.setMovedX(false);
-		ef.setMovedY(false);
+		ef.setFlag(MovedX, false);
+		ef.setFlag(MovedY, false);
 	}
-	//this->sharedResources.resetKeysPressed();
+
+	this->sharedResources.resetKeysPressed();
+	this->sharedResources.resetKeysReleased();
 }
 
 
