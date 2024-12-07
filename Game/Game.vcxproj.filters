@@ -622,7 +622,7 @@
     <None Include="dev\SDL2\cmake\sdl2-config-version.cmake">
       <Filter>Header Files\SDL</Filter>
     </None>
-    <None Include="Assets\Scenes\Test.wgf">
+    <None Include="Assets\Scenes\Tests.wgf">
       <Filter>Header Files\Scenes</Filter>
     </None>
   </ItemGroup>

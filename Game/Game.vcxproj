@@ -278,7 +278,7 @@
     <ClCompile Include="Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scenes\Test.wgf" />
+    <None Include="Assets\Scenes\Tests.wgf" />
     <None Include="dev\SDL2\.git-hash" />
     <None Include="dev\SDL2\cmake\sdl2-config-version.cmake" />
     <None Include="dev\SDL2\cmake\sdl2-config.cmake" />

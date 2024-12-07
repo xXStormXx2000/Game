@@ -67,7 +67,7 @@ void Application::addSystem(System* sys) {
 }
 
 void Application::start() {
-	fileManager.loadScene("Assets/Scenes/Test.wgf", this->systems);
+	fileManager.loadScene("Assets/Scenes/Tests.wgf", this->systems);
 	for (System* sys : systems) {
 		for (Entity entity : sys->getEntitys()) {
 			this->physicsEngine.addCustomCollisionResolve(entity.getId(), sys);

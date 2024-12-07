@@ -1,6 +1,6 @@
 #include "Softbody.h"
 
-Softbody::Softbody(): softbodys(8, DynamicArray<Entity>(8)){
+Softbody::Softbody(): softbodys(16, DynamicArray<Entity>(16)){
 }
 
 void Softbody::onCollision(const CollisionEvent& colEvent) {
@@ -15,16 +15,16 @@ void Softbody::onCollision(const CollisionEvent& colEvent) {
 }
 
 void Softbody::start(Entity entity) {
-	if (i < 8 && j < 8) {
+	if (i < 16 && j < 16) {
 		Transform& tf = getComponent<Transform>(entity.getId());
 		this->softbodys[i][j] = entity;
 		this->posMap[entity.getId()] = {i, j};
-		tf.position.x = i * 50;
-		tf.position.y = j * 50;
+		tf.position.x = i * 20;
+		tf.position.y = j * 20;
 	}
 	
 	i++;
-	if (i == 8) {
+	if (i == 16) {
 		i = 0;
 		j++;
 	}

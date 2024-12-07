@@ -10,9 +10,8 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(Entity entity, Col
     Transform tf = this->scene->getComponent<Transform>(entity.getId());
     Collider cl = this->scene->getComponent<Collider>(entity.getId());
     EntityFlags ef = this->scene->getComponent<EntityFlags>(entity.getId());
-    DynamicArray<Entity> pc = possibleCollisions[entity.getId()];
-    for (Entity otherEntity: pc) {
 
+    for (Entity otherEntity: possibleCollisions[entity.getId()]) {
         // Retrieve components for the other entity
         Transform otherTf = this->scene->getComponent<Transform>(otherEntity.getId());
         Collider otherCl = this->scene->getComponent<Collider>(otherEntity.getId());
@@ -20,15 +19,16 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(Entity entity, Col
         // Calculate relative position and velocity
         Vector3D relativePosition = otherTf.position + otherCl.Offset - (tf.position + cl.Offset);
         Vector3D relativeVelocity = (otherTf.velocity - tf.velocity)*this->sharedResources->getDeltaTime();
+
         // Calculate collision times for X and Y axes
         auto [xEnter, xExit] = this->calculateCollisionTime(relativePosition.x, relativeVelocity.x, cl.width*tf.scale.x, otherCl.width*otherTf.scale.x);
         auto [yEnter, yExit] = this->calculateCollisionTime(relativePosition.y, relativeVelocity.y, cl.height*tf.scale.y, otherCl.height*otherTf.scale.y);
 
         // Check for overlapping collision intervals
         if (xEnter < yExit && yEnter < xExit) {
-            if (yEnter < xEnter && xEnter >= 0 && nearestXTime > xEnter && !ef.getFlag(MovedX)) {
+            if (yEnter <= xEnter && xEnter >= 0 && nearestXTime > xEnter && !ef.getFlag(MovedX)) {
                 float dir = float((relativePosition.x > 0) - (relativePosition.x < 0));
-                //if(xEnter < 0) debugMessage(xEnter);
+
                 nearestXTime = xEnter;
                 nearestXEntity = otherEntity;
                 collisionEvents.pushBack(this->createCollisionEvent(entity, nearestXEntity, { -dir, 0, 0 }, nearestXTime));
@@ -37,7 +37,7 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(Entity entity, Col
 
             if (xEnter < yEnter && yEnter >= 0 && nearestYTime > yEnter && !ef.getFlag(MovedY)) {
                 float dir = float((relativePosition.y > 0) - (relativePosition.y < 0));
-                //if (yEnter < 0) debugMessage(yEnter);
+
                 nearestYTime = yEnter;
                 nearestYEntity = otherEntity;
                 collisionEvents.pushBack(this->createCollisionEvent(entity, nearestYEntity, { 0, -dir, 0 }, nearestYTime));
@@ -124,7 +124,6 @@ PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap() {
 void PhysicsEngine::resolveCollision(const CollisionEvent& colEvent) {
     // Resolve collision along the appropriate axis
     int id = colEvent.entity.getId();
-    
     Transform& tf = this->scene->getComponent<Transform>(id);
     EntityFlags& ef = this->scene->getComponent<EntityFlags>(id);
     if (!ef.getFlag(Dynamic)) return;
@@ -200,7 +199,7 @@ CollisionEventMap PhysicsEngine::checkAndResolveAllCollisions() {
         collision = false;
         DynamicArray<CollisionEvent> colEvents = { CollisionEvent(), CollisionEvent(), CollisionEvent(), CollisionEvent() };
 
-        ///////////////Can me multiple without causing issues////////////////
+        /////////////// Can me multiple without causing issues ////////////////
         for (Entity entity : this->dynamicCollisionEntitys) {
             // Check for collisions
             DynamicArray<CollisionEvent> colEventsTemp = checkForCollision(entity, possibleCollisions);

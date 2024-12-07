@@ -22,6 +22,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
     DynamicArray<Entity> dynamicCollisionEntitys;
     
     std::ifstream file(path);
+    assert(!file.bad());
     std::string str;
     while (file >> str) {
         if (str == "!") {
