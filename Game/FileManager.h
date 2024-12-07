@@ -1,12 +1,16 @@
 #pragma once
-#include "Entity.h"
-#include "Scene.h"
-#include "Renderer.h"
+#include <fstream>
 #include <string>
 #include "DynamicArray.h"
+
 #include "System.h"
-#include <fstream>
+#include "Entity.h"
+
+#include "Scene.h"
+#include "Renderer.h"
 #include "PhysicsEngine.h"
+#include "AudioManager.h"
+
 
 class FileManager {
 	int entityCount = 0;
@@ -17,10 +21,15 @@ class FileManager {
 
 	PhysicsEngine* physicsEngine = nullptr;
 
+	AudioManager* audioManager = nullptr;
+
 	Entity createEntity();
 
 public:
-	FileManager(Scene* = nullptr, Renderer* = nullptr, PhysicsEngine* = nullptr);
+	void setScene(Scene*);
+	void setRenderer(Renderer*);
+	void setPhysicsEngine(PhysicsEngine*);
+	void setAudioManager(AudioManager*);
 
 	void loadScene(std::string, DynamicArray<System*>&);
 };

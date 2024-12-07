@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="CollisionEvent.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="dev\SDL2\include\begin_code.h" />
@@ -258,6 +259,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="Debug.h" />
     <ClCompile Include="Entity.cpp" />

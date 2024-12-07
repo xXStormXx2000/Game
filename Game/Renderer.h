@@ -14,12 +14,14 @@ using DrawMap = std::map<float, DynamicArray<Entity>>;
 class Renderer {
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	Scene* scene = nullptr;
+	Scene* scene;
 
 	DrawMap entitys;
 public:
-	Renderer(SDL_Window* window, Scene*);
+	Renderer(SDL_Window* window);
 	Renderer();
+
+	void setScene(Scene*);
 
 	Renderer& operator=(Renderer&&) noexcept;
 

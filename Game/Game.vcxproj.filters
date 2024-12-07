@@ -58,6 +58,12 @@
     <Filter Include="Header Files\Scenes">
       <UniqueIdentifier>{318798dc-0c1a-4b93-ae93-5a6cbfad1c8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\SubSystems">
+      <UniqueIdentifier>{d2d7c9ba-6a42-48fe-a553-56ef278af86c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\SubSystems">
+      <UniqueIdentifier>{a9de843f-7db5-4bdb-ab40-9ebc1ec9a230}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DynamicArray.h">
@@ -67,9 +73,6 @@
       <Filter>Header Files\Engine\Types</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
@@ -89,12 +92,6 @@
     </ClInclude>
     <ClInclude Include="Components.h">
       <Filter>Header Files\Engine\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FileManager.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsEngine.h">
-      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="SharedResources.h">
       <Filter>Header Files\Engine</Filter>
@@ -384,6 +381,18 @@
     <ClInclude Include="dev\SDL2\include\SDL_vulkan.h">
       <Filter>Header Files\SDL</Filter>
     </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files\Engine\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEngine.h">
+      <Filter>Header Files\Engine\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManager.h">
+      <Filter>Header Files\Engine\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\Engine\SubSystems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Debug.h">
@@ -393,9 +402,6 @@
       <Filter>Source Files\Engine\Types</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="HexagonGrid.cpp">
@@ -410,13 +416,7 @@
     <ClCompile Include="Components.cpp">
       <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="FileManager.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsEngine.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
@@ -436,6 +436,18 @@
     </ClCompile>
     <ClCompile Include="spring.cpp">
       <Filter>Source Files\Engine\Functionality</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files\Engine\SubSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManager.cpp">
+      <Filter>Source Files\Engine\SubSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\Engine\SubSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsEngine.cpp">
+      <Filter>Source Files\Engine\SubSystems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
