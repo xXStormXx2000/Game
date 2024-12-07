@@ -36,7 +36,7 @@ enum Flags {
 	Visible,
 	Muted,
 	Solid,
-	Static,
+	Dynamic,
 	MovedX,
 	MovedY
 };

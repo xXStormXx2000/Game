@@ -19,7 +19,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
 
     DrawMap entitysToRender;
     DynamicArray<Entity> collisionEntitys;
-    DynamicArray<Entity> staticCollisionEntitys;
+    DynamicArray<Entity> dynamicCollisionEntitys;
     
     std::ifstream file(path);
     std::string str;
@@ -87,11 +87,10 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
         }
 
         if (str == "Collision") {
-            if (entitysFlags[entitys.back().getId()].getFlag(Static)) {
-                staticCollisionEntitys.pushBack(entitys.back());
-            } else {
-                collisionEntitys.pushBack(entitys.back());
+            if (entitysFlags[entitys.back().getId()].getFlag(Dynamic)) {
+                dynamicCollisionEntitys.pushBack(entitys.back());
             }
+            collisionEntitys.pushBack(entitys.back());
         }
     }
 
@@ -109,7 +108,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
     this->renderer->setEntitys(entitysToRender);
 
     this->physicsEngine->setCollisionEntitys(collisionEntitys);
-    this->physicsEngine->setStaticCollisionEntitys(staticCollisionEntitys);
+    this->physicsEngine->setDynamicCollisionEntitys(dynamicCollisionEntitys);
 }
 
 Entity FileManager::createEntity() {

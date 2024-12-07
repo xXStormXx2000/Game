@@ -31,7 +31,7 @@ void Softbody::start(Entity entity) {
 }
 
 void Softbody::preUpdate(Entity entity) {
-	float dist = 50;
+	/*float dist = 50;
 	Transform& tf = getComponent<Transform>(entity.getId());
 	auto [x, y] = this->posMap[entity.getId()];
 	for (int i = -1; i < 2; i++) {
@@ -52,7 +52,7 @@ void Softbody::preUpdate(Entity entity) {
 				tf.velocity.y += vel*i * this->getDeltaTime()*120;
 			}
 		}
-	}
+	}*/
 }
 
 void Softbody::update(Entity entity) {
