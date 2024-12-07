@@ -118,3 +118,19 @@ Assets/Art/hitbox.png
 #
 Render
 Collision
+
+!
+EntityFlags
+27
+Transform
+700.0 500.0 0
+0 0 0.0
+0.0 0.0 0.0
+1.0 1.0 1.0
+Sprite
+0.0 0.0 0.0
+50.0 50.0
+0 0 50 50
+Assets/Art/hitbox.png
+#
+Render

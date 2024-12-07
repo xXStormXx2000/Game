@@ -17,6 +17,8 @@ void Softbody::start(Entity emtity) {
 void Softbody::preUpdate(Entity entity) {
 	float dist = 150;
 	Transform& tf = getComponent<Transform>(entity.getId());
+	tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 200;
+	if (this->keyDown('w')) tf.velocity.y = -500;
 	for (Entity other : softbodys) {
 		if (other.getId() == entity.getId()) continue;
 		Transform otherTf = getComponent<Transform>(other.getId());
@@ -31,9 +33,6 @@ void Softbody::preUpdate(Entity entity) {
 void Softbody::update(Entity entity) {
 	Transform& tf = getComponent<Transform>(entity.getId());
 	if (tf.velocity.y < 500) tf.velocity.y += 30;
-
-	tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 200;
-	if (this->keyDown('w')) tf.velocity.y = -500;
 
 
 	if (entity.getId() != softbodys[0].getId()) return;

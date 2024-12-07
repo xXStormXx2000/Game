@@ -59,6 +59,7 @@ SDL_Texture* Renderer::createTexture(int width, int height) {
 	SDL_Texture* texture;
 	texture = SDL_CreateTexture(this->renderer, SDL_PIXELFORMAT_UNKNOWN, SDL_TEXTUREACCESS_TARGET, width, height);
 	if(texture == NULL) debugMessage("SDL_image Error: " << IMG_GetError());
+	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 	return texture;
 }
 void Renderer::addToTexture(const std::string& path, SDL_Texture* spr) {
