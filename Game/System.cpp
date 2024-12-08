@@ -23,7 +23,7 @@ DynamicArray<Entity>& System::getEntitys() {
 	return this->entitys;
 }
 
-double System::getDeltaTime() {
+float System::getDeltaTime() {
 	return this->sharedResources->getDeltaTime();
 }
 

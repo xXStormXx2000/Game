@@ -1,6 +1,6 @@
 #include "Softbody.h"
 
-Softbody::Softbody(): softbodys(16, DynamicArray<Entity>(16)){
+Softbody::Softbody(): softbodys(32, DynamicArray<Entity>(32)){
 }
 
 void Softbody::onCollision(const CollisionEvent& colEvent) {
@@ -15,16 +15,16 @@ void Softbody::onCollision(const CollisionEvent& colEvent) {
 }
 
 void Softbody::start(Entity entity) {
-	if (i < 16 && j < 16) {
+	if (i < 32 && j < 32) {
 		Transform& tf = getComponent<Transform>(entity.getId());
 		this->softbodys[i][j] = entity;
 		this->posMap[entity.getId()] = {i, j};
-		tf.position.x = i * 20;
-		tf.position.y = j * 20;
+		tf.position.x = i * 17;
+		tf.position.y = j * 17;
 	}
 	
 	i++;
-	if (i == 16) {
+	if (i == 32) {
 		i = 0;
 		j++;
 	}
@@ -61,8 +61,8 @@ void Softbody::update(Entity entity) {
 	if (tf.velocity.y < 500) tf.velocity.y += 30 * this->getDeltaTime()*60;
 
 	if (this->keyDown('d') + this->keyDown('a')) {
-		if(abs(tf.velocity.x) < 200)tf.velocity.x += (this->keyDown('d') - this->keyDown('a'))*100*60*this->getDeltaTime();
+		tf.velocity.x = (this->keyDown('d') - this->keyDown('a'))*200;
 	}
 	if (this->keyPressed('w')) tf.velocity.y = -500;
-	tf.velocity *= 1 - 1.5*this->getDeltaTime();
+	//tf.velocity *= 1 - 1.5*this->getDeltaTime();
 }

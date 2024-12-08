@@ -102,7 +102,8 @@ void Application::handleEvents(){
 }
 
 void Application::collisionHandling() {
-	CollisionEventMap collisions = this->physicsEngine.checkAndResolveAllCollisions();
+	CollisionEventMap collisions = this->physicsEngine.getAllCollisions();
+	this->physicsEngine.resolveCollision(collisions);
 
 	for (const std::pair<int, Transform>& pair : this->scene.getComponents<Transform>()) {
 		if(this->scene.getComponent<EntityFlags>(pair.first).getFlag(Dynamic))
@@ -113,8 +114,12 @@ void Application::collisionHandling() {
 
 void Application::update() {
 	this->sharedResources.setDeltaTime(timer.stop());
-	debugMessage(1'000'000 / timer.stop());
-	if (this->sharedResources.getDeltaTime() < 1'000'000/fps) std::this_thread::sleep_for(std::chrono::microseconds(int(1'000'000/fps - this->sharedResources.getDeltaTime())));
+	float temp = 1'000'000 / timer.stop();
+	if (fpsLow > temp) {
+		fpsLow = temp;
+		debugMessage(fpsLow);
+	}
+	//if (this->sharedResources.getDeltaTime() < 1'000'000/fps) std::this_thread::sleep_for(std::chrono::microseconds(int(1'000'000/fps - this->sharedResources.getDeltaTime())));
 	this->sharedResources.setDeltaTime(timer.stop()/1'000'000);
 	this->timer.start();
 

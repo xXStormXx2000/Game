@@ -10,3 +10,14 @@ AudioManager::AudioManager() {
 bool AudioManager::failure() {
 	return this->initFeil;
 }
+
+void AudioManager::addSound(std::string name, std::string path){
+	this->audioMap[name];
+}
+
+void AudioManager::playSound(std::string name) {
+}
+
+AudioManager::~AudioManager() {
+	SDL_CloseAudioDevice(this->audioDevice);
+}

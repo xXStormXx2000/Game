@@ -44,7 +44,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
             Transform tf;
             file >> tf.position.x >> tf.position.y >> tf.position.z;
             file >> tf.velocity.x >> tf.velocity.y >> tf.velocity.z;
-            file >> tf.rotation.x >> tf.rotation.y >> tf.rotation.z;
+            //file >> tf.rotation.x >> tf.rotation.y >> tf.rotation.z;
             file >> tf.scale.x >> tf.scale.y >> tf.scale.z;
             transforms[entitys.back().getId()] = tf;
             continue;
@@ -63,7 +63,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
             file >> rb.mass >> rb.density >> rb.friction >> rb.restitution;
             file >> rb.centerOfMass.x >> rb.centerOfMass.y >> rb.centerOfMass.z;
             file >> rb.acceleration.x >> rb.acceleration.y >> rb.acceleration.z;
-            file >> rb.angularVelocity.x >> rb.angularVelocity.y >> rb.angularVelocity.z;
+            //file >> rb.angularVelocity.x >> rb.angularVelocity.y >> rb.angularVelocity.z;
             rigidbodys[entitys.back().getId()] = rb;
             continue;
         }

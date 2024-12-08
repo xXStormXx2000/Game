@@ -5,13 +5,13 @@
 struct Transform {
 	Vector3D position = { 0, 0, 0 }; // pixels
 	Vector3D velocity = { 0, 0, 0 }; // pixels/s
-	Vector3D rotation = { 0, 0, 0 }; // rad
+	//Vector3D rotation = { 0, 0, 0 }; // rad
 	Vector3D scale = { 1, 1, 1 };
 };
 
 struct Collider {
 	Vector3D Offset = { 0,0,0 }; // pixels
-	double width = 0, height = 0; // pixels
+	float width = 0, height = 0; // pixels
 };
 
 struct Rigidbody {
@@ -21,12 +21,12 @@ struct Rigidbody {
 	float restitution = 0;
 	Vector3D centerOfMass = { 0, 0, 0 }; // pixels
 	Vector3D acceleration = { 0, 0, 0 }; // pixels/s^2
-	Vector3D angularVelocity = { 0, 0, 0 }; // rad/s
+	//Vector3D angularVelocity = { 0, 0, 0 }; // rad/s
 };
 
 struct Sprite {
 	Vector3D Offset = { 0,0,0 }; // pixels
-	double width = 0, height = 0; // pixels
+	float width = 0, height = 0; // pixels
 	SDL_Rect texturePortion = { 0, 0, 0, 0 }; // pixels
 	SDL_Texture* sprite = NULL;
 };
@@ -67,10 +67,10 @@ struct EntityFlags {
 	*/
 	int components;
 
-	bool getFlag(Flags);
+	bool getFlag(Flags) const;
 	void setFlag(Flags, bool);
-	bool checkFlags(int);
+	bool checkFlags(int) const;
 
-	bool haveComponent(ComponentFlags);
-	bool checkComponents(int);
+	bool haveComponent(ComponentFlags) const;
+	bool checkComponents(int) const;
 };

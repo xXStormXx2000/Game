@@ -26,7 +26,7 @@ public:
 
 	DynamicArray<Entity>& getEntitys();
 
-	double getDeltaTime();
+	float getDeltaTime();
 
 	bool keyPressed(char);
 	bool keyDown(char);

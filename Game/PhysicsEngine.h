@@ -7,6 +7,11 @@
 #include "System.h"
 #include "SharedResources.h"
 
+#include <thread>
+#include <mutex>
+
+
+
 class PhysicsEngine {
 	using systemFunctionMap = std::unordered_map<int, DynamicArray<System*>>;
 	using CollisionMap = std::unordered_map<int, DynamicArray<Entity>>;
@@ -23,15 +28,18 @@ class PhysicsEngine {
 
 	DynamicArray<Entity> physicsEntitys;
 
-	DynamicArray<CollisionEvent> checkForCollision(Entity, CollisionMap&);
-	std::pair<double, double> calculateCollisionTime(double, double, double, double);
-	void resolveCollision(const CollisionEvent&);
-	CollisionEvent createCollisionEvent(Entity, Entity, Vector3D, double);
+	DynamicArray<CollisionEvent> checkForCollision(Entity, CollisionMap&, const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>&) const;
+	std::pair<float, float> calculateCollisionTime(float, float, float, float) const;
+	
+	CollisionEvent createCollisionEvent(Entity, Entity, Vector3D, float) const;
 
-	CollisionMap generateCollisionMap();
+	CollisionMap generateCollisionMap(const CompMap<Transform>&, const CompMap<Collider>&);
+
+	void preventIntersection(const CollisionEvent&);
 
 
 public: 
+
 	void addCustomCollisionResolve(int, System*);
 
 	void setScene(Scene*);
@@ -39,7 +47,8 @@ public:
 	void setSharedResources(SharedResources*);
 
 
-	CollisionEventMap checkAndResolveAllCollisions();
+	CollisionEventMap getAllCollisions();
+	void resolveCollision(const CollisionEventMap&);
 
 	void setCollisionEntitys(DynamicArray<Entity>&);
 	void setDynamicCollisionEntitys(DynamicArray<Entity>&);

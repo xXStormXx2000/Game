@@ -45,10 +45,10 @@ void SharedResources::setKeyReleased(char key) {
     this->keysReleased[key / 8] |= 1 << (key % 8);
 }
 
-void SharedResources::setDeltaTime(double dt) {
+void SharedResources::setDeltaTime(float dt) {
     this->deltaTime = dt;
 }
 
-double SharedResources::getDeltaTime() {
+float SharedResources::getDeltaTime() {
     return this->deltaTime;
 }
