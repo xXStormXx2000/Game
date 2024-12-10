@@ -18,16 +18,20 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(Entity entity, Col
     for (Entity otherEntity: possibleCollisions.at(entity.getId())) {
         // Retrieve components for the other entity
         Transform otherTf = tfMap.at(otherEntity.getId());
-        const Collider& otherCl = clMap.at(otherEntity.getId());
         EntityFlags otherEf = efMap.at(otherEntity.getId());
 
         if (otherEf.getFlag(MovedX)) otherTf.velocity.x = 0;
         if (otherEf.getFlag(MovedY)) otherTf.velocity.y = 0;
-
-        // Calculate relative position and velocity
-        Vector3D relativePosition = otherTf.position + otherCl.Offset - (tf.position + cl.Offset);
+        
+        // Calculate relative velocity
         Vector3D relativeVelocity = (otherTf.velocity - tf.velocity)*this->sharedResources->getDeltaTime();
+        if (!(relativeVelocity.x + relativeVelocity.y)) continue;
 
+        
+        // Calculate relative position
+        const Collider& otherCl = clMap.at(otherEntity.getId());
+        Vector3D relativePosition = otherTf.position + otherCl.Offset - (tf.position + cl.Offset);
+        
 
         // Calculate collision times for X and Y axes
         auto [xEnter, xExit] = this->calculateCollisionTime(relativePosition.x, relativeVelocity.x, cl.width*tf.scale.x, otherCl.width*otherTf.scale.x);
@@ -44,7 +48,7 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(Entity entity, Col
                 collisionEvents.pushBack(this->createCollisionEvent(nearestXEntity, entity, { dir, 0, 0 }, nearestXTime));
             }
 
-            if (xEnter < yEnter && yEnter >= 0 && nearestYTime > yEnter && !ef.getFlag(MovedY)) {
+            if (xEnter <= yEnter && yEnter >= 0 && nearestYTime > yEnter && !ef.getFlag(MovedY)) {
                 float dir = float((relativePosition.y > 0) - (relativePosition.y < 0));
 
                 nearestYTime = yEnter;
@@ -82,11 +86,12 @@ CollisionEvent PhysicsEngine::createCollisionEvent(Entity entity, Entity other, 
     return cEvent;
 }
 
-PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(const CompMap<Transform>& tfMap, const CompMap<Collider>& clMap) {
+PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(const CompMap<Transform>& tfMap, const CompMap<Collider>& clMap, const CompMap<EntityFlags>& efMap) {
     CollisionMap possibleCollisions;
-    /////////////// Can me multiple without causing issues ////////////////
     for (Entity entity : this->dynamicCollisionEntitys) {
         Transform tf = tfMap.at(entity.getId());
+        if (!(tf.velocity.x + tf.velocity.y) && efMap.at(entity.getId()).getFlag(Solid)) continue;
+
         const Collider& cl = clMap.at(entity.getId());
 
         tf.velocity *= this->sharedResources->getDeltaTime();
@@ -127,7 +132,6 @@ PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(const CompMap<Tr
             }
         }
     }
-    //////////////////////// end ///////////////////////////
     return possibleCollisions;
 }
 
@@ -136,6 +140,7 @@ void PhysicsEngine::preventIntersection(const CollisionEvent& colEvent) {
     int id = colEvent.entity.getId();
     Transform& tf = this->scene->getComponent<Transform>(id);
     EntityFlags& ef = this->scene->getComponent<EntityFlags>(id);
+    if(!ef.getFlag(Dynamic)) return;
 
     int otherId = colEvent.other.getId();
     Transform otherTf = this->scene->getComponent<Transform>(otherId);
@@ -191,47 +196,63 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
     const CompMap<Collider>& clMap = this->scene->getComponents<Collider>();
     const CompMap<EntityFlags>& efMap = this->scene->getComponents<EntityFlags>();
 
-    CollisionMap possibleCollisions = generateCollisionMap(tfMap, clMap);
+    CollisionMap possibleCollisions = generateCollisionMap(tfMap, clMap, efMap);
+    
     if (!possibleCollisions.size()) return{};
-
-    DynamicArray<CollisionEvent> colEvents;
+    
+    std::map<float, DynamicArray<CollisionEvent>> colEventsMap;
 
     CollisionEventMap collisionEvents;
-    bool collision = true;
-
-    for (int i = 0; i < this->dynamicCollisionEntitys.size() && collision; i++) {
+    bool collision;
+    auto helper = [&](DynamicArray<Entity>& entitys) -> void {
         collision = false;
-        colEvents = { CollisionEvent(), CollisionEvent(), CollisionEvent(), CollisionEvent() };
-
-        /////////////// Can be multithreaded without causing issues ////////////////
-        for (Entity entity : this->dynamicCollisionEntitys) {
+        for (Entity entity: entitys) {
             if (possibleCollisions.find(entity.getId()) == possibleCollisions.end()) continue;
             EntityFlags ef = efMap.at(entity.getId());
             if (ef.getFlag(MovedX) && ef.getFlag(MovedY)) continue;
             // Check for collisions
             DynamicArray<CollisionEvent> colEventsTemp = checkForCollision(entity, possibleCollisions, tfMap, clMap, efMap);
 
-            for (int k = 0; k < colEventsTemp.size(); k += 2) {
-                if (colEventsTemp[k].collisionDirection.x &&
-                    colEventsTemp[k].time < colEvents[0].time) {
-                    colEvents[0] = colEventsTemp[k];
-                    colEvents[1] = colEventsTemp[k + 1];
-                }
-                if (colEventsTemp[k].collisionDirection.y &&
-                    colEventsTemp[k].time < colEvents[2].time) {
-                    colEvents[2] = colEventsTemp[k];
-                    colEvents[3] = colEventsTemp[k + 1];
-                }
+            for (int k = 0; k < colEventsTemp.size(); k++) {
+                int id = colEventsTemp[k].entity.getId();
+                if (id < 0) continue;
+                colEventsMap[colEventsTemp[k].time].pushBack(colEventsTemp[k]);
+                
             }
         }
-        //////////////////////// end ///////////////////////////
-        for (const CollisionEvent& colEvent : colEvents) {
+        if (!colEventsMap.size()) return;
+        for (const CollisionEvent& colEvent : colEventsMap.begin()->second) {
             if (colEvent.collisionDirection.x + colEvent.collisionDirection.y == 0) continue;
             if (colEvent.entity.getId() < 0) continue;
             preventIntersection(colEvent);
             collisionEvents[colEvent.entity.getId()].pushBack(colEvent);
             collision = true;
         }
+        
+    };
+    helper(this->dynamicCollisionEntitys);
+    for (int i = 1; i < this->dynamicCollisionEntitys.size() && collision; i++) {
+        DynamicArray<CollisionEvent> collisions = colEventsMap.begin()->second;
+        colEventsMap.erase(colEventsMap.begin()->first);
+        std::unordered_set<int> visited;
+        DynamicArray<Entity> newCollisions; 
+
+        for (const CollisionEvent& colEvent: collisions) {
+            int oldId = colEvent.entity.getId();
+            
+            if (!efMap.at(oldId).getFlag(Dynamic)) continue;
+
+            for (Entity entity : possibleCollisions[oldId]) {
+                int id = entity.getId();
+                if (!efMap.at(id).getFlag(Dynamic)) continue;
+                if(visited.find(id) != visited.end()) continue;
+                visited.insert(id);
+
+                newCollisions.pushBack(entity);
+            }
+
+        }
+        helper(newCollisions);
     }
 
     return collisionEvents;

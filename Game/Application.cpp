@@ -113,13 +113,9 @@ void Application::collisionHandling() {
 
 
 void Application::update() {
-	this->sharedResources.setDeltaTime(timer.stop());
-	float temp = 1'000'000 / timer.stop();
-	if (fpsLow > temp) {
-		fpsLow = temp;
-		debugMessage(fpsLow);
-	}
-	//if (this->sharedResources.getDeltaTime() < 1'000'000/fps) std::this_thread::sleep_for(std::chrono::microseconds(int(1'000'000/fps - this->sharedResources.getDeltaTime())));
+	debugMessage(1'000'000/timer.stop());
+	if (timer.stop() < 1'000'000/fps) SDL_Delay(int(1'000/fps - timer.stop()/1'000));
+	
 	this->sharedResources.setDeltaTime(timer.stop()/1'000'000);
 	this->timer.start();
 

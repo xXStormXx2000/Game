@@ -13,7 +13,6 @@
 
 #include "System.h"
 
-#include <thread>
 
 
 class Application {
@@ -30,7 +29,6 @@ class Application {
 	Timer timer;
 
 	int fps;
-	float fpsLow = 100000000;
 
 	FileManager fileManager;
 

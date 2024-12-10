@@ -1,14 +1,13 @@
 #pragma once
 #include "Scene.h"
 #include "DynamicArray.h"
-#include "unordered_map"
+#include <unordered_map>
+#include <map>
+#include <unordered_set>
 #include "System.h"
 #include "CollisionEvent.h"
 #include "System.h"
 #include "SharedResources.h"
-
-#include <thread>
-#include <mutex>
 
 
 
@@ -33,7 +32,7 @@ class PhysicsEngine {
 	
 	CollisionEvent createCollisionEvent(Entity, Entity, Vector3D, float) const;
 
-	CollisionMap generateCollisionMap(const CompMap<Transform>&, const CompMap<Collider>&);
+	CollisionMap generateCollisionMap(const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>& efMap);
 
 	void preventIntersection(const CollisionEvent&);
 

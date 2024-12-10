@@ -1,6 +1,6 @@
 #include "Softbody.h"
 
-Softbody::Softbody(): softbodys(32, DynamicArray<Entity>(32)){
+Softbody::Softbody(): softbodys(8, DynamicArray<Entity>(8)){
 }
 
 void Softbody::onCollision(const CollisionEvent& colEvent) {
@@ -15,7 +15,7 @@ void Softbody::onCollision(const CollisionEvent& colEvent) {
 }
 
 void Softbody::start(Entity entity) {
-	if (i < 32 && j < 32) {
+	if (i < 8 && j < 8) {
 		Transform& tf = getComponent<Transform>(entity.getId());
 		this->softbodys[i][j] = entity;
 		this->posMap[entity.getId()] = {i, j};
@@ -24,7 +24,7 @@ void Softbody::start(Entity entity) {
 	}
 	
 	i++;
-	if (i == 32) {
+	if (i == 8) {
 		i = 0;
 		j++;
 	}
@@ -57,7 +57,7 @@ void Softbody::preUpdate(Entity entity) {
 
 void Softbody::update(Entity entity) {
 	Transform& tf = getComponent<Transform>(entity.getId());
-	//if (this->softbodys[3][3].getId() != entity.getId()) return;
+	//if (this->softbodys[0][0].getId() != entity.getId()) return;
 	if (tf.velocity.y < 500) tf.velocity.y += 30 * this->getDeltaTime()*60;
 
 	if (this->keyDown('d') + this->keyDown('a')) {

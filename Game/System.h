@@ -12,6 +12,19 @@ class System {
 
 	Scene* scene;
 	DynamicArray<Entity> entitys;
+protected:
+	float getDeltaTime();
+
+	template<class T>
+	T& getComponent(int entityId) {
+		return this->scene->getComponent<T>(entityId);
+	};
+	
+	bool keyPressed(char);
+	bool keyDown(char);
+	bool keyReleased(char);
+
+
 public:
 	void setSharedResources(SharedResources*);
 	void setScene(Scene*);
@@ -19,18 +32,8 @@ public:
 
 	void setEntitys(DynamicArray<Entity>& entitys);
 
-	template<class T>
-	T& getComponent(int entityId) {
-		return this->scene->getComponent<T>(entityId);
-	};
-
 	DynamicArray<Entity>& getEntitys();
-
-	float getDeltaTime();
-
-	bool keyPressed(char);
-	bool keyDown(char);
-	bool keyReleased(char);
+	
 
 	virtual void onCollision(const CollisionEvent&);
 	virtual void start(Entity);
