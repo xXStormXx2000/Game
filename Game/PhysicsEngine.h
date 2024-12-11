@@ -33,7 +33,7 @@ class PhysicsEngine {
 	
 	CollisionEvent createCollisionEvent(Entity, Entity, Vector3D, float) const;
 
-	void generateCollisionZones(int ,ZoneMap&, Vector3D, float, float, DynamicArray<Entity>&, DynamicArray<DynamicArray<Entity>>&, const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>&);
+	void generateCollisionZones(ZoneMap&, Vector3D, float, float, DynamicArray<Entity>&, DynamicArray<DynamicArray<Entity>>&, const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>&);
 	CollisionMap generateCollisionMap(DynamicArray<DynamicArray<Entity>>&, ZoneMap& ,const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>& efMap);
 
 	void preventIntersection(const CollisionEvent&);

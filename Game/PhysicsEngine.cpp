@@ -90,9 +90,9 @@ CollisionEvent PhysicsEngine::createCollisionEvent(Entity entity, Entity other, 
     return cEvent;
 }
 
-void PhysicsEngine::generateCollisionZones(int depth, ZoneMap& zoneMap,Vector3D pos,float width, float height, DynamicArray<Entity>& list, DynamicArray<DynamicArray<Entity>>& collisionZones, const CompMap<Transform>& tfMap, const CompMap<Collider>& clMap, const CompMap<EntityFlags>& efMap) {
-    int maxDepth = 9;
-    if (depth > maxDepth) {
+void PhysicsEngine::generateCollisionZones(ZoneMap& zoneMap,Vector3D pos,float width, float height, DynamicArray<Entity>& list, DynamicArray<DynamicArray<Entity>>& collisionZones, const CompMap<Transform>& tfMap, const CompMap<Collider>& clMap, const CompMap<EntityFlags>& efMap) {
+    int minArea = 40*40;
+    if (width*height <= minArea) {
         for (Entity entity : list) {
             zoneMap[entity.getId()].pushBack(collisionZones.size());
         }
@@ -113,30 +113,42 @@ void PhysicsEngine::generateCollisionZones(int depth, ZoneMap& zoneMap,Vector3D 
 
     for (Entity entity: list) {
         Transform tf = tfMap.at(entity.getId());
-
         const Collider& cl = clMap.at(entity.getId());
-
-        tf.velocity *= this->sharedResources->getDeltaTime();
-
-        if (tf.velocity.x < 0) {
-            tf.position.x += tf.velocity.x;
-            tf.velocity.x *= -1;
+        EntityFlags ef = efMap.at(entity.getId());
+        if (!(tf.velocity.x + tf.velocity.y) || !ef.getFlag(Dynamic)) {
+            bool box1 = simpleCollisionCheck(tf.position, { cl.width * tf.scale.x, cl.height * tf.scale.y, 0}, pos, { width, height , 0 });
+            bool box2 = simpleCollisionCheck(tf.position, { cl.width * tf.scale.x, cl.height * tf.scale.y, 0 }, pos + offset, { width, height , 0 });
+            if (box1) subList1.pushBack(entity);
+            if (box2) subList2.pushBack(entity);
+            continue;
         }
-        tf.velocity.x += cl.width * tf.scale.x;
+        // Calculate relative velocity
+        Vector3D relativeVelocity = tf.velocity * -this->sharedResources->getDeltaTime();
 
-        if (tf.velocity.y < 0) {
-            tf.position.y += tf.velocity.y;
-            tf.velocity.y *= -1;
-        }
-        tf.velocity.y += cl.height * tf.scale.y;
-        bool box1 = simpleCollisionCheck(tf.position, tf.velocity, pos, { width, height , 0 });
-        bool box2 = simpleCollisionCheck(tf.position, tf.velocity, pos + offset, { width, height , 0 });
-        if (box1) subList1.pushBack(entity);
-        if (box2) subList2.pushBack(entity);
+
+        // Calculate relative position
+
+        Vector3D relativePosition = pos - (tf.position + cl.Offset);
+
+
+        // Calculate collision times for X and Y axes
+        auto [xEnter1, xExit1] = this->calculateCollisionTime(relativePosition.x, relativeVelocity.x, cl.width * tf.scale.x, width);
+        auto [yEnter1, yExit1] = this->calculateCollisionTime(relativePosition.y, relativeVelocity.y, cl.height * tf.scale.y, height);
+
+        if (xEnter1 <= yExit1 && yEnter1 <= xExit1 &&
+           ((xEnter1 <= 1 && xExit1 >= 0 && yEnter1 <= xEnter1) ||
+            (yEnter1 <= 1 && yExit1 >= 0 && xEnter1 <= yEnter1))) subList1.pushBack(entity);
+
+        auto [xEnter, xExit] = this->calculateCollisionTime(relativePosition.x + offset.x, relativeVelocity.x, cl.width * tf.scale.x, width);
+        auto [yEnter, yExit] = this->calculateCollisionTime(relativePosition.y + offset.y, relativeVelocity.y, cl.height * tf.scale.y, height);
+
+        if (xEnter <= yExit && yEnter <= xExit &&
+           ((xEnter <= 1 && xExit >= 0 && yEnter <= xEnter) ||
+            (yEnter <= 1 && yExit >= 0 && xEnter <= yEnter))) subList2.pushBack(entity);
     }
-    int zoneMaxNum = 32;
+    int zoneMaxNum = 16;
     if (subList1.size() > zoneMaxNum) {
-        generateCollisionZones(depth + 1, zoneMap, pos, width, height, subList1, collisionZones, tfMap, clMap, efMap);
+        generateCollisionZones(zoneMap, pos, width, height, subList1, collisionZones, tfMap, clMap, efMap);
     } else {
         for (Entity entity : subList1) {
             zoneMap[entity.getId()].pushBack(collisionZones.size());
@@ -145,7 +157,7 @@ void PhysicsEngine::generateCollisionZones(int depth, ZoneMap& zoneMap,Vector3D 
     }
 
     if (subList2.size() > zoneMaxNum) {
-        generateCollisionZones(depth + 1, zoneMap, pos + offset, width, height, subList2, collisionZones, tfMap, clMap, efMap);
+        generateCollisionZones(zoneMap, pos + offset, width, height, subList2, collisionZones, tfMap, clMap, efMap);
     } else {
         for (Entity entity : subList2) {
             zoneMap[entity.getId()].pushBack(collisionZones.size());
@@ -162,43 +174,7 @@ PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(DynamicArray<Dyn
         if (!(tf.velocity.x + tf.velocity.y) && efMap.at(entity.getId()).getFlag(Solid)) continue;
 
         const Collider& cl = clMap.at(entity.getId());
-
-        if (ef.getFlag(MovedX)) tf.velocity.x = 0;
-        if (ef.getFlag(MovedY)) tf.velocity.y = 0;
-
-        if (!(tf.velocity.x + tf.velocity.y)) return {};
-
-        DynamicArray<int>& zones = zoneMap.at(entity.getId());
-        for (int zone : zones) {
-            for (Entity otherEntity : collisionZones[zone]) {
-                    // Retrieve components for the other entity
-                    Transform otherTf = tfMap.at(otherEntity.getId());
-                    EntityFlags otherEf = efMap.at(otherEntity.getId());
-
-                    if (otherEf.getFlag(MovedX)) otherTf.velocity.x = 0;
-                    if (otherEf.getFlag(MovedY)) otherTf.velocity.y = 0;
-
-                    // Calculate relative velocity
-                    Vector3D relativeVelocity = tf.velocity * -1;
-                    if (otherEf.getFlag(Dynamic)) relativeVelocity += otherTf.velocity;
-                    relativeVelocity *= this->sharedResources->getDeltaTime();
-                    if (!(relativeVelocity.x + relativeVelocity.y)) continue;
-
-
-                    // Calculate relative position
-                    const Collider& otherCl = clMap.at(otherEntity.getId());
-                    Vector3D relativePosition = otherTf.position + otherCl.Offset - (tf.position + cl.Offset);
-
-
-                    // Calculate collision times for X and Y axes
-                    auto [xEnter, xExit] = this->calculateCollisionTime(relativePosition.x, relativeVelocity.x, cl.width * tf.scale.x, otherCl.width * otherTf.scale.x);
-                    auto [yEnter, yExit] = this->calculateCollisionTime(relativePosition.y, relativeVelocity.y, cl.height * tf.scale.y, otherCl.height * otherTf.scale.y);
-
-                    if (xEnter <= yExit && yEnter <= xExit) possibleCollisions[entity.getId()].pushBack(otherEntity);
-                }
-            }
-
-        /*
+        
         tf.velocity *= this->sharedResources->getDeltaTime();
 
         if (tf.velocity.x < 0) {
@@ -237,7 +213,7 @@ PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(DynamicArray<Dyn
                     possibleCollisions[entity.getId()].pushBack(other);
                 }
             }
-        }*/
+        }
     }
     return possibleCollisions;
 }
@@ -331,7 +307,7 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
             zoneMap[entity.getId()].pushBack(0);
         }
     }
-    generateCollisionZones(0 ,zoneMap, {0, 0, 0}, width, height, this->collisionEntitys, collisionZones, tfMap, clMap, efMap);
+    generateCollisionZones(zoneMap, {0, 0, 0}, width, height, this->collisionEntitys, collisionZones, tfMap, clMap, efMap);
 
     CollisionMap possibleCollisions = generateCollisionMap(collisionZones, zoneMap, tfMap, clMap, efMap);
     
