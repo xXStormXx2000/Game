@@ -1,30 +1,30 @@
 #include "Softbody.h"
 
-Softbody::Softbody(): softbodys(8, DynamicArray<Entity>(8)){
+Softbody::Softbody(): softbodys(64, DynamicArray<Entity>(32)){
 }
 
 void Softbody::onCollision(const CollisionEvent& colEvent) {
 	Transform& tf = this->getComponent<Transform>(colEvent.entity.getId());
 	
 	if (colEvent.collisionDirection.x) {
-		tf.velocity.x *= 0;
+		tf.velocity.x = 0;// abs(tf.velocity.x)*colEvent.collisionDirection.x;
 	}
 	if (colEvent.collisionDirection.y) {
-		tf.velocity.y *= 0;
+		tf.velocity.y = 0;//abs(tf.velocity.y) * colEvent.collisionDirection.y;
 	}
 }
 
 void Softbody::start(Entity entity) {
-	if (i < 8 && j < 8) {
+	if (i < 64 && j < 32) {
 		Transform& tf = getComponent<Transform>(entity.getId());
 		this->softbodys[i][j] = entity;
 		this->posMap[entity.getId()] = {i, j};
-		tf.position.x = i * 17;
-		tf.position.y = j * 17;
+		tf.position.x = i * 11 + 50;
+		tf.position.y = j * 11 + 50;
 	}
 	
 	i++;
-	if (i == 8) {
+	if (i == 64) {
 		i = 0;
 		j++;
 	}

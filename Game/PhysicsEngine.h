@@ -12,8 +12,9 @@
 
 
 class PhysicsEngine {
-	using systemFunctionMap = std::unordered_map<int, DynamicArray<System*>>;
+	using SystemFunctionMap = std::unordered_map<int, DynamicArray<System*>>;
 	using CollisionMap = std::unordered_map<int, DynamicArray<Entity>>;
+	using ZoneMap = std::unordered_map<int, DynamicArray<int>>;
 
 	Scene* scene;
 
@@ -23,7 +24,7 @@ class PhysicsEngine {
 
 	DynamicArray<Entity> collisionEntitys;
 	DynamicArray<Entity> dynamicCollisionEntitys;
-	systemFunctionMap customCollisionResolve;
+	SystemFunctionMap customCollisionResolve;
 
 	DynamicArray<Entity> physicsEntitys;
 
@@ -32,7 +33,8 @@ class PhysicsEngine {
 	
 	CollisionEvent createCollisionEvent(Entity, Entity, Vector3D, float) const;
 
-	CollisionMap generateCollisionMap(const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>& efMap);
+	void generateCollisionZones(int ,ZoneMap&, Vector3D, float, float, DynamicArray<Entity>&, DynamicArray<DynamicArray<Entity>>&, const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>&);
+	CollisionMap generateCollisionMap(DynamicArray<DynamicArray<Entity>>&, ZoneMap& ,const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>& efMap);
 
 	void preventIntersection(const CollisionEvent&);
 
