@@ -157,11 +157,48 @@ void PhysicsEngine::generateCollisionZones(int depth, ZoneMap& zoneMap,Vector3D 
 PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(DynamicArray<DynamicArray<Entity>>& collisionZones, ZoneMap& zoneMap, const CompMap<Transform>& tfMap, const CompMap<Collider>& clMap, const CompMap<EntityFlags>& efMap) {
     CollisionMap possibleCollisions;
     for (Entity entity : this->dynamicCollisionEntitys) {
+        EntityFlags ef = efMap.at(entity.getId());
         Transform tf = tfMap.at(entity.getId());
         if (!(tf.velocity.x + tf.velocity.y) && efMap.at(entity.getId()).getFlag(Solid)) continue;
 
         const Collider& cl = clMap.at(entity.getId());
 
+        if (ef.getFlag(MovedX)) tf.velocity.x = 0;
+        if (ef.getFlag(MovedY)) tf.velocity.y = 0;
+
+        if (!(tf.velocity.x + tf.velocity.y)) return {};
+
+        DynamicArray<int>& zones = zoneMap.at(entity.getId());
+        for (int zone : zones) {
+            for (Entity otherEntity : collisionZones[zone]) {
+                    // Retrieve components for the other entity
+                    Transform otherTf = tfMap.at(otherEntity.getId());
+                    EntityFlags otherEf = efMap.at(otherEntity.getId());
+
+                    if (otherEf.getFlag(MovedX)) otherTf.velocity.x = 0;
+                    if (otherEf.getFlag(MovedY)) otherTf.velocity.y = 0;
+
+                    // Calculate relative velocity
+                    Vector3D relativeVelocity = tf.velocity * -1;
+                    if (otherEf.getFlag(Dynamic)) relativeVelocity += otherTf.velocity;
+                    relativeVelocity *= this->sharedResources->getDeltaTime();
+                    if (!(relativeVelocity.x + relativeVelocity.y)) continue;
+
+
+                    // Calculate relative position
+                    const Collider& otherCl = clMap.at(otherEntity.getId());
+                    Vector3D relativePosition = otherTf.position + otherCl.Offset - (tf.position + cl.Offset);
+
+
+                    // Calculate collision times for X and Y axes
+                    auto [xEnter, xExit] = this->calculateCollisionTime(relativePosition.x, relativeVelocity.x, cl.width * tf.scale.x, otherCl.width * otherTf.scale.x);
+                    auto [yEnter, yExit] = this->calculateCollisionTime(relativePosition.y, relativeVelocity.y, cl.height * tf.scale.y, otherCl.height * otherTf.scale.y);
+
+                    if (xEnter <= yExit && yEnter <= xExit) possibleCollisions[entity.getId()].pushBack(otherEntity);
+                }
+            }
+
+        /*
         tf.velocity *= this->sharedResources->getDeltaTime();
 
         if (tf.velocity.x < 0) {
@@ -200,7 +237,7 @@ PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(DynamicArray<Dyn
                     possibleCollisions[entity.getId()].pushBack(other);
                 }
             }
-        }
+        }*/
     }
     return possibleCollisions;
 }
