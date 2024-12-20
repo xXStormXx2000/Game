@@ -52,45 +52,30 @@ void Renderer::render() {
 		target.w = sprite.width * tf.scale.x;
 		target.h = sprite.height * tf.scale.y;
 
-		if (SDL_RenderCopy(this->renderer, sprite.sprite, &sprite.texturePortion, &target) != 0) {
+		if (SDL_RenderCopy(this->renderer, this->sprites[sprite.spriteIndex], &sprite.texturePortion, &target) != 0) {
 			debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
 		}
 	}
 	SDL_RenderPresent(this->renderer);
 }
 
-SDL_Texture* Renderer::createTexture(int width, int height) {
-	SDL_Texture* texture;
-	texture = SDL_CreateTexture(this->renderer, SDL_PIXELFORMAT_UNKNOWN, SDL_TEXTUREACCESS_TARGET, width, height);
+void Renderer::createTexture(const std::string& path) {
+	SDL_Surface* surface = IMG_Load(path.c_str());
+
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(this->renderer, surface);
 	if(texture == NULL) debugMessage("SDL_image Error: " << IMG_GetError());
+
 	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-	return texture;
-}
-void Renderer::addToTexture(const std::string& path, SDL_Texture* spr) {
-	if (SDL_SetRenderTarget(this->renderer, spr)) debugMessage("SDL_image Error: " << IMG_GetError());
 
-	SDL_Surface* tempSurface = IMG_Load(path.c_str());
-	if (tempSurface == NULL) debugMessage("SDL_image Error: " << IMG_GetError());
-
-	SDL_Texture* texture;
-	texture = SDL_CreateTextureFromSurface(this->renderer, tempSurface);
-	if (texture == NULL) debugMessage("SDL_image Error: " << IMG_GetError());
-
-	if (SDL_RenderCopy(this->renderer, texture, NULL, NULL) != 0) {
-		debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
-	}
-
-	if (SDL_SetRenderTarget(this->renderer, NULL)) debugMessage("SDL_image Error: " << IMG_GetError());
-
-	SDL_FreeSurface(tempSurface);
-	SDL_DestroyTexture(texture);
-	
+	this->sprites.pushBack(texture);
+	SDL_FreeSurface(surface);
 }
 
-void Renderer::destroyTextures(CompMap<Sprite>& spriteMap) {
-	for (auto i : spriteMap) {
-		SDL_DestroyTexture(i.second.sprite);
+void Renderer::destroyTextures() {
+	for (SDL_Texture* texture : this->sprites) {
+		SDL_DestroyTexture(texture);
 	}
+	this->sprites.empty();
 }
 
 void Renderer::setEntitys(DrawMap& newEntitys) {

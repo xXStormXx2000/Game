@@ -28,7 +28,7 @@ struct Sprite {
 	Vector3D Offset = { 0,0,0 }; // pixels
 	float width = 0, height = 0; // pixels
 	SDL_Rect texturePortion = { 0, 0, 0, 0 }; // pixels
-	SDL_Texture* sprite = NULL;
+	int spriteIndex = -1;
 };
 
 enum Flags {

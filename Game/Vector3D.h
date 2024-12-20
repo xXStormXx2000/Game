@@ -1,6 +1,9 @@
 #pragma once
 #include <math.h>
 #include <string>
+
+#define PI 3.14159265
+
 class Vector3D {
 public:
 	float x, y, z;
@@ -32,6 +35,8 @@ public:
 	float abs() const;
 	float norm();
 	float distance(const Vector3D& other) const;
+
+	Vector3D& rotateZ(float);
 
 	bool operator<(const Vector3D& other) const;
 	bool operator>(const Vector3D& other) const;

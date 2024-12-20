@@ -17,6 +17,11 @@ class Scene {
 	CompMap<Rigidbody> rigidbodys;
 	CompMap<Sprite> sprites;
 
+
+	unsigned int width;
+	unsigned int height;
+
+
 public:
 
 	CompMap<Sprite>& getSprites();
@@ -33,6 +38,12 @@ public:
 
 	void setEntitys(DynamicArray<Entity>& newEntitys, CompMap<EntityFlags>& entitysFlags);
 	DynamicArray<Entity>& getEntitys();
+
+	void setWidth(unsigned int);
+	void setHeight(unsigned int);
+
+	unsigned int getWidth();
+	unsigned int getHeight();
 
 	template<class T>
 	void setComponents(CompMap<T>& newComponents) {

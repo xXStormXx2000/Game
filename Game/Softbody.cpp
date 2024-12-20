@@ -7,11 +7,11 @@ void Softbody::onCollision(const CollisionEvent& colEvent) {
 	Transform& tf = this->getComponent<Transform>(colEvent.entity.getId());
 	
 	if (colEvent.collisionDirection.x) {
-		tf.velocity.x = 0.7*abs(tf.velocity.x)*colEvent.collisionDirection.x;
+		tf.velocity.x = 0.9 * abs(tf.velocity.x) * colEvent.collisionDirection.x;
 		if (abs(tf.velocity.x) < 1) tf.velocity.x = 0;
 	}
 	if (colEvent.collisionDirection.y) {
-		tf.velocity.y = 0.7*abs(tf.velocity.y) * colEvent.collisionDirection.y;
+		tf.velocity.y = 0.9 * abs(tf.velocity.y) * colEvent.collisionDirection.y;
 		if (abs(tf.velocity.y) < 1) tf.velocity.y = 0;
 
 	}
@@ -64,7 +64,7 @@ void Softbody::update(Entity entity) {
 	if (tf.velocity.y < 500) tf.velocity.y += 30 * this->getDeltaTime()*60;
 
 	if (this->keyDown('d') + this->keyDown('a')) {
-		tf.velocity.x = (this->keyDown('d') - this->keyDown('a'))*200;
+		tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 200;
 	}
 	if (this->keyPressed('w')) tf.velocity.y = -500;
 	//tf.velocity *= 1 - 1.5*this->getDeltaTime();

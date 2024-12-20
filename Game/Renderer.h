@@ -16,6 +16,8 @@ class Renderer {
 	SDL_Renderer* renderer;
 	Scene* scene;
 
+	DynamicArray<SDL_Texture*> sprites;
+
 	DrawMap entitys;
 public:
 	Renderer(SDL_Window* window);
@@ -28,9 +30,8 @@ public:
 	bool exist();
 	void render();
 
-	SDL_Texture* createTexture(int, int);
-	void addToTexture(const std::string&, SDL_Texture*);
-	static void destroyTextures(CompMap<Sprite>&);
+	void createTexture(const std::string&);
+	void destroyTextures();
 
 	void setEntitys(DrawMap&);
 

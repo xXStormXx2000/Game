@@ -32,6 +32,12 @@ float Vector3D::distance(const Vector3D& other) const {
 	return (*this - other).abs();
 }
 
+Vector3D& Vector3D::rotateZ(float rad) {
+	this->x = this->x * cos(rad) - this->y * sin(rad);
+	this->y = this->x * sin(rad) + this->y * cos(rad);
+	return *this;
+}
+
 bool Vector3D::operator<(const Vector3D& other) const {
 	return abs() < other.abs();
 }

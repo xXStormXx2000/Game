@@ -13,3 +13,19 @@ void Scene::setEntitys(DynamicArray<Entity>& newEntitys, CompMap<EntityFlags>& n
 DynamicArray<Entity>& Scene::getEntitys() {
 	return this->entitys;
 }
+
+void Scene::setWidth(unsigned int w) {
+	this->width = w;
+}
+
+void Scene::setHeight(unsigned int h) {
+	this->height = h;
+}
+
+unsigned int Scene::getWidth() {
+	return this->width;
+}
+
+unsigned int Scene::getHeight() {
+	return this->height;
+}

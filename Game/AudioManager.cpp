@@ -5,6 +5,19 @@ AudioManager::AudioManager() {
 		debugMessage("SDL audio could not initialize! SDL_Error: " << SDL_GetError());
 		this->initFeil = true;
 	}
+	if (Mix_Init(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MID) !=
+		(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MID)) {
+		debugMessage("SDL Mixer could not initialize! SDL_Error: " << Mix_GetError());
+		this->initFeil = true;
+		Mix_CloseAudio();
+		Mix_Quit();
+	}
+	if (Mix_OpenAudio(48000, AUDIO_F32SYS, 1, 2048) == -1) {
+		debugMessage("SDL Mixer could not initialize! SDL_Error: " << Mix_GetError());
+		this->initFeil = true;
+		Mix_CloseAudio();
+		Mix_Quit();
+	}
 }
 
 bool AudioManager::failure() {
@@ -19,5 +32,6 @@ void AudioManager::playSound(std::string name) {
 }
 
 AudioManager::~AudioManager() {
-	SDL_CloseAudioDevice(this->audioDevice);
+	Mix_CloseAudio();
+	Mix_Quit();
 }

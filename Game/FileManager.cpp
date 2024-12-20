@@ -13,9 +13,9 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
     CompMap<Transform> transforms;
     CompMap<Collider> colliders;
     CompMap<Rigidbody> rigidbodys;
-
-    Renderer::destroyTextures(this->scene->getSprites());
     CompMap<Sprite> sprites;
+
+    this->renderer->destroyTextures();
 
     DrawMap entitysToRender;
     DynamicArray<Entity> collisionEntitys;
@@ -23,6 +23,14 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
     
     std::ifstream file(path);
     assert(!file.bad());
+
+    unsigned int width, height;
+
+    file >> width >> height;
+    this->scene->setWidth(width);
+    this->scene->setHeight(height);
+
+
     std::string str;
     while (file >> str) {
         if (str == "!") {
@@ -73,13 +81,17 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
             file >> sr.Offset.x >> sr.Offset.y >> sr.Offset.z;
             file >> sr.width >> sr.height;
             file >> sr.texturePortion.x >> sr.texturePortion.y >> sr.texturePortion.w >> sr.texturePortion.h;
-            sr.sprite = this->renderer->createTexture(sr.width, sr.height);
+            file >> sr.spriteIndex;
+            sprites[entitys.back().getId()] = sr;
+            continue;
+        }
+
+        if (str == "Textures") {
             file >> str;
             while (str != "#") {
-                this->renderer->addToTexture(str, sr.sprite);
+                this->renderer->createTexture(str);
                 file >> str;
             }
-            sprites[entitys.back().getId()] = sr;
             continue;
         }
 

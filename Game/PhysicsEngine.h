@@ -13,7 +13,7 @@
 
 class PhysicsEngine {
 	using SystemFunctionMap = std::unordered_map<int, DynamicArray<System*>>;
-	using CollisionMap = std::unordered_map<int, DynamicArray<Entity>>;
+	using CollisionMap = std::unordered_map<int, std::unordered_set<int>>;
 	using ZoneMap = std::unordered_map<int, DynamicArray<int>>;
 
 	Scene* scene;
@@ -38,6 +38,8 @@ class PhysicsEngine {
 
 	void preventIntersection(const CollisionEvent&);
 
+	void velocityAdjustCollisionBox(Transform&, const Collider&);
+
 
 public: 
 
@@ -57,5 +59,7 @@ public:
 	void applyVelocity(int);
 
 	bool simpleCollisionCheck(Vector3D, Vector3D, Vector3D, Vector3D);
+
+	static bool raycast(Vector3D, Vector3D, Vector3D, Vector3D);
 };
 
