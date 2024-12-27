@@ -29,12 +29,9 @@ class PhysicsEngine {
 	DynamicArray<Entity> physicsEntitys;
 
 	DynamicArray<CollisionEvent> checkForCollision(Entity, CollisionMap&, const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>&) const;
-	std::pair<float, float> calculateCollisionTime(float, float, float, float) const;
-	
-	CollisionEvent createCollisionEvent(Entity, Entity, Vector3D, float) const;
 
 	void generateCollisionZones(ZoneMap&, Vector3D, float, float, DynamicArray<Entity>&, DynamicArray<DynamicArray<Entity>>&, const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>&);
-	CollisionMap generateCollisionMap(DynamicArray<DynamicArray<Entity>>&, ZoneMap& ,const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>& efMap);
+	CollisionMap generateCollisionMap(const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>& efMap);
 
 	void preventIntersection(const CollisionEvent&);
 
@@ -58,7 +55,7 @@ public:
 
 	void applyVelocity(int);
 
-	bool simpleCollisionCheck(Vector3D, Vector3D, Vector3D, Vector3D);
+	static bool simpleCollisionCheck(Vector3D, Vector3D, Vector3D, Vector3D);
 
 	static bool raycast(Vector3D, Vector3D, Vector3D, Vector3D);
 };

@@ -1,33 +1,33 @@
 #include "Softbody.h"
 
-Softbody::Softbody(): softbodys(64, DynamicArray<Entity>(32)){
+Softbody::Softbody(): softbodys(64, DynamicArray<Entity>(64)){
 }
 
 void Softbody::onCollision(const CollisionEvent& colEvent) {
 	Transform& tf = this->getComponent<Transform>(colEvent.entity.getId());
 	
 	if (colEvent.collisionDirection.x) {
-		tf.velocity.x = 0.9 * abs(tf.velocity.x) * colEvent.collisionDirection.x;
+		tf.velocity.x = 0 * abs(tf.velocity.x) * colEvent.collisionDirection.x;
 		if (abs(tf.velocity.x) < 1) tf.velocity.x = 0;
 	}
 	if (colEvent.collisionDirection.y) {
-		tf.velocity.y = 0.9 * abs(tf.velocity.y) * colEvent.collisionDirection.y;
+		tf.velocity.y = 0 * abs(tf.velocity.y) * colEvent.collisionDirection.y;
 		if (abs(tf.velocity.y) < 1) tf.velocity.y = 0;
 
 	}
 }
 
 void Softbody::start(Entity entity) {
-	if (i < 64 && j < 32) {
+	if (i < 64 && j < 64) {
 		Transform& tf = getComponent<Transform>(entity.getId());
 		this->softbodys[i][j] = entity;
 		this->posMap[entity.getId()] = {i, j};
-		tf.position.x = i * 11 + 50;
-		tf.position.y = j * 11 + 50;
+		tf.position.x = i * 10 + 50;
+		tf.position.y = j * 10 + 50;
 	}
 	
 	i++;
-	if (i == 64) {
+	if (i == 3) {
 		i = 0;
 		j++;
 	}
@@ -61,11 +61,9 @@ void Softbody::preUpdate(Entity entity) {
 void Softbody::update(Entity entity) {
 	Transform& tf = getComponent<Transform>(entity.getId());
 	//if (this->softbodys[0][0].getId() != entity.getId()) return;
-	if (tf.velocity.y < 500) tf.velocity.y += 30 * this->getDeltaTime()*60;
+	//if (tf.velocity.y < 20) tf.velocity.y += 1;
 
-	if (this->keyDown('d') + this->keyDown('a')) {
-		tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 200;
-	}
-	if (this->keyPressed('w')) tf.velocity.y = -500;
-	//tf.velocity *= 1 - 1.5*this->getDeltaTime();
+	tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 7;
+	tf.velocity.y = (this->keyDown('s') - this->keyDown('w')) * 7;
+	//if (this->keyPressed('w')) tf.velocity.y = -20;
 }

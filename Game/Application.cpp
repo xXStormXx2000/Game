@@ -114,7 +114,7 @@ void Application::collisionHandling() {
 
 void Application::update() {
 	debugMessage(1'000'000/timer.stop());
-	//if (timer.stop() < 1'000'000/fps) SDL_Delay(int(1'000/fps - timer.stop()/1'000));
+	if (timer.stop() < 1'000'000/fps) SDL_Delay(int(1'000/fps - timer.stop()/1'000));
 	
 	this->sharedResources.setDeltaTime(timer.stop()/1'000'000);
 	this->timer.start();

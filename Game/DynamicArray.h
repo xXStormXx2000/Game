@@ -389,6 +389,11 @@ public:
     // Space = O(1)
     void shrinkToFit() {
         mMemSize = mSize;
+        if (mMemSize == 0) {
+            free(mPtr);
+            mPtr = nullptr;
+            return;
+        }
         memcpy(mPtr, mPtr + mStart, mSize * sizeof(T));
         mStart = 0;
         T* temp = static_cast<T*>(realloc(mPtr, mMemSize * sizeof(T)));
@@ -399,6 +404,11 @@ public:
     // Space = O(1)
     void shrinkToFitFront() {
         mMemSize -= mStart;
+        if (mMemSize == 0) {
+            free(mPtr);
+            mPtr = nullptr;
+            return;
+        }
         memcpy(mPtr, mPtr + mStart, mSize * sizeof(T));
         mStart = 0;
         T* temp = static_cast<T*>(realloc(mPtr, mMemSize * sizeof(T)));
@@ -409,6 +419,11 @@ public:
     // Space = O(1)
     void shrinkToFitBack() {
         mMemSize = mSize + mStart;
+        if (mMemSize == 0) {
+            free(mPtr);
+            mPtr = nullptr;
+            return;
+        }
         T* temp = static_cast<T*>(realloc(mPtr, mMemSize * sizeof(T)));
         if (temp == nullptr) throw std::runtime_error("Not enough memory");
         mPtr = temp;
