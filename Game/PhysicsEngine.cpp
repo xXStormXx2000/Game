@@ -58,13 +58,12 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(Entity entity, Col
         if (xEnter < yExit && yEnter < xExit) {
             auto createCollisionEvent = [](Entity entity, Entity other, Vector3D velocity, float collisionTime)->CollisionEvent {
                 CollisionEvent cEvent;
+                if (other.getId() == entity.getId()) return cEvent;
 
-                if (other.getId() != entity.getId()) {
-                    cEvent.entity = entity;
-                    cEvent.other = other;
-                    cEvent.time = collisionTime;
-                    cEvent.collisionDirection = velocity;
-                }
+                cEvent.entity = entity;
+                cEvent.other = other;
+                cEvent.time = collisionTime;
+                cEvent.collisionDirection = velocity;
 
                 return cEvent;
             };
