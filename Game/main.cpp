@@ -1,12 +1,12 @@
 #include "Application.h"
-#include "Softbody.h"
+#include "Softbody.h" 
 
 int main(int argc, char* argv[]) {
-
-	Application game("Game", 1100, 800, 30);
+	
+	Application game("Game", 1100, 800, 60);
 
 	game.addSystem(new Softbody());
-
+	
 	game.run();
 	return 0;
 }
