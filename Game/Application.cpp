@@ -102,7 +102,7 @@ void Application::handleEvents(){
 }
 
 void Application::collisionHandling() {
-	CollisionEventMap collisions = this->physicsEngine.getAllCollisions();
+	CollisionEventMap collisions = this->physicsEngine.getAllCollisions(this->physicsEngine.generateCollisionMap());
 	this->physicsEngine.resolveCollision(collisions);
 
 	for (const std::pair<int, Transform>& pair : this->scene.getComponents<Transform>()) {

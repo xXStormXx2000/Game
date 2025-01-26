@@ -60,7 +60,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
 
         if (str == "Collider") {
             Collider cl;
-            file >> cl.Offset.x >> cl.Offset.y >> cl.Offset.z;
+            file >> cl.offset.x >> cl.offset.y >> cl.offset.z;
             file >> cl.width >> cl.height;
             colliders[entitys.back().getId()] = cl;
             continue;
@@ -78,7 +78,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
 
         if (str == "Sprite") {
             Sprite sr;
-            file >> sr.Offset.x >> sr.Offset.y >> sr.Offset.z;
+            file >> sr.offset.x >> sr.offset.y >> sr.offset.z;
             file >> sr.width >> sr.height;
             file >> sr.texturePortion.x >> sr.texturePortion.y >> sr.texturePortion.w >> sr.texturePortion.h;
             file >> sr.spriteIndex;

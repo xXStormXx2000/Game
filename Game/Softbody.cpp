@@ -27,7 +27,7 @@ void Softbody::start(Entity entity) {
 	}
 	
 	i++;
-	if (i == 3) {
+	if (i == 64) {
 		i = 0;
 		j++;
 	}
@@ -61,9 +61,9 @@ void Softbody::preUpdate(Entity entity) {
 void Softbody::update(Entity entity) {
 	Transform& tf = getComponent<Transform>(entity.getId());
 	//if (this->softbodys[0][0].getId() != entity.getId()) return;
-	//if (tf.velocity.y < 20) tf.velocity.y += 1;
-
-	tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 7;
-	tf.velocity.y = (this->keyDown('s') - this->keyDown('w')) * 7;
-	//if (this->keyPressed('w')) tf.velocity.y = -20;
+	if (tf.velocity.y < 20) tf.velocity.y += 1;
+	if (this->keyDown('d') || this->keyDown('a')) {
+		tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 7;
+	}
+	if (this->keyPressed('w')) tf.velocity.y = -20;
 }

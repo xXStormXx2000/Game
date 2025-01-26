@@ -28,17 +28,26 @@ class PhysicsEngine {
 
 	DynamicArray<Entity> physicsEntitys;
 
-	DynamicArray<CollisionEvent> checkForCollision(Entity, CollisionMap&, const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>&) const;
+	std::unordered_map<int, CollisionEvent> entityMinTimesCollisionEventX;
+	std::unordered_map<int, CollisionEvent> entityMinTimesCollisionEventY;
 
-	void generateCollisionZones(ZoneMap&, Vector3D, float, float, DynamicArray<Entity>&, DynamicArray<DynamicArray<Entity>>&, const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>&);
-	CollisionMap generateCollisionMap(const CompMap<Transform>&, const CompMap<Collider>&, const CompMap<EntityFlags>& efMap);
+	CompMap<Transform>* tfMap;
+	CompMap<Collider>* clMap;
+	CompMap<EntityFlags>* efMap;
+
+
+	void checkForCollision(Entity, CollisionMap&);
+
+	void generateCollisionZones(ZoneMap&, Vector3D, float, float, DynamicArray<Entity>&, DynamicArray<DynamicArray<Entity>>&);
 
 	void preventIntersection(const CollisionEvent&);
 
 	void velocityAdjustCollisionBox(Transform&, const Collider&);
 
-
+	
 public: 
+
+	CollisionMap generateCollisionMap();
 
 	void addCustomCollisionResolve(int, System*);
 
@@ -46,8 +55,7 @@ public:
 	void setSystems(DynamicArray<System*>*);
 	void setSharedResources(SharedResources*);
 
-
-	CollisionEventMap getAllCollisions();
+	CollisionEventMap getAllCollisions(CollisionMap);
 	void resolveCollision(const CollisionEventMap&);
 
 	void setCollisionEntitys(DynamicArray<Entity>&);

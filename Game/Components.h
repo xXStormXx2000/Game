@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector3D.h"
+#include "DynamicArray.h"
 #include "SDL.h"
 
 struct Transform {
@@ -10,7 +11,7 @@ struct Transform {
 };
 
 struct Collider {
-	Vector3D Offset = { 0,0,0 }; // pixels
+	Vector3D offset = { 0,0,0 }; // pixels
 	float width = 0, height = 0; // pixels
 };
 
@@ -25,10 +26,18 @@ struct Rigidbody {
 };
 
 struct Sprite {
-	Vector3D Offset = { 0,0,0 }; // pixels
+	Vector3D offset = { 0,0,0 }; // pixels
 	float width = 0, height = 0; // pixels
 	SDL_Rect texturePortion = { 0, 0, 0, 0 }; // pixels
 	int spriteIndex = -1;
+};
+
+struct TileSet {
+	Vector3D offset = { 0,0,0 }; // pixels
+	float tileWidth = 0, tileHeight = 0; // pixels
+	float textureTileWidth = 0, textureTileHeight = 0; // pixels
+	int spriteIndex = -1;
+	DynamicArray<Vector3D> tiles;
 };
 
 enum Flags {
@@ -44,7 +53,8 @@ enum ComponentFlags {
 	TransformFlag,
 	ColliderFlag,
 	RigidbodyFlag,
-	SpriteFlag
+	SpriteFlag,
+	TileSetFlag
 };
 
 struct EntityFlags {

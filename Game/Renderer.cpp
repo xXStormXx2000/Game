@@ -47,8 +47,8 @@ void Renderer::render() {
 		Sprite& sprite = this->scene->getComponent<Sprite>(entity.getId());
 
 		SDL_Rect target;
-		target.x = tf.position.x + sprite.Offset.x;
-		target.y = tf.position.y + sprite.Offset.y;
+		target.x = tf.position.x + sprite.offset.x;
+		target.y = tf.position.y + sprite.offset.y;
 		target.w = sprite.width * tf.scale.x;
 		target.h = sprite.height * tf.scale.y;
 

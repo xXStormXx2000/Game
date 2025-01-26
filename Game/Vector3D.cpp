@@ -68,6 +68,10 @@ Vector3D Vector3D::operator-(Vector3D other) const {
 	return other;
 }
 
+Vector3D Vector3D::operator-() const {
+	return {-x, -y, -z};
+}
+
 Vector3D& Vector3D::operator-=(const Vector3D& other) {
 	*this = *this - other;
 	return *this;
