@@ -248,6 +248,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="HexagonGrid.h" />
     <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="Scene.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="HexagonGrid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Scene.cpp" />
