@@ -5,7 +5,7 @@
 
 class SharedResources {
 	CollisionEventMap collisionEvents;
-	float deltaTime;// s
+	float deltaTime; //s
 
 	char keysPressed[32];
 	char keysDown[32];

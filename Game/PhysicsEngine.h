@@ -35,6 +35,8 @@ class PhysicsEngine {
 	CompMap<Collider>* clMap;
 	CompMap<EntityFlags>* efMap;
 
+	long long minArea = 0;
+
 
 	void checkForCollision(Entity, CollisionMap&);
 

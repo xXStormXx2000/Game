@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Scene.h"
-#include "DynamicArray.h"
+#include <unordered_set>
 #include <thread>
 #include <string>
 #include "SharedResources.h"
@@ -9,9 +9,9 @@
 
 class System {
 	SharedResources* sharedResources;
-
+	DynamicArray<System*>* systems;
 	Scene* scene;
-	DynamicArray<Entity> entitys;
+	std::unordered_set<Entity> entitys;
 protected:
 	float getDeltaTime();
 
@@ -24,15 +24,19 @@ protected:
 	bool keyDown(char);
 	bool keyReleased(char);
 
+	void addEntityToSystem(Entity, int);
+	void removeEntityFromSystem(Entity, int);
 
 public:
 	void setSharedResources(SharedResources*);
 	void setScene(Scene*);
 	void run(void (System::*)(Entity));
 
-	void setEntitys(DynamicArray<Entity>& entitys);
+	void setSystems(DynamicArray<System*>* systems);
 
-	DynamicArray<Entity>& getEntitys();
+	void setEntitys(std::unordered_set<Entity>& entitys);
+
+	std::unordered_set<Entity>& getEntitys();
 	
 
 	virtual void onCollision(const CollisionEvent&);
@@ -44,5 +48,7 @@ public:
 
 
 	virtual void end(Entity);
+
+	virtual ~System() {};
 };
 

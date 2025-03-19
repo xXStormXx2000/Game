@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[]) {
 	
-	Application game("Game", 1100, 800, 60);
+	Application game("Game", "Assets/Art/smil.png", 1100, 800, 60);
 
 	game.addSystem(new Softbody());
 	

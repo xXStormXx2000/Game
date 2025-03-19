@@ -39,7 +39,7 @@ class Application {
 
 public:
 
-	Application(const char*, int, int, int);
+	Application(const char*, const char*, int, int, int);
 	bool getRunning();
 
 	void run();

@@ -1,6 +1,6 @@
 #include "Application.h"
 
-Application::Application(const char* title, int width, int height, int fps): window(NULL), fps(fps) { 
+Application::Application(const char* title, const char* icon, int width, int height, int fps): window(NULL), fps(fps) {
 
 	if(this->audioManager.failure()) return;
 
@@ -16,11 +16,17 @@ Application::Application(const char* title, int width, int height, int fps): win
 		return;
 	}
 
+	SDL_Surface* iconSurface = IMG_Load(icon);
+	if (iconSurface == NULL) {
+		debugMessage("Icon could not be loaded! SDL_Error: " << IMG_GetError());
+		return;
+	}
+	SDL_SetWindowIcon(this->window, iconSurface);
+	SDL_FreeSurface(iconSurface);
+
 	this->renderer = Renderer(this->window);
 	if (!this->renderer.exist()) return;
 	this->renderer.setScene(&this->scene);
-
-
 
 	this->physicsEngine.setScene(&this->scene);
 	this->physicsEngine.setSharedResources(&this->sharedResources);
@@ -63,6 +69,7 @@ void Application::run() {
 }
 
 void Application::addSystem(System* sys) {
+	sys->setSystems(&this->systems);
 	this->systems.pushBack(sys);
 }
 

@@ -43,7 +43,7 @@ void PhysicsEngine::checkForCollision(Entity entity, CollisionMap& possibleColli
 
         // Calculate collision times for X and Y axes
         auto calculateCollisionTime = [](float position, float velocity, float sizeA, float sizeB) -> std::pair<float, float> {
-            if (velocity == 0) {
+            if (abs(velocity) < 0.001) {
                 float timeEnter = std::numeric_limits<float>::infinity();
                 if (position > -sizeB && position < sizeA) timeEnter *= -1;
                 return { timeEnter, std::numeric_limits<float>::infinity() };
@@ -90,8 +90,7 @@ void PhysicsEngine::checkForCollision(Entity entity, CollisionMap& possibleColli
 
 void PhysicsEngine::generateCollisionZones(ZoneMap& zoneMap, Vector3D pos, float width, float height, DynamicArray<Entity>& list, DynamicArray<DynamicArray<Entity>>& collisionZones) {
 
-    int minArea = 20*20;
-    if (width*height <= minArea || list.size() <= 16) {
+    if (width*height <= this->minArea || list.size() <= 16) {
         for (Entity entity : list) {
             zoneMap[entity.getId()].pushBack(collisionZones.size());
         }
@@ -361,6 +360,12 @@ void PhysicsEngine::setCollisionEntitys(DynamicArray<Entity>& entitys) {
 
 void PhysicsEngine::setDynamicCollisionEntitys(DynamicArray<Entity>& entitys) {
     this->dynamicCollisionEntitys = std::move(entitys);
+    for (Entity entity : this->dynamicCollisionEntitys) {
+		const Collider& cl = this->clMap->at(entity.getId());
+		this->minArea += cl.width * cl.height;
+    }
+	this->minArea /= this->dynamicCollisionEntitys.size();
+	this->minArea *= 5; // Magic number to optimize zone size
 }
 
 void PhysicsEngine::applyVelocity(int id){

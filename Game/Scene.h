@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "DynamicArray.h"
 #include <unordered_map>
+#include <unordered_set>
 #include "Components.h"
 #include "Debug.h"
 
@@ -9,7 +10,7 @@ template<class T>
 using CompMap = std::unordered_map<int, T>;
 
 class Scene {
-	DynamicArray<Entity> entitys;
+	std::unordered_set<Entity> entitys;
 	CompMap<EntityFlags> entitysFlags;
 
 	CompMap<Transform> transforms;
@@ -36,8 +37,11 @@ public:
 		assert(0 && "Given component do not exist");
 	}
 
-	void setEntitys(DynamicArray<Entity>& newEntitys, CompMap<EntityFlags>& entitysFlags);
-	DynamicArray<Entity>& getEntitys();
+	void setEntitys(std::unordered_set<Entity>& newEntitys, CompMap<EntityFlags>& entitysFlags);
+	std::unordered_set<Entity>& getEntitys();
+
+	void addEntity(Entity, EntityFlags);
+	void removeEntity(Entity);
 
 	void setWidth(unsigned int);
 	void setHeight(unsigned int);
@@ -54,5 +58,15 @@ public:
 	T& getComponent(int entityId) {
 		assert(this->getComponents<T>().find(entityId) != this->getComponents<T>().end() && "Entity has no such component");
 		return this->getComponents<T>()[entityId];
+	}
+
+	template<class T>
+	void addComponent(int entityId, T component) {
+		this->getComponents<T>()[entityId] = component;
+	}
+
+	template<class T>
+	void removeComponent(int entityId) {
+		this->getComponents<T>().erase(entityId);
 	}
 };

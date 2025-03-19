@@ -5,21 +5,21 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
     assert(path[path.size() - 4] == '.' && path[path.size() - 3] == 'w' && path[path.size() - 2] == 'g' && path[path.size() - 1] == 'f'
         && "Non-matching file format");
 
-    DynamicArray<DynamicArray<Entity>> systemsEntitys(systems.size());
+	DynamicArray<std::unordered_set<Entity>> systemsEntitys(systems.size()); // Entitys for each system
 
-    DynamicArray<Entity> entitys;
-    CompMap<EntityFlags> entitysFlags;
+	std::unordered_set<Entity> entitys; // All entitys
+	CompMap<EntityFlags> entitysFlags; // Flags for each entity
 
-    CompMap<Transform> transforms;
-    CompMap<Collider> colliders;
-    CompMap<Rigidbody> rigidbodys;
-    CompMap<Sprite> sprites;
+	CompMap<Transform> transforms; // Transform component for each entity
+	CompMap<Collider> colliders;   // Collider component for each entity
+	CompMap<Rigidbody> rigidbodys; // Rigidbody component for each entity
+	CompMap<Sprite> sprites;       // Sprite component for each entity
 
-    this->renderer->destroyTextures();
+	this->renderer->destroyTextures(); // Clear all textures
 
-    DrawMap entitysToRender;
-    DynamicArray<Entity> collisionEntitys;
-    DynamicArray<Entity> dynamicCollisionEntitys;
+	DrawMap entitysToRender;                      // Entitys to render
+	DynamicArray<Entity> collisionEntitys;        // Entitys that can collide
+	DynamicArray<Entity> dynamicCollisionEntitys; // Entitys that can collide and are dynamic
     
     std::ifstream file(path);
     assert(!file.bad());
@@ -30,21 +30,22 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
     this->scene->setWidth(width);
     this->scene->setHeight(height);
 
-
+    Entity entity;
     std::string str;
     while (file >> str) {
         if (str == "!") {
-            entitys.pushBack(this->createEntity());
+			entity = this->createEntity();
+            entitys.insert(entity);
             EntityFlags ef;
             file >> ef.flags >> ef.components;
-            entitysFlags[entitys.back().getId()] = ef;
+            entitysFlags[entity.getId()] = ef;
             continue;
         }
 
         if (str == "sys") {
             int num;
             file >> num;
-            systemsEntitys[num].pushBack(entitys.back());
+            systemsEntitys[num].insert(entity);
             continue;
         }
 
@@ -54,7 +55,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
             file >> tf.velocity.x >> tf.velocity.y >> tf.velocity.z;
             //file >> tf.rotation.x >> tf.rotation.y >> tf.rotation.z;
             file >> tf.scale.x >> tf.scale.y >> tf.scale.z;
-            transforms[entitys.back().getId()] = tf;
+            transforms[entity.getId()] = tf;
             continue;
         }
 
@@ -62,7 +63,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
             Collider cl;
             file >> cl.offset.x >> cl.offset.y >> cl.offset.z;
             file >> cl.width >> cl.height;
-            colliders[entitys.back().getId()] = cl;
+            colliders[entity.getId()] = cl;
             continue;
         }
 
@@ -72,7 +73,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
             file >> rb.centerOfMass.x >> rb.centerOfMass.y >> rb.centerOfMass.z;
             file >> rb.acceleration.x >> rb.acceleration.y >> rb.acceleration.z;
             //file >> rb.angularVelocity.x >> rb.angularVelocity.y >> rb.angularVelocity.z;
-            rigidbodys[entitys.back().getId()] = rb;
+            rigidbodys[entity.getId()] = rb;
             continue;
         }
 
@@ -82,7 +83,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
             file >> sr.width >> sr.height;
             file >> sr.texturePortion.x >> sr.texturePortion.y >> sr.texturePortion.w >> sr.texturePortion.h;
             file >> sr.spriteIndex;
-            sprites[entitys.back().getId()] = sr;
+            sprites[entity.getId()] = sr;
             continue;
         }
 
@@ -96,14 +97,14 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems) {
         }
 
         if (str == "Render") {
-            entitysToRender[transforms[entitys.back().getId()].position.z].pushBack(entitys.back());
+            entitysToRender[transforms[entity.getId()].position.z].pushBack(entity);
         }
 
         if (str == "Collision") {
-            if (entitysFlags[entitys.back().getId()].getFlag(Dynamic)) {
-                dynamicCollisionEntitys.pushBack(entitys.back());
+            if (entitysFlags[entity.getId()].getFlag(Dynamic)) {
+                dynamicCollisionEntitys.pushBack(entity);
             }
-            collisionEntitys.pushBack(entitys.back());
+            collisionEntitys.pushBack(entity);
         }
     }
 
