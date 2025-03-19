@@ -191,58 +191,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scenes\Tests.wgf" />
-    <None Include="dev\SDL2\lib\x64\SDL2.dll" />
-    <None Include="dev\SDL2\lib\x64\SDL2.pdb" />
-    <None Include="dev\SDL2\lib\x86\SDL2.dll" />
-    <None Include="dev\SDL2\lib\x86\SDL2.pdb" />
-    <None Include="dev\SDL2_image\lib\x64\SDL2_image.dll" />
-    <None Include="dev\SDL2_image\lib\x86\SDL2_image.dll" />
-    <None Include="dev\SDL2_mixer\lib\x64\optional\libgme.dll" />
-    <None Include="dev\SDL2_mixer\lib\x64\optional\libogg-0.dll" />
-    <None Include="dev\SDL2_mixer\lib\x64\optional\libopus-0.dll" />
-    <None Include="dev\SDL2_mixer\lib\x64\optional\libopusfile-0.dll" />
-    <None Include="dev\SDL2_mixer\lib\x64\optional\libwavpack-1.dll" />
-    <None Include="dev\SDL2_mixer\lib\x64\optional\libxmp.dll" />
-    <None Include="dev\SDL2_mixer\lib\x64\SDL2_mixer.dll" />
-    <None Include="dev\SDL2_mixer\lib\x86\optional\libgme.dll" />
-    <None Include="dev\SDL2_mixer\lib\x86\optional\libogg-0.dll" />
-    <None Include="dev\SDL2_mixer\lib\x86\optional\libopus-0.dll" />
-    <None Include="dev\SDL2_mixer\lib\x86\optional\libopusfile-0.dll" />
-    <None Include="dev\SDL2_mixer\lib\x86\optional\libwavpack-1.dll" />
-    <None Include="dev\SDL2_mixer\lib\x86\optional\libxmp.dll" />
-    <None Include="dev\SDL2_mixer\lib\x86\SDL2_mixer.dll" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Art\flaim.png" />
     <Image Include="Assets\Art\hitbox.png" />
     <Image Include="Assets\Art\slime.png" />
     <Image Include="Assets\Art\smil.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="dev\SDL2_mixer\lib\x64\optional\LICENSE.gme.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x64\optional\LICENSE.ogg-vorbis.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x64\optional\LICENSE.opus.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x64\optional\LICENSE.opusfile.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x64\optional\LICENSE.wavpack.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x64\optional\LICENSE.xmp.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x86\optional\LICENSE.gme.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x86\optional\LICENSE.ogg-vorbis.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x86\optional\LICENSE.opus.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x86\optional\LICENSE.opusfile.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x86\optional\LICENSE.wavpack.txt" />
-    <Text Include="dev\SDL2_mixer\lib\x86\optional\LICENSE.xmp.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="dev\SDL2\lib\x64\SDL2.lib" />
-    <Library Include="dev\SDL2\lib\x64\SDL2main.lib" />
-    <Library Include="dev\SDL2\lib\x64\SDL2test.lib" />
-    <Library Include="dev\SDL2\lib\x86\SDL2.lib" />
-    <Library Include="dev\SDL2\lib\x86\SDL2main.lib" />
-    <Library Include="dev\SDL2\lib\x86\SDL2test.lib" />
-    <Library Include="dev\SDL2_image\lib\x64\SDL2_image.lib" />
-    <Library Include="dev\SDL2_image\lib\x86\SDL2_image.lib" />
-    <Library Include="dev\SDL2_mixer\lib\x64\SDL2_mixer.lib" />
-    <Library Include="dev\SDL2_mixer\lib\x86\SDL2_mixer.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
