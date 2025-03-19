@@ -36,6 +36,13 @@ Application::Application(const char* title, const char* icon, int width, int hei
 	this->fileManager.setRenderer(&this->renderer);
 	this->fileManager.setPhysicsEngine(&this->physicsEngine);
 
+	this->addComponent<EntityFlags>();
+	this->addComponent<Transform>();
+	this->addComponent<Collider>();
+	this->addComponent<Rigidbody>();
+	this->addComponent<Sprite>();
+	this->addComponent<TileSet>();
+
 	this->appRunning = true;
 
 }
@@ -68,13 +75,8 @@ void Application::run() {
 	}
 }
 
-void Application::addSystem(System* sys) {
-	sys->setSystems(&this->systems);
-	this->systems.pushBack(sys);
-}
-
 void Application::start() {
-	fileManager.loadScene("Assets/Scenes/Tests.wgf", this->systems);
+	fileManager.loadScene("Assets/Scenes/Tests.wgf", this->systems, this->componentsTypes);
 	for (System* sys : systems) {
 		for (Entity entity : sys->getEntitys()) {
 			this->physicsEngine.addCustomCollisionResolve(entity.getId(), sys);
@@ -112,15 +114,15 @@ void Application::collisionHandling() {
 	CollisionEventMap collisions = this->physicsEngine.getAllCollisions(this->physicsEngine.generateCollisionMap());
 	this->physicsEngine.resolveCollision(collisions);
 
-	for (const std::pair<int, Transform>& pair : this->scene.getComponents<Transform>()) {
-		if(this->scene.getComponent<EntityFlags>(pair.first).getFlag(Dynamic))
+	for (const std::pair<int, Component*>& pair : this->scene.getComponents<Transform>()) {
+		if((*this->scene.getComponent<EntityFlags>(pair.first)).getFlag(Dynamic))
 			this->physicsEngine.applyVelocity(pair.first);
 	}
 }
 
 
 void Application::update() {
-	debugMessage(1'000'000/timer.stop());
+	//debugMessage(1'000'000/timer.stop());
 	if (timer.stop() < 1'000'000/fps) SDL_Delay(int(1'000/fps - timer.stop()/1'000));
 	
 	this->sharedResources.setDeltaTime(timer.stop()/1'000'000);
@@ -133,7 +135,7 @@ void Application::update() {
 	}
 
 	for (Entity entity : this->scene.getEntitys()) {
-		EntityFlags& ef = this->scene.getComponent<EntityFlags>(entity.getId());
+		EntityFlags& ef = *this->scene.getComponent<EntityFlags>(entity.getId());
 		ef.setFlag(MovedX, false);
 		ef.setFlag(MovedY, false);
 	}

@@ -25,6 +25,7 @@ class Application {
 	bool sceneChange = false;
 
 	DynamicArray<System*> systems = {};
+	DynamicArray<Component*> componentsTypes = {};
 
 	Timer timer;
 
@@ -44,7 +45,17 @@ public:
 
 	void run();
 
-	void addSystem(System*);
+	template<class T>
+	void addSystem() {
+		System* sys = new T;
+		sys->setSystems(&this->systems);
+		this->systems.pushBack(sys);
+	}
+
+	template<class T>
+	void addComponent() {
+		this->componentsTypes.pushBack(dynamic_cast<Component*>(new T));
+	}
 
 	void start();
 

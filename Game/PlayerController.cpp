@@ -10,6 +10,7 @@ void  PlayerController::onCollision(const CollisionEvent& colEvent) {
 	}
 }
 
+
 void PlayerController::update(Entity entity) {
 	Transform& tf = getComponent<Transform>(entity.getId());
 

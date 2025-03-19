@@ -31,10 +31,6 @@ class PhysicsEngine {
 	std::unordered_map<int, CollisionEvent> entityMinTimesCollisionEventX;
 	std::unordered_map<int, CollisionEvent> entityMinTimesCollisionEventY;
 
-	CompMap<Transform>* tfMap;
-	CompMap<Collider>* clMap;
-	CompMap<EntityFlags>* efMap;
-
 	long long minArea = 0;
 
 

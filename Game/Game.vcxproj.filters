@@ -52,14 +52,20 @@
     <Filter Include="Source Files\Systems">
       <UniqueIdentifier>{bbad60dd-f207-43b6-a526-503a9a1054b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Scenes">
-      <UniqueIdentifier>{318798dc-0c1a-4b93-ae93-5a6cbfad1c8b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine\SubSystems">
       <UniqueIdentifier>{d2d7c9ba-6a42-48fe-a553-56ef278af86c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Engine\SubSystems">
       <UniqueIdentifier>{a9de843f-7db5-4bdb-ab40-9ebc1ec9a230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{a2c0777c-add3-4170-861d-81f86099d824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{39634403-761f-4bd2-9a1a-5939d846abc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Scenes">
+      <UniqueIdentifier>{318798dc-0c1a-4b93-ae93-5a6cbfad1c8b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="PlayerController.h">
       <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="somData.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,10 +185,13 @@
     <ClCompile Include="PlayerController.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="somData.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scenes\Tests.wgf">
-      <Filter>Header Files\Scenes</Filter>
+      <Filter>Resource Files\Scenes</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

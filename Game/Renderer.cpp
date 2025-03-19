@@ -39,12 +39,12 @@ void Renderer::render() {
 	SDL_RenderClear(this->renderer);
 
 	for (auto entityList: this->entitys) for (Entity entity: entityList.second) {
-		EntityFlags flags = this->scene->getComponent<EntityFlags>(entity.getId());
+		EntityFlags flags = *this->scene->getComponent<EntityFlags>(entity.getId());
 		if (!flags.getFlag(Active) || !flags.getFlag(Visible)) continue;
 		assert(this->scene != nullptr && "Renderer can't find scene");
-		Transform& tf = this->scene->getComponent<Transform>(entity.getId());
+		Transform& tf = *this->scene->getComponent<Transform>(entity.getId());
 
-		Sprite& sprite = this->scene->getComponent<Sprite>(entity.getId());
+		Sprite& sprite = *this->scene->getComponent<Sprite>(entity.getId());
 
 		SDL_Rect target;
 		target.x = tf.position.x + sprite.offset.x;

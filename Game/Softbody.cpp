@@ -22,15 +22,17 @@ void Softbody::start(Entity entity) {
 		Transform& tf = getComponent<Transform>(entity.getId());
 		this->softbodys[i][j] = entity;
 		this->posMap[entity.getId()] = {i, j};
-		tf.position.x = i * 10 + 50;
-		tf.position.y = j * 10 + 50;
+		tf.position.x = i * 30 + 50;
+		tf.position.y = j * 30 + 50;
 	}
 	
 	i++;
-	if (i == 64) {
+	if (i == 24) {
 		i = 0;
 		j++;
 	}
+	somData& sD = getComponent<somData>(entity.getId());
+	sD.data = rand() % 10000;
 }
 
 void Softbody::preUpdate(Entity entity) {
@@ -61,6 +63,9 @@ void Softbody::preUpdate(Entity entity) {
 void Softbody::update(Entity entity) {
 	Transform& tf = getComponent<Transform>(entity.getId());
 	//if (this->softbodys[0][0].getId() != entity.getId()) return;
+	somData& sD = getComponent<somData>(entity.getId());
+	debugMessage(sD.data);
+
 	if (tf.velocity.y < 20) tf.velocity.y += 1;
 	if(this->keyDown('d') || this->keyDown('a')) tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 7;
 	if(this->keyDown('s') || this->keyDown('w')) tf.velocity.y = (this->keyDown('s') - this->keyDown('w')) * 7;

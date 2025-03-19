@@ -6,6 +6,7 @@
 #include "SDL.h"
 #include "Debug.h"
 #include "SDL_image.h"
+#include "somData.h"
 
 class Softbody : public System {
 	DynamicArray<DynamicArray<Entity>> softbodys;

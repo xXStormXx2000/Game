@@ -2,20 +2,35 @@
 #include "Vector3D.h"
 #include "DynamicArray.h"
 #include "SDL.h"
+#include <fstream>
+#include <typeinfo>
+#include <typeindex>
 
-struct Transform {
+class Component {
+public:
+	virtual Component* read_file(std::ifstream&, std::string&) = 0;
+	virtual void write_file(std::ofstream&) = 0;
+	virtual ~Component() = default;
+};
+
+
+struct Transform : public Component {
 	Vector3D position = { 0, 0, 0 }; // pixels
 	Vector3D velocity = { 0, 0, 0 }; // pixels/s
 	//Vector3D rotation = { 0, 0, 0 }; // rad
 	Vector3D scale = { 1, 1, 1 };
+	Component* read_file(std::ifstream&, std::string&);
+	void write_file(std::ofstream&);
 };
 
-struct Collider {
+struct Collider : public Component {
 	Vector3D offset = { 0,0,0 }; // pixels
 	float width = 0, height = 0; // pixels
+	Component* read_file(std::ifstream&, std::string&);
+	void write_file(std::ofstream&);
 };
 
-struct Rigidbody {
+struct Rigidbody : public Component {
 	float mass = 1; // kg
 	float density = 1; // kg/pixels^3
 	float friction = 0;
@@ -23,21 +38,27 @@ struct Rigidbody {
 	Vector3D centerOfMass = { 0, 0, 0 }; // pixels
 	Vector3D acceleration = { 0, 0, 0 }; // pixels/s^2
 	//Vector3D angularVelocity = { 0, 0, 0 }; // rad/s
+	Component* read_file(std::ifstream&, std::string&);
+	void write_file(std::ofstream&);
 };
 
-struct Sprite {
+struct Sprite : public Component {
 	Vector3D offset = { 0,0,0 }; // pixels
 	float width = 0, height = 0; // pixels
 	SDL_Rect texturePortion = { 0, 0, 0, 0 }; // pixels
 	int spriteIndex = -1;
+	Component* read_file(std::ifstream&, std::string&);
+	void write_file(std::ofstream&);
 };
 
-struct TileSet {
+struct TileSet : public Component {
 	Vector3D offset = { 0,0,0 }; // pixels
 	float tileWidth = 0, tileHeight = 0; // pixels
 	float textureTileWidth = 0, textureTileHeight = 0; // pixels
 	int spriteIndex = -1;
 	DynamicArray<Vector3D> tiles;
+	Component* read_file(std::ifstream&, std::string&);
+	void write_file(std::ofstream&);
 };
 
 enum Flags {
@@ -49,15 +70,9 @@ enum Flags {
 	MovedX,
 	MovedY
 };
-enum ComponentFlags {
-	TransformFlag,
-	ColliderFlag,
-	RigidbodyFlag,
-	SpriteFlag,
-	TileSetFlag
-};
 
-struct EntityFlags {
+class EntityFlags : public Component {
+public:
 	/*
 	0b0000'0001 = Active
 	0b0000'0010 = Visible
@@ -69,18 +84,10 @@ struct EntityFlags {
 	*/
 	int flags;
 
-	/*
-	0b0000'0001 = Transform
-	0b0000'0010 = Collider
-	0b0000'0100 = Rigidbody
-	0b0000'1000 = Sprite
-	*/
-	int components;
-
-	bool getFlag(Flags) const;
-	void setFlag(Flags, bool);
+	bool getFlag(int) const;
+	void setFlag(int, bool);
 	bool checkFlags(int) const;
 
-	bool haveComponent(ComponentFlags) const;
-	bool checkComponents(int) const;
+	Component* read_file(std::ifstream&, std::string&);
+	void write_file(std::ofstream&);
 };

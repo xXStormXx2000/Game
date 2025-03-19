@@ -8,22 +8,22 @@ void PhysicsEngine::checkForCollision(Entity entity, CollisionMap& possibleColli
 	collisionEventY = CollisionEvent();
 
     // Retrieve components for the current entity
-    Transform tf = this->tfMap->at(entity.getId());
-    
-    EntityFlags ef = this->efMap->at(entity.getId());
+	Transform tf = *this->scene->getComponent<Transform>(entity.getId());
+   
+    EntityFlags ef = *this->scene->getComponent<EntityFlags>(entity.getId());
 
     if (ef.getFlag(MovedX)) tf.velocity.x = 0;
     if (ef.getFlag(MovedY)) tf.velocity.y = 0;
 
     if (!(tf.velocity*tf.velocity)) return;
     
-    const Collider& cl = this->clMap->at(entity.getId());
+    const Collider& cl = *this->scene->getComponent<Collider>(entity.getId());
     tf.position += cl.offset;
 
     for (int otherEntity: possibleCollisions.at(entity.getId())) {
         // Retrieve components for the other entity
-        Transform otherTf = this->tfMap->at(otherEntity);
-        EntityFlags otherEf = this->efMap->at(otherEntity);
+        Transform otherTf = *this->scene->getComponent<Transform>(otherEntity);
+        EntityFlags otherEf = *this->scene->getComponent<EntityFlags>(otherEntity);
 
         if (otherEf.getFlag(MovedX)) otherTf.velocity.x = 0;
         if (otherEf.getFlag(MovedY)) otherTf.velocity.y = 0;
@@ -36,7 +36,7 @@ void PhysicsEngine::checkForCollision(Entity entity, CollisionMap& possibleColli
         if (!(relativeVelocity*relativeVelocity)) continue;
 
         // Calculate relative position
-        const Collider& otherCl = this->clMap->at(otherEntity);
+        const Collider& otherCl = *this->scene->getComponent<Collider>(otherEntity);
         otherTf.position += otherCl.offset;
 
         Vector3D relativePosition = otherTf.position - tf.position;
@@ -111,9 +111,9 @@ void PhysicsEngine::generateCollisionZones(ZoneMap& zoneMap, Vector3D pos, float
     DynamicArray<Entity> subList2;
 
     for (Entity entity : list) {
-        Transform tf = this->tfMap->at(entity.getId());
+        Transform tf = *this->scene->getComponent<Transform>(entity.getId());
 
-        const Collider& cl = this->clMap->at(entity.getId());
+        const Collider& cl = *this->scene->getComponent<Collider>(entity.getId());
 
         velocityAdjustCollisionBox(tf, cl);
 
@@ -136,9 +136,9 @@ PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap() {
     ZoneMap zoneMap;
 
     for (Entity entity : this->collisionEntitys) {
-        Transform tf = this->tfMap->at(entity.getId());
+        Transform tf = *this->scene->getComponent<Transform>(entity.getId());
 
-        const Collider& cl = this->clMap->at(entity.getId());
+        const Collider& cl = *this->scene->getComponent<Collider>(entity.getId());
 
         velocityAdjustCollisionBox(tf, cl);
         
@@ -151,26 +151,26 @@ PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap() {
 
     CollisionMap possibleCollisions;
     for (Entity entity: this->dynamicCollisionEntitys) {
-        EntityFlags ef = this->efMap->at(entity.getId());
-        Transform tf = this->tfMap->at(entity.getId());
+        EntityFlags ef = *this->scene->getComponent<EntityFlags>(entity.getId());
+        Transform tf = *this->scene->getComponent<Transform>(entity.getId());
 
         if (!(tf.velocity*tf.velocity) && ef.getFlag(Solid)) continue;
 
-        const Collider& cl = this->clMap->at(entity.getId());
+        const Collider& cl = *this->scene->getComponent<Collider>(entity.getId());
         velocityAdjustCollisionBox(tf, cl);
 
         DynamicArray<int>& zones = zoneMap.at(entity.getId());
         for (int zone : zones) {
             for (Entity other: collisionZones[zone]) {
                 if (entity.getId() == other.getId()) continue;
-                Transform otherTf = this->tfMap->at(other.getId());
-                const Collider& otherCl = this->clMap->at(other.getId());
+                Transform otherTf = *this->scene->getComponent<Transform>(other.getId());
+                const Collider& otherCl = *this->scene->getComponent<Collider>(other.getId());
 
                 velocityAdjustCollisionBox(otherTf, otherCl);
 
                 if (!simpleCollisionCheck(tf.position, tf.velocity, otherTf.position, otherTf.velocity)) continue;
                 possibleCollisions[entity.getId()].insert(other.getId());
-                if(this->efMap->at(other.getId()).getFlag(Dynamic)) possibleCollisions[other.getId()].insert(entity.getId());
+                if((*this->scene->getComponent<EntityFlags>(other.getId())).getFlag(Dynamic)) possibleCollisions[other.getId()].insert(entity.getId());
             }
         }
     }
@@ -180,19 +180,19 @@ PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap() {
 void PhysicsEngine::preventIntersection(const CollisionEvent& colEvent) {
     // Resolve collision along the appropriate axis
     int id = colEvent.entity.getId();
-    EntityFlags& ef = this->efMap->at(id);
+    EntityFlags& ef = *this->scene->getComponent<EntityFlags>(id);
     if(!ef.getFlag(Dynamic)) return;
 
-    Transform& tf = this->tfMap->at(id);
+    Transform& tf = *this->scene->getComponent<Transform>(id);
 
     int otherId = colEvent.other.getId();
-    Transform otherTf = this->tfMap->at(otherId);
-    EntityFlags otherEf = this->efMap->at(otherId);
+    Transform otherTf = *this->scene->getComponent<Transform>(otherId);
+    EntityFlags otherEf = *this->scene->getComponent<EntityFlags>(otherId);
 
     if (!ef.getFlag(Solid) || !otherEf.getFlag(Solid)) return;
 
-    Collider cl = this->clMap->at(id);
-    Collider otherCl = this->clMap->at(otherId);
+    Collider cl = *this->scene->getComponent<Collider>(id);
+    Collider otherCl = *this->scene->getComponent<Collider>(otherId);
 
     auto helper = [&](Flags moved, int dir, float& pos, float vel, float size, float otherPos, float otherSize) -> void {
         if (!dir) return;
@@ -240,9 +240,6 @@ void PhysicsEngine::addCustomCollisionResolve(int id, System* ptr) {
 
 void PhysicsEngine::setScene(Scene* scene) {
     this->scene = scene;
-    this->tfMap = &(this->scene->getComponents<Transform>());
-    this->clMap = &(this->scene->getComponents<Collider>());
-    this->efMap = &(this->scene->getComponents<EntityFlags>());
 }
 
 void PhysicsEngine::setSystems(DynamicArray<System*>* sys){
@@ -312,13 +309,13 @@ CollisionEventMap PhysicsEngine::getAllCollisions(CollisionMap possibleCollision
                 int oldId = colEvent.entity.getId();
 				entityMinTimesCollisionEvent[oldId] = CollisionEvent();
 
-                if (!this->efMap->at(oldId).getFlag(Dynamic)) continue;
+                if (!(*this->scene->getComponent<EntityFlags>(oldId)).getFlag(Dynamic)) continue;
 
                 preventIntersection(colEvent);
                 collisionEvents[oldId].pushBack(colEvent);
                 for (Entity entity : possibleCollisions[oldId]) {
                     int id = entity.getId();
-                    if (!this->efMap->at(id).getFlag(Dynamic)) continue;
+                    if (!(*this->scene->getComponent<EntityFlags>(id)).getFlag(Dynamic)) continue;
                     if (visited.find(id) != visited.end()) continue;
                     visited.insert(id);
                     newCollisions.pushBack(entity);
@@ -361,7 +358,7 @@ void PhysicsEngine::setCollisionEntitys(DynamicArray<Entity>& entitys) {
 void PhysicsEngine::setDynamicCollisionEntitys(DynamicArray<Entity>& entitys) {
     this->dynamicCollisionEntitys = std::move(entitys);
     for (Entity entity : this->dynamicCollisionEntitys) {
-		const Collider& cl = this->clMap->at(entity.getId());
+		const Collider& cl = *this->scene->getComponent<Collider>(entity.getId());
 		this->minArea += cl.width * cl.height;
     }
 	this->minArea /= this->dynamicCollisionEntitys.size();
@@ -369,8 +366,8 @@ void PhysicsEngine::setDynamicCollisionEntitys(DynamicArray<Entity>& entitys) {
 }
 
 void PhysicsEngine::applyVelocity(int id){
-    Transform& tf = this->tfMap->at(id);
-    EntityFlags& ef = this->efMap->at(id);
+    Transform& tf = *this->scene->getComponent<Transform>(id);
+    EntityFlags& ef = *this->scene->getComponent<EntityFlags>(id);
     Vector3D move = tf.velocity;
     if (!ef.getFlag(MovedX)) tf.position.x += move.x;
     if (!ef.getFlag(MovedY)) tf.position.y += move.y;

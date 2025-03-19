@@ -164,6 +164,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SharedResources.h" />
     <ClInclude Include="Softbody.h" />
+    <ClInclude Include="somData.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector3D.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SharedResources.cpp" />
     <ClCompile Include="Softbody.cpp" />
+    <ClCompile Include="somData.cpp" />
     <ClCompile Include="spring.cpp" />
     <ClCompile Include="spring.h" />
     <ClCompile Include="System.cpp" />

@@ -31,6 +31,6 @@ public:
 	void setPhysicsEngine(PhysicsEngine*);
 	void setAudioManager(AudioManager*);
 
-	void loadScene(std::string, DynamicArray<System*>&);
+	void loadScene(std::string, DynamicArray<System*>&, const DynamicArray<Component*>&);
 };
 
