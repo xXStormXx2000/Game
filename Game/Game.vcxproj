@@ -191,12 +191,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scenes\Tests.wgf" />
+    <None Include="dev\SDL2\lib\x64\SDL2.dll" />
+    <None Include="dev\SDL2\lib\x64\SDL2.pdb" />
+    <None Include="dev\SDL2\lib\x86\SDL2.dll" />
+    <None Include="dev\SDL2\lib\x86\SDL2.pdb" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Art\flaim.png" />
     <Image Include="Assets\Art\hitbox.png" />
     <Image Include="Assets\Art\slime.png" />
     <Image Include="Assets\Art\smil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="dev\SDL2\lib\x64\SDL2.lib" />
+    <Library Include="dev\SDL2\lib\x64\SDL2main.lib" />
+    <Library Include="dev\SDL2\lib\x64\SDL2test.lib" />
+    <Library Include="dev\SDL2\lib\x86\SDL2.lib" />
+    <Library Include="dev\SDL2\lib\x86\SDL2main.lib" />
+    <Library Include="dev\SDL2\lib\x86\SDL2test.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
