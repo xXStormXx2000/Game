@@ -49,6 +49,7 @@ public:
 	void addSystem() {
 		System* sys = new T;
 		sys->setSystems(&this->systems);
+		sys->setRenderer(&this->renderer);
 		this->systems.pushBack(sys);
 	}
 

@@ -13,7 +13,6 @@
 
 
 class FileManager {
-	int entityCount = 0;
 
 	Scene* scene = nullptr;
 
@@ -23,7 +22,7 @@ class FileManager {
 
 	AudioManager* audioManager = nullptr;
 
-	Entity createEntity();
+	
 
 public:
 	void setScene(Scene*);
@@ -31,6 +30,6 @@ public:
 	void setPhysicsEngine(PhysicsEngine*);
 	void setAudioManager(AudioManager*);
 
-	void loadScene(std::string, DynamicArray<System*>&, const DynamicArray<Component*>&);
+	void loadScene(std::string, DynamicArray<System*>&, DynamicArray<Component*>&);
 };
 

@@ -1,64 +1,17 @@
 #include "Softbody.h"
 
-Softbody::Softbody(): softbodys(16, DynamicArray<Entity>(16)){
-}
-
 void Softbody::onCollision(const CollisionEvent& colEvent) {
 	Transform& tf = this->getComponent<Transform>(colEvent.entity.getId());
 	
 	if (colEvent.collisionDirection.x) {
-		tf.velocity.x = 0 * abs(tf.velocity.x) * colEvent.collisionDirection.x;
-		if (abs(tf.velocity.x) < 1) tf.velocity.x = 0;
+		tf.velocity.x = 0;
 	}
 	if (colEvent.collisionDirection.y) {
-		tf.velocity.y = 0 * abs(tf.velocity.y) * colEvent.collisionDirection.y;
-		if (abs(tf.velocity.y) < 1) tf.velocity.y = 0;
+		tf.velocity.y = 0;
 
 	}
 }
 
-void Softbody::start(Entity entity) {
-	if (i < 16 && j < 16) {
-		Transform& tf = getComponent<Transform>(entity.getId());
-		this->softbodys[i][j] = entity;
-		this->posMap[entity.getId()] = {i, j};
-		tf.position.x = i * 30 + 50;
-		tf.position.y = j * 30 + 50;
-	}
-	
-	i++;
-	if (i == 16) {
-		i = 0;
-		j++;
-	}
-	somData& sD = getComponent<somData>(entity.getId());
-	sD.data = rand() % 10000;
-}
-
-void Softbody::preUpdate(Entity entity) {
-	float dist = 30;
-	Transform& tf = getComponent<Transform>(entity.getId());
-	auto [x, y] = this->posMap[entity.getId()];
-	for (int i = -1; i < 2; i++) {
-		if (i + y < 0 || i + y >= this->softbodys[0].size()) continue;
-		for (int j = -1; j < 2; j++) {
-			if (!i && !j) continue;
-			if (j + x < 0 || j + x >= this->softbodys.size()) continue;
-			Entity other = this->softbodys[j + x][i + y];
-			Transform otherTf = getComponent<Transform>(other.getId());
-			if (j) {
-				float vel = (otherTf.velocity.x - tf.velocity.x)*j;
-				vel = spring(vel, (otherTf.position.x - tf.position.x)*j, dist, 0.25, 0.03);
-				tf.velocity.x += vel*j;
-			}
-			if (i) {
-				float vel = (otherTf.velocity.y - tf.velocity.y)*i;
-				vel = spring(vel, (otherTf.position.y - tf.position.y)*i, dist, 0.25, 0.03);
-				tf.velocity.y += vel*i;
-			}
-		}
-	}
-}
 
 void Softbody::update(Entity entity) {
 	Transform& tf = getComponent<Transform>(entity.getId());

@@ -1,11 +1,27 @@
 #include "System.h"
 
+void System::addEntityToRenderer(Entity entity) {
+	this->renderer->addEntity(entity);
+}
+
+void System::removeEntityToRenderer(Entity entity) {
+	this->renderer->removeEntity(entity);
+}
+
+void System::addEntityToPhysicsEngine(Entity entity) {
+	this->newPhysicsEntity.pushBack(entity);
+}
+
 void System::setSharedResources(SharedResources* sh){
 	this->sharedResources = sh;
 }
 
 void System::setScene(Scene* scene) {
 	this->scene = scene;
+}
+
+void System::setRenderer(Renderer* r) {
+	this->renderer = r;
 }
 
 void System::setSystems(DynamicArray<System*>* systems)
@@ -32,6 +48,14 @@ float System::getDeltaTime() {
 	return this->sharedResources->getDeltaTime();
 }
 
+Entity System::createEntity() {
+	return this->scene->createEntity();
+}
+
+void System::addEntity(Entity entity, EntityFlags* ef) {
+	this->scene->addEntity(entity, ef);
+}
+
 bool System::keyPressed(char key) {
 	return this->sharedResources->getKeyPressed(key);
 }
@@ -45,11 +69,11 @@ bool System::keyReleased(char key) {
 }
 
 void System::addEntityToSystem(Entity entity, int sys) {
-	this->systems->operator[](sys)->getEntitys().insert(entity);
+	this->systems->at(sys)->getEntitys().insert(entity);
 }
 
 void System::removeEntityFromSystem(Entity entity, int sys) {
-	this->systems->operator[](sys)->getEntitys().erase(entity);
+	this->systems->at(sys)->getEntitys().erase(entity);
 }
 
 void System::onCollision(const CollisionEvent& colEvent) {

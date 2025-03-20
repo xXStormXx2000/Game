@@ -43,3 +43,9 @@ unsigned int Scene::getHeight() {
 void Scene::setComponents(CompMapList& newComponents) {
 	this->components = std::move(newComponents);
 }
+
+Entity Scene::createEntity() {
+	Entity entity(this->entityCount);
+	this->entityCount++;
+	return entity;
+}

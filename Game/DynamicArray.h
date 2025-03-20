@@ -438,13 +438,6 @@ public:
         --mSize;
     }
 
-    // Erase element
-    // Time = O(N)
-    // Space = O(1)
-    void erase(T Elem) {
-        erase(find(Elem));
-    }
-
     // Time = O(N) * destructor of TYPE
     // Space = O(1)
     void empty() {

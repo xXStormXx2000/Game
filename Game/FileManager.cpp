@@ -1,6 +1,6 @@
 #include "FileManager.h"
 
-void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, const DynamicArray<Component*>& componentsTypes) {
+void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, DynamicArray<Component*>& componentsTypes) {
 
     assert(path[path.size() - 4] == '.' && path[path.size() - 3] == 'w' && path[path.size() - 2] == 'g' && path[path.size() - 1] == 'f'
         && "Non-matching file format");
@@ -11,6 +11,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, co
 	CompMap entitysFlags;               // Flags for each entity
 
 	CompMapList components;           // Components
+    for (Component* c : componentsTypes) components[typeid(*c)];
 
 	this->renderer->destroyTextures(); // Clear all textures
 
@@ -31,7 +32,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, co
     std::string str;
     while (file >> str) {
         if (str == "!") {
-			entity = this->createEntity();
+			entity = this->scene->createEntity();
             entitys.insert(entity);
             EntityFlags* ef = new EntityFlags;
             file >> ef->flags;
@@ -85,11 +86,6 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, co
     this->physicsEngine->setDynamicCollisionEntitys(dynamicCollisionEntitys);
 }
 
-Entity FileManager::createEntity() {
-    Entity entity(this->entityCount);
-    this->entityCount++;
-    return entity;
-}
 
 void FileManager::setScene(Scene* scene) {
     this->scene = scene;

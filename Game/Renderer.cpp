@@ -82,6 +82,16 @@ void Renderer::setEntitys(DrawMap& newEntitys) {
 	this->entitys = std::move(newEntitys);
 }
 
+void Renderer::addEntity(Entity entity) {
+	Transform tf = this->scene->getComponent<Transform>(entity.getId());
+	this->entitys[tf.position.z].pushBack(entity);
+}
+
+void Renderer::removeEntity(Entity entity) {
+	Transform tf = this->scene->getComponent<Transform>(entity.getId());
+	this->entitys[tf.position.z].erase(this->entitys[tf.position.z].find(entity));
+}
+
 Renderer::~Renderer() {
 	SDL_DestroyRenderer(this->renderer);
 }

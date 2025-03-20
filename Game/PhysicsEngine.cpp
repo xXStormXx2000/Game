@@ -246,6 +246,36 @@ Collider& PhysicsEngine::getClComponent(int entityId) {
 	return *(dynamic_cast<Collider*>((*this->clMap)[entityId]));
 }
 
+void PhysicsEngine::calculateMinArea() {
+    if (this->dynamicCollisionEntitys.size() == 0) {
+        this->minArea = 5;
+        return;
+    }
+    for (Entity entity : this->dynamicCollisionEntitys) {
+        const Collider& cl = getClComponent(entity.getId());
+        this->minArea += cl.width * cl.height;
+    }
+    this->minArea /= this->dynamicCollisionEntitys.size();
+    this->minArea *= 5; // Magic number to optimize zone size
+    if (this->minArea < 5) this->minArea = 5;
+}
+
+void PhysicsEngine::addEntitys() {
+    int i = 0;
+    for (System* sys : *systems) {
+        i += sys->newPhysicsEntity.size();
+        for (Entity entity : sys->newPhysicsEntity) {
+            if (this->scene->getComponent<EntityFlags>(entity.getId()).getFlag(Dynamic)) {
+                this->dynamicCollisionEntitys.pushBack(entity);
+            }
+            this->collisionEntitys.pushBack(entity);
+        }
+        sys->newPhysicsEntity.empty();
+    }
+    if (i == 0) return;
+    calculateMinArea();
+}
+
 void PhysicsEngine::addCustomCollisionResolve(int id, System* ptr) {
     this->customCollisionResolve[id].pushBack(ptr);
 }
@@ -372,12 +402,7 @@ void PhysicsEngine::setCollisionEntitys(DynamicArray<Entity>& entitys) {
 
 void PhysicsEngine::setDynamicCollisionEntitys(DynamicArray<Entity>& entitys) {
     this->dynamicCollisionEntitys = std::move(entitys);
-    for (Entity entity : this->dynamicCollisionEntitys) {
-		const Collider& cl = getClComponent(entity.getId());
-		this->minArea += cl.width * cl.height;
-    }
-	this->minArea /= this->dynamicCollisionEntitys.size();
-	this->minArea *= 5; // Magic number to optimize zone size
+    calculateMinArea();
 }
 
 void PhysicsEngine::applyVelocity(int id){

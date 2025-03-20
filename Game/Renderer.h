@@ -35,6 +35,9 @@ public:
 
 	void setEntitys(DrawMap&);
 
+	void addEntity(Entity);
+	void removeEntity(Entity);
+
 	~Renderer();
 };
 

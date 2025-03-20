@@ -35,7 +35,7 @@ class PhysicsEngine {
 	std::unordered_map<int, CollisionEvent> entityMinTimesCollisionEventX;
 	std::unordered_map<int, CollisionEvent> entityMinTimesCollisionEventY;
 
-	long long minArea = 0;
+	long long minArea = 1;
 
 
 	void checkForCollision(Entity, CollisionMap&);
@@ -50,8 +50,10 @@ class PhysicsEngine {
 	EntityFlags& getEfComponent(int);
 	Collider& getClComponent(int);
 
+	void calculateMinArea();
 	
 public: 
+	void addEntitys();
 
 	CollisionMap generateCollisionMap();
 

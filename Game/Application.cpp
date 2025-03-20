@@ -110,6 +110,7 @@ void Application::handleEvents(){
 }
 
 void Application::collisionHandling() {
+	this->physicsEngine.addEntitys();
 	CollisionEventMap collisions = this->physicsEngine.getAllCollisions(this->physicsEngine.generateCollisionMap());
 	this->physicsEngine.resolveCollision(collisions);
 

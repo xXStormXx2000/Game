@@ -19,9 +19,9 @@ class Scene {
 	unsigned int width;
 	unsigned int height;
 
+	int entityCount = 0;
 
 public:
-	void clean();
 	template<class T>
 	CompMap& getComponents() {
 		auto it = components.find(typeid(T));
@@ -60,4 +60,5 @@ public:
 	void removeComponent(int entityId) {
 		this->getComponents<T>().erase(entityId);
 	}
+	Entity createEntity();
 };
