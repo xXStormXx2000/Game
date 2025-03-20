@@ -44,11 +44,11 @@ class PhysicsEngine {
 
 	void preventIntersection(const CollisionEvent&);
 
-	void velocityAdjustCollisionBox(Transform&, const Collider&);
+	void velocityAdjustCollisionBox(Transform&, const Collider*);
 
-	Transform& getTfComponent(int);
-	EntityFlags& getEfComponent(int);
-	Collider& getClComponent(int);
+	Transform* getTfComponent(int);
+	EntityFlags* getEfComponent(int);
+	Collider* getClComponent(int);
 
 	void calculateMinArea();
 	
