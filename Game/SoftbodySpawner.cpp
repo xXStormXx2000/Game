@@ -18,7 +18,7 @@ void SoftbodySpawner::start(Entity) {
 
 			Transform* tf = new Transform;
 			addComponentToEntity(entity, tf);
-			tf->scale = { 2, 2, 0 };
+			tf->scale = { 1, 1, 0 };
 			tf->position.x = i * 30 + 50;
 			tf->position.y = j * 30 + 50;
 
