@@ -1,6 +1,6 @@
 #include "Softbody.h"
 
-Softbody::Softbody(): softbodys(64, DynamicArray<Entity>(64)){
+Softbody::Softbody(): softbodys(16, DynamicArray<Entity>(16)){
 }
 
 void Softbody::onCollision(const CollisionEvent& colEvent) {
@@ -18,7 +18,7 @@ void Softbody::onCollision(const CollisionEvent& colEvent) {
 }
 
 void Softbody::start(Entity entity) {
-	if (i < 64 && j < 64) {
+	if (i < 16 && j < 16) {
 		Transform& tf = getComponent<Transform>(entity.getId());
 		this->softbodys[i][j] = entity;
 		this->posMap[entity.getId()] = {i, j};
@@ -27,7 +27,7 @@ void Softbody::start(Entity entity) {
 	}
 	
 	i++;
-	if (i == 24) {
+	if (i == 16) {
 		i = 0;
 		j++;
 	}
@@ -36,7 +36,7 @@ void Softbody::start(Entity entity) {
 }
 
 void Softbody::preUpdate(Entity entity) {
-	/*float dist = 50;
+	float dist = 30;
 	Transform& tf = getComponent<Transform>(entity.getId());
 	auto [x, y] = this->posMap[entity.getId()];
 	for (int i = -1; i < 2; i++) {
@@ -48,16 +48,16 @@ void Softbody::preUpdate(Entity entity) {
 			Transform otherTf = getComponent<Transform>(other.getId());
 			if (j) {
 				float vel = (otherTf.velocity.x - tf.velocity.x)*j;
-				vel = spring(vel, (otherTf.position.x - tf.position.x)*j, dist, 2, 0.01);
-				tf.velocity.x += vel*j * this->getDeltaTime()*120;
+				vel = spring(vel, (otherTf.position.x - tf.position.x)*j, dist, 0.25, 0.03);
+				tf.velocity.x += vel*j;
 			}
 			if (i) {
 				float vel = (otherTf.velocity.y - tf.velocity.y)*i;
-				vel = spring(vel, (otherTf.position.y - tf.position.y)*i, dist, 2, 0.01);
-				tf.velocity.y += vel*i * this->getDeltaTime()*120;
+				vel = spring(vel, (otherTf.position.y - tf.position.y)*i, dist, 0.25, 0.03);
+				tf.velocity.y += vel*i;
 			}
 		}
-	}*/
+	}
 }
 
 void Softbody::update(Entity entity) {

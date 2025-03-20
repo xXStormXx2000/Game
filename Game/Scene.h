@@ -21,7 +21,7 @@ class Scene {
 
 
 public:
-
+	void clean();
 	template<class T>
 	CompMap& getComponents() {
 		auto it = components.find(typeid(T));
