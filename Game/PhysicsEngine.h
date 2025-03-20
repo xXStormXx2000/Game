@@ -28,6 +28,10 @@ class PhysicsEngine {
 
 	DynamicArray<Entity> physicsEntitys;
 
+	CompMap* tfMap = nullptr;
+	CompMap* efMap = nullptr;
+	CompMap* clMap = nullptr;
+
 	std::unordered_map<int, CollisionEvent> entityMinTimesCollisionEventX;
 	std::unordered_map<int, CollisionEvent> entityMinTimesCollisionEventY;
 
@@ -41,6 +45,10 @@ class PhysicsEngine {
 	void preventIntersection(const CollisionEvent&);
 
 	void velocityAdjustCollisionBox(Transform&, const Collider&);
+
+	Transform& getTfComponent(int);
+	EntityFlags& getEfComponent(int);
+	Collider& getClComponent(int);
 
 	
 public: 

@@ -46,9 +46,9 @@ public:
 	void setComponents(CompMapList&);
 
 	template<class T>
-	T* getComponent(int entityId) {
+	T& getComponent(int entityId) {
 		assert(this->getComponents<T>().find(entityId) != this->getComponents<T>().end() && "Entity has no such component");
-		return dynamic_cast<T*>(this->getComponents<T>()[entityId]);
+		return *(dynamic_cast<T*>(this->getComponents<T>()[entityId]));
 	}
 
 	template<class T>

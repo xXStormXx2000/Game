@@ -19,7 +19,7 @@ void System::setEntitys(std::unordered_set<Entity>& entitys) {
 
 void System::run(void (System::*function)(Entity)) {
 	for (Entity entity : entitys) {
-		EntityFlags flags = *this->scene->getComponent<EntityFlags>(entity.getId());
+		EntityFlags flags = this->scene->getComponent<EntityFlags>(entity.getId());
 		if (flags.getFlag(Active)) (this->*function)(entity);
 	}
 }

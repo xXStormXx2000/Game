@@ -28,13 +28,12 @@ Application::Application(const char* title, const char* icon, int width, int hei
 	if (!this->renderer.exist()) return;
 	this->renderer.setScene(&this->scene);
 
-	this->physicsEngine.setScene(&this->scene);
-	this->physicsEngine.setSharedResources(&this->sharedResources);
-	this->physicsEngine.setSystems(&this->systems);
-
 	this->fileManager.setScene(&this->scene);
 	this->fileManager.setRenderer(&this->renderer);
 	this->fileManager.setPhysicsEngine(&this->physicsEngine);
+
+	this->physicsEngine.setSharedResources(&this->sharedResources);
+	this->physicsEngine.setSystems(&this->systems);
 
 	this->addComponent<EntityFlags>();
 	this->addComponent<Transform>();
@@ -115,7 +114,7 @@ void Application::collisionHandling() {
 	this->physicsEngine.resolveCollision(collisions);
 
 	for (const std::pair<int, Component*>& pair : this->scene.getComponents<Transform>()) {
-		if((*this->scene.getComponent<EntityFlags>(pair.first)).getFlag(Dynamic))
+		if(this->scene.getComponent<EntityFlags>(pair.first).getFlag(Dynamic))
 			this->physicsEngine.applyVelocity(pair.first);
 	}
 }
@@ -135,7 +134,7 @@ void Application::update() {
 	}
 
 	for (Entity entity : this->scene.getEntitys()) {
-		EntityFlags& ef = *this->scene.getComponent<EntityFlags>(entity.getId());
+		EntityFlags& ef = this->scene.getComponent<EntityFlags>(entity.getId());
 		ef.setFlag(MovedX, false);
 		ef.setFlag(MovedY, false);
 	}

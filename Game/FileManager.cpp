@@ -80,6 +80,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, co
 
     this->renderer->setEntitys(entitysToRender);
 
+    this->physicsEngine->setScene(this->scene);
     this->physicsEngine->setCollisionEntitys(collisionEntitys);
     this->physicsEngine->setDynamicCollisionEntitys(dynamicCollisionEntitys);
 }

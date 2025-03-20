@@ -17,7 +17,7 @@ protected:
 
 	template<class T>
 	T& getComponent(int entityId) {
-		return *this->scene->getComponent<T>(entityId);
+		return this->scene->getComponent<T>(entityId);
 	};
 	
 	bool keyPressed(char);
