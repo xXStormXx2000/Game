@@ -47,7 +47,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, Dy
             continue;
         }
         for (int i = 0; i < componentsTypes.size(); i++) {
-            Component* comp = componentsTypes.at(i)->read_file(file, str);
+            Component* comp = componentsTypes.at(i)->readFile(file, str);
 			if (comp == nullptr) continue;
 			components[typeid(*componentsTypes.at(i))][entity.getId()] = comp;
         }

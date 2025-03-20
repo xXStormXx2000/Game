@@ -13,15 +13,15 @@ bool EntityFlags::checkFlags(int flagsMask) const {
 	return flagsMask == (this->flags&flagsMask);
 }
 
-Component* EntityFlags::read_file(std::ifstream& file, std::string& str) {
+Component* EntityFlags::readFile(std::ifstream& file, std::string& str) {
 	return nullptr;
 }
 
-void EntityFlags::write_file(std::ofstream& str) {
+void EntityFlags::writeFile(std::ofstream& str) {
 }
 
 
-Component* Transform::read_file(std::ifstream& file, std::string& str)
+Component* Transform::readFile(std::ifstream& file, std::string& str)
 {
 	if (str == "Transform") {
 		Transform* tf = new Transform;
@@ -34,7 +34,7 @@ Component* Transform::read_file(std::ifstream& file, std::string& str)
 	return nullptr;
 }
 
-void Transform::write_file(std::ofstream& file) {
+void Transform::writeFile(std::ofstream& file) {
 	file << "Transform\n";
 	file << this->position.x << ' ' << this->position.y << ' ' << this->position.z << '\n';
 	file << this->velocity.x << ' ' << this->velocity.y << ' ' << this->velocity.z << '\n';
@@ -42,7 +42,7 @@ void Transform::write_file(std::ofstream& file) {
 	file << this->scale.x << ' ' << this->scale.y << ' ' << this->scale.z << '\n';
 }
 
-Component* Collider::read_file(std::ifstream& file, std::string& str) {
+Component* Collider::readFile(std::ifstream& file, std::string& str) {
 	if (str == "Collider") {
 		Collider* cl = new Collider;
 		file >> cl->offset.x >> cl->offset.y >> cl->offset.z;
@@ -52,13 +52,13 @@ Component* Collider::read_file(std::ifstream& file, std::string& str) {
 	return nullptr;
 }
 
-void Collider::write_file(std::ofstream& file) {
+void Collider::writeFile(std::ofstream& file) {
 	file << "Collider\n";
 	file << this->offset.x << ' ' << this->offset.y << ' ' << this->offset.z << '\n';
 	file << this->width << ' ' << this->height << '\n';
 }
 
-Component* Rigidbody::read_file(std::ifstream& file, std::string& str) {
+Component* Rigidbody::readFile(std::ifstream& file, std::string& str) {
 
 	if (str == "Rigidbody") {
 		Rigidbody* rb = new Rigidbody;
@@ -71,7 +71,7 @@ Component* Rigidbody::read_file(std::ifstream& file, std::string& str) {
 	return nullptr;
 }
 
-void Rigidbody::write_file(std::ofstream& file) {
+void Rigidbody::writeFile(std::ofstream& file) {
 	file << "Rigidbody\n";
 	file << this->mass << ' ' << this->density << ' ' << this->friction << ' ' << this->restitution << '\n';
 	file << this->centerOfMass.x << ' ' << this->centerOfMass.y << ' ' << this->centerOfMass.z << '\n';
@@ -79,7 +79,7 @@ void Rigidbody::write_file(std::ofstream& file) {
 	//file << this->angularVelocity.x << ' ' << this->angularVelocity.y << ' ' << this->angularVelocity.z << '\n';
 }
 
-Component* Sprite::read_file(std::ifstream& file, std::string& str) {
+Component* Sprite::readFile(std::ifstream& file, std::string& str) {
 	if (str == "Sprite") {
 		Sprite* sr = new Sprite;
 		file >> sr->offset.x >> sr->offset.y >> sr->offset.z;
@@ -91,7 +91,7 @@ Component* Sprite::read_file(std::ifstream& file, std::string& str) {
 	return nullptr;
 }
 
-void Sprite::write_file(std::ofstream& file) {
+void Sprite::writeFile(std::ofstream& file) {
 	file << "Sprite\n";
 	file << this->offset.x << ' ' << this->offset.y << ' ' << this->offset.z << '\n';
 	file << this->width << ' ' << this->height << '\n';
@@ -99,7 +99,7 @@ void Sprite::write_file(std::ofstream& file) {
 	file << this->spriteIndex << '\n';
 }
 
-Component* TileSet::read_file(std::ifstream& file, std::string& str) {
+Component* TileSet::readFile(std::ifstream& file, std::string& str) {
 	if (str == "TileSet") {
 		TileSet* ts = new TileSet;
 		file >> ts->offset.x >> ts->offset.y >> ts->offset.z;
@@ -116,7 +116,7 @@ Component* TileSet::read_file(std::ifstream& file, std::string& str) {
 	return nullptr;
 }
 
-void TileSet::write_file(std::ofstream& file) {
+void TileSet::writeFile(std::ofstream& file) {
 	file << "TileSet\n";
 	file << this->offset.x << ' ' << this->offset.y << ' ' << this->offset.z << '\n';
 	file << this->tileWidth << ' ' << this->tileHeight << '\n';

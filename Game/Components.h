@@ -8,8 +8,8 @@
 
 class Component {
 public:
-	virtual Component* read_file(std::ifstream&, std::string&) = 0;
-	virtual void write_file(std::ofstream&) = 0;
+	virtual Component* readFile(std::ifstream&, std::string&) = 0;
+	virtual void writeFile(std::ofstream&) = 0;
 	virtual ~Component() = default;
 };
 
@@ -19,15 +19,15 @@ struct Transform : public Component {
 	Vector3D velocity = { 0, 0, 0 }; // pixels/s
 	//Vector3D rotation = { 0, 0, 0 }; // rad
 	Vector3D scale = { 1, 1, 1 };
-	Component* read_file(std::ifstream&, std::string&);
-	void write_file(std::ofstream&);
+	Component* readFile(std::ifstream&, std::string&);
+	void writeFile(std::ofstream&);
 };
 
 struct Collider : public Component {
 	Vector3D offset = { 0,0,0 }; // pixels
 	float width = 0, height = 0; // pixels
-	Component* read_file(std::ifstream&, std::string&);
-	void write_file(std::ofstream&);
+	Component* readFile(std::ifstream&, std::string&);
+	void writeFile(std::ofstream&);
 };
 
 struct Rigidbody : public Component {
@@ -38,8 +38,8 @@ struct Rigidbody : public Component {
 	Vector3D centerOfMass = { 0, 0, 0 }; // pixels
 	Vector3D acceleration = { 0, 0, 0 }; // pixels/s^2
 	//Vector3D angularVelocity = { 0, 0, 0 }; // rad/s
-	Component* read_file(std::ifstream&, std::string&);
-	void write_file(std::ofstream&);
+	Component* readFile(std::ifstream&, std::string&);
+	void writeFile(std::ofstream&);
 };
 
 struct Sprite : public Component {
@@ -47,8 +47,8 @@ struct Sprite : public Component {
 	float width = 0, height = 0; // pixels
 	SDL_Rect texturePortion = { 0, 0, 0, 0 }; // pixels
 	int spriteIndex = -1;
-	Component* read_file(std::ifstream&, std::string&);
-	void write_file(std::ofstream&);
+	Component* readFile(std::ifstream&, std::string&);
+	void writeFile(std::ofstream&);
 };
 
 struct TileSet : public Component {
@@ -57,8 +57,8 @@ struct TileSet : public Component {
 	float textureTileWidth = 0, textureTileHeight = 0; // pixels
 	int spriteIndex = -1;
 	DynamicArray<Vector3D> tiles;
-	Component* read_file(std::ifstream&, std::string&);
-	void write_file(std::ofstream&);
+	Component* readFile(std::ifstream&, std::string&);
+	void writeFile(std::ofstream&);
 };
 
 enum Flags {
@@ -88,6 +88,6 @@ public:
 	void setFlag(int, bool);
 	bool checkFlags(int) const;
 
-	Component* read_file(std::ifstream&, std::string&);
-	void write_file(std::ofstream&);
+	Component* readFile(std::ifstream&, std::string&);
+	void writeFile(std::ofstream&);
 };
