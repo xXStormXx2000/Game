@@ -1,17 +1,5 @@
 #include "Softbody.h"
 
-void Softbody::onCollision(const CollisionEvent& colEvent) {
-	Transform& tf = this->getComponent<Transform>(colEvent.entity.getId());
-	
-	if (colEvent.collisionDirection.x) {
-		tf.velocity.x = 0;
-	}
-	if (colEvent.collisionDirection.y) {
-		tf.velocity.y = 0;
-
-	}
-}
-
 
 void Softbody::update(Entity entity) {
 	Transform& tf = getComponent<Transform>(entity.getId());

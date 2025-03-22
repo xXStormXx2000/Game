@@ -77,6 +77,15 @@ void System::removeEntityFromSystem(Entity entity, int sys) {
 }
 
 void System::onCollision(const CollisionEvent& colEvent) {
+	Transform& tf = this->getComponent<Transform>(colEvent.entity.getId());
+
+	if (colEvent.collisionDirection.x) {
+		tf.velocity.x = 0;
+	}
+	if (colEvent.collisionDirection.y) {
+		tf.velocity.y = 0;
+
+	}
 }
 
 void System::start(Entity) {
