@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 }
 ```
 
-You can add and remove systems/Component by calling the addSystem/addComponent method.
+You can add and remove systems/component by calling the addSystem/addComponent method.
 
 Like this:
 ```
