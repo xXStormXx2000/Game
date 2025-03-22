@@ -1,5 +1,5 @@
 # Getting started
-Open Visual Studio 2022 <sub>This might work with different version of Visual Studio but I can't guarantee it</sub>.
+Open Visual Studio 2022 <sub>This might work with different version of Visual Studio but I can't guarantee it</sub
 
 Under **Get started** click on **Clone repository**.
 
