@@ -11,7 +11,7 @@ You have to write the main function correctly because this engine uses SDL.
 Like this:
 ```
 int main(int argc, char* argv[]) {
-	return 0;
+    return 0;
 }
 ```
 
@@ -22,13 +22,13 @@ Like this:
 #include "Application.h"
 
 int main(int argc, char* argv[]) {
-	int windowWidth = 1100, windowHeight = 800;
-	int fps = 60;
+    int windowWidth = 1100, windowHeight = 800;
+    int fps = 60;
 
-	Application game("GameName", "WindowIcon.png", windowWidth, windowHeight, fps);
-	game.run();
+    Application game("GameName", "WindowIcon.png", windowWidth, windowHeight, fps);
+    game.run();
 
-	return 0;
+    return 0;
 }
 ```
 
@@ -42,17 +42,17 @@ Like this:
 #include "MyComponent.h"
 
 int main(int argc, char* argv[]) {
-	int windowWidth = 1100, windowHeight = 800;
-	int fps = 60;
+    int windowWidth = 1100, windowHeight = 800;
+    int fps = 60;
 
-	Application game("GameName", "WindowIcon.png", windowWidth, windowHeight, fps);
+    Application game("GameName", "WindowIcon.png", windowWidth, windowHeight, fps);
 
-	game.addSystem<MySystemOne>();
-	game.addSystem<MySystemTwo>();
-	game.addComponent<MyComponent>();
+    game.addSystem<MySystemOne>();
+    game.addSystem<MySystemTwo>();
+    game.addComponent<MyComponent>();
 
-	game.run();
-	return 0;
+    game.run();
+    return 0;
 }
 ```
 ## Creating custom system
@@ -66,15 +66,15 @@ Like this:
 
 class MySystemOne : public System {
 public:
-  void onCollision(const CollisionEvent&);
+    void onCollision(const CollisionEvent&);
 
-  void start(Entity);
+    void start(Entity);
   
-  void preUpdate(Entity);
-  void update(Entity);
-  void postUpdate(Entity);
+    void preUpdate(Entity);
+    void update(Entity);
+    void postUpdate(Entity);
   
-  void end(Entity);
+    void end(Entity);
 };
 ```
 ## Creating custom component
@@ -91,11 +91,11 @@ MyComponent.h:
 
 class MyComponent : public Component {
 public:
-  float myDataOne;
-  Vector3D myDataTwo;
+    float myDataOne;
+    Vector3D myDataTwo;
 
-	Component* readFile(std::ifstream&, std::string&);
-	void writeFile(std::ofstream&);
+    Component* readFile(std::ifstream&, std::string&);
+    void writeFile(std::ofstream&);
 };
 ```
 MyComponent.cpp:
@@ -103,19 +103,19 @@ MyComponent.cpp:
 #include "MyComponent.h"
 
 Component* MyComponent::readFile(std::ifstream& file, std::string& str) {
-	if (str == "MyComponentName") {
-		MyComponent* data = new MyComponent();
-		file >> data->myDataOne;
-    file >> data->myDataTwo.x >> data->myDataTwo.y >> data->myDataTwo.z;
-		return dynamic_cast<Component*>(data);
-	}
+    if (str == "MyComponentName") {
+        MyComponent* data = new MyComponent();
+        file >> data->myDataOne;
+        file >> data->myDataTwo.x >> data->myDataTwo.y >> data->myDataTwo.z;
+        return dynamic_cast<Component*>(data);
+    }
     return nullptr;
 }
 
 void MyComponent::writeFile(std::ofstream& file) {
-	file << "MyComponentName" << std::endl;
-	file << data->myDataOne << std::endl;
-  file << data->myDataTwo.x << ' ' << data->myDataTwo.y << ' ' << data->myDataTwo.z << ' ' << std::endl;
+    file << "MyComponentName" << std::endl;
+    file << data->myDataOne << std::endl;
+    file << data->myDataTwo.x << ' ' << data->myDataTwo.y << ' ' << data->myDataTwo.z << ' ' << std::endl;
 }
 ```
 
