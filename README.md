@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
 ```
 ## Creating custom system
 You can also create your own systems by inheriting from the "System" class. 
-There's are functions you can overload when implementing your system but none of them are required.
+There's are methods you can overload when implementing your system but none of them are required.
 
 Like this:
 ```
@@ -66,6 +66,8 @@ Like this:
 
 class MySystemOne : public System {
 public:
+    /*
+    Optional methods to overload
     void onCollision(const CollisionEvent&);
 
     void start(Entity);
@@ -75,6 +77,7 @@ public:
     void postUpdate(Entity);
   
     void end(Entity);
+    */
 };
 ```
 ## Creating custom component
