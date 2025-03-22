@@ -1,9 +1,9 @@
 # Getting started
-Open Visual Studio 2022 (This might work with different version of Visual Studio but I can't guarantee it).
+Open Visual Studio 2022 <sub>This might work with different version of Visual Studio but I can't guarantee it</sub>.
 
-Under "Get started" click on **Clone repository**.
+Under **Get started** click on **Clone repository**.
 
-Under "Repository location" write: https://github.com/xXStormXx2000/Game.git and click **Clone**.
+Under **Repository location** write: https://github.com/xXStormXx2000/Game.git and click **Clone**.
 
 # How to use the engine
 You have to write the main function correctly because this engine uses SDL.
