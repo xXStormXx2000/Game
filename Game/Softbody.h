@@ -10,6 +10,7 @@
 
 class Softbody : public System {
 public:
+	void onCollision(const CollisionEvent&);
 	void update(Entity);
 };
 
