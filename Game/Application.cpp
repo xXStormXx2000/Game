@@ -40,7 +40,6 @@ Application::Application(const char* title, const char* icon, int width, int hei
 	this->addComponent<Collider>();
 	this->addComponent<Rigidbody>();
 	this->addComponent<Sprite>();
-	this->addComponent<TileSet>();
 
 	this->appRunning = true;
 

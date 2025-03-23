@@ -16,6 +16,8 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, Dy
 	this->renderer->destroyTextures(); // Clear all textures
 
 	DrawMap entitysToRender;                      // Entitys to render
+    DynamicArray<TileSet> tileSets;
+
 	DynamicArray<Entity> collisionEntitys;        // Entitys that can collide
 	DynamicArray<Entity> dynamicCollisionEntitys; // Entitys that can collide and are dynamic
     
@@ -63,6 +65,17 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, Dy
             }
             continue;
         }
+        if (str == "TileSet") {
+            int num;
+            file >> num;
+            for(int i = 0; i < num; i++) {
+                TileSet tileSet;
+                tileSet.readFile(file);
+                entitysToRender[tileSet.depht].pushBack(-(i + 2));
+                tileSets.pushBack(tileSet);
+            }
+            continue;
+        }
 
         if (str == "Collision") {
             if (dynamic_cast<EntityFlags*>(entitysFlags[entity.getId()])->getFlag(Dynamic)) {
@@ -80,6 +93,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, Dy
     this->scene->setEntitys(entitys, entitysFlags);
 
     this->renderer->setEntitys(entitysToRender);
+    this->renderer->setTileSets(tileSets);
 
     this->physicsEngine->setScene(this->scene);
     this->physicsEngine->setCollisionEntitys(collisionEntitys);

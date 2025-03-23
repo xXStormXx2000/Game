@@ -1,5 +1,35 @@
 #include "Renderer.h"
 
+
+TileSet TileSet::readFile(std::ifstream& file) {
+	TileSet ts;
+	file >> ts.offset.x >> ts.offset.y >> ts.offset.z;
+	file >> ts.tileWidth >> ts.tileHeight;
+	file >> ts.textureTileWidth >> ts.textureTileHeight;
+	file >> ts.spriteIndex;
+	file >> ts.depht;
+	int size;
+	file >> size;
+	for (int i = 0; i < size; i++) {
+		file >> ts.tiles[i].tileX >> ts.tiles[i].tileY >> ts.tiles[i].posX >> ts.tiles[i].posY;
+	}
+	return ts;
+}
+
+void TileSet::writeFile(std::ofstream& file) {
+	file << this->offset.x << ' ' << this->offset.y << ' ' << this->offset.z << '\n';
+	file << this->tileWidth << ' ' << this->tileHeight << '\n';
+	file << this->textureTileWidth << ' ' << this->textureTileHeight << '\n';
+	file << this->spriteIndex << '\n';
+	file << this->depht << '\n';
+	file << this->tiles.size() << '\n';
+	for (int i = 0; i < this->tiles.size(); i++) {
+		file << this->tiles[i].tileX << this->tiles[i].tileY << this->tiles[i].posX << this->tiles[i].posY << '\t';
+	}
+}
+
+
+
 SDL_Rect Renderer::cameraTransform(Transform tf, const Sprite& sp) {
 	tf.position -= this->cameraOffset;
 	if (this->cameraFollowEntity.getId() != -1)
@@ -54,17 +84,44 @@ void Renderer::render() {
 	SDL_RenderClear(this->renderer);
 
 	for (auto entityList: this->entitys) for (Entity entity: entityList.second) {
-		EntityFlags flags = this->scene->getComponent<EntityFlags>(entity.getId());
-		if (!flags.getFlag(Active) || !flags.getFlag(Visible)) continue;
-		assert(this->scene != nullptr && "Renderer can't find scene");
-		Transform& tf = this->scene->getComponent<Transform>(entity.getId());
+		if (entity.getId() < -1) {
+			TileSet tileSet = this->tileSets[-(entity.getId() + 2)];
+			float xScale = this->scene->getWidth() / this->cameraWidth;
+			float yScale = this->scene->getHeight() / this->cameraHeight;
+			tileSet.tileWidth *= xScale;
+			tileSet.tileHeight *= yScale;
 
-		Sprite& sp = this->scene->getComponent<Sprite>(entity.getId());
+			for (const Tile& tile : tileSet.tiles) {
+				SDL_Rect target;
+				target.x = tileSet.tileWidth  * tile.posX;
+				target.y = tileSet.tileHeight * tile.posY;
+				target.w = tileSet.tileWidth;
+				target.h = tileSet.tileHeight;
 
-		SDL_Rect target = cameraTransform(tf, sp);
+				SDL_Rect texturePortion;
+				texturePortion.x = tileSet.textureTileWidth * tile.tileX;
+				texturePortion.y = tileSet.textureTileHeight * tile.tileY;
+				texturePortion.w = tileSet.textureTileWidth;
+				texturePortion.h = tileSet.textureTileHeight;
 
-		if (SDL_RenderCopy(this->renderer, this->sprites[sp.spriteIndex], &sp.texturePortion, &target) != 0) {
-			debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
+				if (SDL_RenderCopy(this->renderer, this->sprites[tileSet.spriteIndex], &texturePortion, &target) != 0) {
+					debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
+				}
+			}
+
+		} else {
+			EntityFlags flags = this->scene->getComponent<EntityFlags>(entity.getId());
+			if (!flags.getFlag(Active) || !flags.getFlag(Visible)) continue;
+			assert(this->scene != nullptr && "Renderer can't find scene");
+			Transform& tf = this->scene->getComponent<Transform>(entity.getId());
+
+			Sprite& sp = this->scene->getComponent<Sprite>(entity.getId());
+
+			SDL_Rect target = cameraTransform(tf, sp);
+
+			if (SDL_RenderCopy(this->renderer, this->sprites[sp.spriteIndex], &sp.texturePortion, &target) != 0) {
+				debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
+			}
 		}
 	}
 	SDL_RenderPresent(this->renderer);
@@ -91,6 +148,10 @@ void Renderer::destroyTextures() {
 
 void Renderer::setEntitys(DrawMap& newEntitys) {
 	this->entitys = std::move(newEntitys);
+}
+
+void Renderer::setTileSets(DynamicArray<TileSet>& ts) {
+	this->tileSets = std::move(ts);
 }
 
 void Renderer::addEntity(Entity entity) {

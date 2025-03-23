@@ -99,32 +99,3 @@ void Sprite::writeFile(std::ofstream& file) {
 	file << this->spriteIndex << '\n';
 }
 
-Component* TileSet::readFile(std::ifstream& file, std::string& str) {
-	if (str == "TileSet") {
-		TileSet* ts = new TileSet;
-		file >> ts->offset.x >> ts->offset.y >> ts->offset.z;
-		file >> ts->tileWidth >> ts->tileHeight;
-		file >> ts->textureTileWidth >> ts->textureTileHeight;
-		file >> ts->spriteIndex;
-		int size;
-		file >> size;
-		for (int i = 0; i < size; i++) {
-			file >> ts->tiles[i].x >> ts->tiles[i].y >> ts->tiles[i].z;
-		}
-		return dynamic_cast<Component*>(ts);
-	}
-	return nullptr;
-}
-
-void TileSet::writeFile(std::ofstream& file) {
-	file << "TileSet\n";
-	file << this->offset.x << ' ' << this->offset.y << ' ' << this->offset.z << '\n';
-	file << this->tileWidth << ' ' << this->tileHeight << '\n';
-	file << this->textureTileWidth << ' ' << this->textureTileHeight << '\n';
-	file << this->spriteIndex << '\n';
-	file << this->tiles.size() << '\n';
-	for (int i = 0; i < this->tiles.size(); i++) {
-		file << this->tiles[i].x << ' ' << this->tiles[i].y << ' ' << this->tiles[i].z << '\n';
-	}
-}
-

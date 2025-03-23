@@ -51,16 +51,6 @@ struct Sprite : public Component {
 	void writeFile(std::ofstream&);
 };
 
-struct TileSet : public Component {
-	Vector3D offset = { 0,0,0 }; // pixels
-	float tileWidth = 0, tileHeight = 0; // pixels
-	float textureTileWidth = 0, textureTileHeight = 0; // pixels
-	int spriteIndex = -1;
-	DynamicArray<Vector3D> tiles;
-	Component* readFile(std::ifstream&, std::string&);
-	void writeFile(std::ofstream&);
-};
-
 enum Flags {
 	Active,
 	Visible,
