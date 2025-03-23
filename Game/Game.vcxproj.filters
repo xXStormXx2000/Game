@@ -207,5 +207,8 @@
     <Image Include="Assets\Art\smil.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Assets\Art\TileSet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
