@@ -7,6 +7,9 @@ class SharedResources {
 	CollisionEventMap collisionEvents;
 	float deltaTime; //s
 
+	std::string sceneFilePath;
+	bool sceneChange = false;
+
 	char keysPressed[32];
 	char keysDown[32];
 	char keysReleased[32];
@@ -27,5 +30,11 @@ public:
 
 	void setDeltaTime(float);
 	float getDeltaTime();
+
+	const std::string& getSceneFilePath();
+	void setSceneFilePath(const std::string&);
+
+	bool getSceneChange();
+	void setSceneChange(bool);
 };
 

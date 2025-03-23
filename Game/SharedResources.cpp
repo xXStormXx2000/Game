@@ -52,3 +52,19 @@ void SharedResources::setDeltaTime(float dt) {
 float SharedResources::getDeltaTime() {
     return this->deltaTime;
 }
+
+const std::string& SharedResources::getSceneFilePath() {
+    return this->sceneFilePath;
+}
+
+void SharedResources::setSceneFilePath(const std::string& path) {
+    this->sceneFilePath = path;
+}
+
+bool SharedResources::getSceneChange() {
+    return this->sceneChange;
+}
+
+void SharedResources::setSceneChange(bool b){
+    this->sceneChange = b;
+}

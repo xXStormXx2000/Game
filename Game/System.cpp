@@ -12,6 +12,15 @@ void System::addEntityToPhysicsEngine(Entity entity) {
 	this->newPhysicsEntity.pushBack(entity);
 }
 
+std::string System::getScene() {
+	return this->sharedResources->getSceneFilePath();
+}
+
+void System::changeScene(std::string path) {
+	this->sharedResources->setSceneFilePath(path);
+	this->sharedResources->setSceneChange(true);
+}
+
 void System::setSharedResources(SharedResources* sh){
 	this->sharedResources = sh;
 }

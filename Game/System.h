@@ -49,6 +49,9 @@ protected:
 	void addEntityToPhysicsEngine(Entity);
 	void removeEntityToPhysicsEngine(Entity);
 
+	std::string getScene();
+	void changeScene(std::string);
+
 public:
 	DynamicArray<Entity> newPhysicsEntity;
 	void setSharedResources(SharedResources*);

@@ -22,7 +22,6 @@ class Application {
 	bool appRunning = false;
 
 	Scene scene;
-	bool sceneChange = false;
 
 	DynamicArray<System*> systems = {};
 	DynamicArray<Component*> componentsTypes = {};
@@ -44,6 +43,8 @@ public:
 	bool getRunning();
 
 	void run();
+
+	void setStartScene(std::string);
 
 	template<class T>
 	void addSystem() {
@@ -69,8 +70,6 @@ public:
 	void render();
 
 	void end();
-
-	bool getSceneChange();
 	
 	~Application();
 };

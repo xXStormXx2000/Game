@@ -58,7 +58,7 @@ void Application::run() {
 
 	while (this->getRunning()) {
 		this->start();
-		while (!this->getSceneChange() && this->getRunning()) {
+		while (!this->sharedResources.getSceneChange() && this->getRunning()) {
 
 			this->collisionHandling();
 
@@ -74,8 +74,12 @@ void Application::run() {
 	}
 }
 
+void Application::setStartScene(std::string path){
+	this->sharedResources.setSceneFilePath(path);
+}
+
 void Application::start() {
-	fileManager.loadScene("Assets/Scenes/Tests.wgf", this->systems, this->componentsTypes);
+	fileManager.loadScene(this->sharedResources.getSceneFilePath(), this->systems, this->componentsTypes);
 	for (System* sys : systems) {
 		for (Entity entity : sys->getEntitys()) {
 			this->physicsEngine.addCustomCollisionResolve(entity.getId(), sys);
@@ -153,11 +157,7 @@ void Application::end() {
 	for (System* sys : systems) {
 		sys->run(&System::end);
 	}
-	this->sceneChange = false;
-}
-
-bool Application::getSceneChange() {
-	return this->sceneChange;
+	this->sharedResources.setSceneChange(false);
 }
 
 Application::~Application() {
