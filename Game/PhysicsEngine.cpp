@@ -198,33 +198,44 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
     CollisionMap possibleCollisions = generateCollisionMap(aCollisionBoxes);
     if (possibleCollisions.size() == 0) return {};
     using Event = std::tuple<float, int, int, Vector3D>;
-    std::map<float, std::unordered_map<int, std::unordered_map<int, Vector3D>>> collisionQueue; 
+    std::map<float, std::unordered_map<int, std::pair<int, Vector3D>>> collisionQueue;
     std::unordered_map<int, std::unordered_set<float>> lookup;
 
     for (Entity entity : this->collisionEntitys) {
         if (possibleCollisions.find(entity.getId()) == possibleCollisions.end()) continue;
         DynamicArray<CollisionEvent> entityCols = checkForCollision(entity.getId(), possibleCollisions.at(entity.getId()));
         for (CollisionEvent& colEvent : entityCols) {
-            collisionQueue[colEvent.time][entity.getId()][colEvent.other.getId()] = colEvent.collisionDirection;
+            collisionQueue[colEvent.time][entity.getId()] = { colEvent.other.getId(), colEvent.collisionDirection };
             lookup[entity.getId()].insert(colEvent.time);
         }
     }
     CollisionEventMap out;
     while (collisionQueue.size() != 0) {
         float time = collisionQueue.begin()->first;
-        std::unordered_map<int, int> entitys;
-        std::unordered_map<int, std::unordered_map<int, Vector3D>>& collisions = collisionQueue.begin()->second;
+        std::unordered_set<int> entitys;
+        std::unordered_map<int, std::pair<int, Vector3D>>& collisions = collisionQueue.begin()->second;
 
         for (auto& collisionEvents : collisions) {
-            for (auto& c: collisionEvents.second) {
-                CollisionEvent collisionEvent = createCollisionEvent(collisionEvents.first, c.first, c.second, time);
-                preventIntersection(collisionEvent);
-                out[collisionEvent.entity.getId()].pushBack(collisionEvent);
-                entitys[collisionEvent.entity.getId()] = collisionEvent.other.getId();
-            }
+            auto [other, dir] = collisionEvents.second;
+            CollisionEvent collisionEvent = createCollisionEvent(collisionEvents.first, other, dir, time);
+            preventIntersection(collisionEvent);
+            out[collisionEvent.entity.getId()].pushBack(collisionEvent);
+            entitys.insert(collisionEvent.entity.getId());
         }
         collisionQueue.erase(time);
-        for (auto [entity, other] : entitys) {
+        for (int entity : entitys) {
+            for (int otherEntity : possibleCollisions[entity]) {
+                for (float t : lookup[otherEntity]) {
+                    if (collisionQueue.find(t) == collisionQueue.end()) continue;
+                    collisionQueue[t].erase(otherEntity);
+                }
+                lookup.erase(otherEntity);
+                DynamicArray<CollisionEvent> entityCols = checkForCollision(otherEntity, possibleCollisions.at(otherEntity));
+                for (CollisionEvent& colEvent : entityCols) {
+                    collisionQueue[colEvent.time][otherEntity] = { colEvent.other.getId(), colEvent.collisionDirection };
+                    lookup[otherEntity].insert(colEvent.time);
+                }
+            }
             for (float t : lookup[entity]) {
                 if (collisionQueue.find(t) == collisionQueue.end()) continue;
                 collisionQueue[t].erase(entity);
@@ -232,32 +243,11 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
             lookup.erase(entity);
             DynamicArray<CollisionEvent> entityCols = checkForCollision(entity, possibleCollisions.at(entity));
             for (CollisionEvent& colEvent : entityCols) {
-                collisionQueue[colEvent.time][entity][colEvent.other.getId()] = colEvent.collisionDirection;
+                collisionQueue[colEvent.time][entity] = { colEvent.other.getId(), colEvent.collisionDirection };
                 lookup[entity].insert(colEvent.time);
-            }
-
-            for (int otherEntity: possibleCollisions[entity]) {
-                DynamicArray<float> list;
-                for (float t : lookup[otherEntity]) {
-                    collisionQueue[t][otherEntity].erase(entity);
-                    collisionQueue[t][otherEntity].erase(other);
-                    if (collisionQueue[t][otherEntity].size() == 0) {
-                        collisionQueue[t].erase(otherEntity);
-                        list.pushBack(t);
-                    }
-                }
-                for (float t : list) lookup[otherEntity].erase(t);
-                if (lookup[otherEntity].size() == 0)lookup.erase(otherEntity);
-
-                DynamicArray<CollisionEvent> entityCols = checkForCollision(otherEntity, { entity, other });
-                for (CollisionEvent& colEvent : entityCols) {
-                    collisionQueue[colEvent.time][otherEntity][colEvent.other.getId()] = colEvent.collisionDirection;
-                    lookup[otherEntity].insert(colEvent.time);
-                }
             }
         }
     }
-    
     return out;
 }
 
