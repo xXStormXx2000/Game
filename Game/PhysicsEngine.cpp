@@ -313,12 +313,16 @@ void PhysicsEngine::calculateMinArea() {
 }
 
 void PhysicsEngine::addEntitys() {
-    for (System* sys : *systems) {
+    for (System* sys : *this->systems) {
         for (Entity entity : sys->newPhysicsEntity) {
             if (this->scene->getComponent<EntityFlags>(entity.getId()).getFlag(Dynamic)) {
                 this->dynamicCollisionEntitys.pushBack(entity);
             }
-            this->collisionEntitys.pushBack(entity);
+            this->collisionEntitys.pushBack(entity); 
+            for (System* sys : *this->systems) {
+                const std::unordered_set<Entity>& e = sys->getEntitys();
+                if(e.find(entity) != e.end()) addCustomCollisionResolve(entity.getId(), sys);
+            }
         }
         sys->newPhysicsEntity.empty();
     }
@@ -344,10 +348,10 @@ void PhysicsEngine::setSharedResources(SharedResources* sh) {
 }
 
 void PhysicsEngine::resolveCollision(const CollisionEventMap& collisionsMap) {
-    for (const std::pair<int, DynamicArray<CollisionEvent>>& idAndCollisions : collisionsMap) {
-        DynamicArray<System*> systems = this->customCollisionResolve[idAndCollisions.first];
-        for (int i = 0; i < idAndCollisions.second.size(); i++) {
-            const CollisionEvent& collision = idAndCollisions.second.at(i);
+    for (const auto&  [id, col] : collisionsMap) {
+        DynamicArray<System*>& systems = this->customCollisionResolve[id];
+        for (int i = 0; i < col.size(); i++) {
+            const CollisionEvent& collision = col.at(i);
             for (System* sys : systems) sys->onCollision(collision);
         }
     }

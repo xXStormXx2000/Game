@@ -84,7 +84,6 @@ void System::onCollision(const CollisionEvent& colEvent) {
 	}
 	if (colEvent.collisionDirection.y) {
 		tf.velocity.y = 0;
-
 	}
 }
 
