@@ -12,6 +12,10 @@ void System::addEntityToPhysicsEngine(Entity entity) {
 	this->newPhysicsEntity.pushBack(entity);
 }
 
+void System::removeEntityToPhysicsEngine(Entity entity) {
+	this->oldPhysicsEntity.pushBack(entity);
+}
+
 std::string System::getScene() {
 	return this->sharedResources->getSceneFilePath();
 }
@@ -19,6 +23,38 @@ std::string System::getScene() {
 void System::changeScene(std::string path) {
 	this->sharedResources->setSceneFilePath(path);
 	this->sharedResources->setSceneChange(true);
+}
+
+float System::getCameraWidth() {
+	return this->renderer->getCameraWidth();
+}
+
+float System::getCameraHeight() {
+	return this->renderer->getCameraHeight();
+}
+
+void System::setCameraWidth(float size) {
+	this->renderer->setCameraWidth(size);
+}
+
+void System::setCameraHeight(float size) {
+	this->renderer->setCameraHeight(size);
+}
+
+Entity System::getCameraFollowEntity() {
+	return this->renderer->getCameraFollowEntity();
+}
+
+void System::setCameraFollowEntity(Entity e){
+	this->renderer->setCameraFollowEntity(e);
+}
+
+Vector3D System::getCameraOffset() {
+	return this->renderer->getCameraOffset();
+}
+
+void System::setCameraOffset(Vector3D offset) {
+	this->renderer->setCameraOffset(offset);
 }
 
 void System::setSharedResources(SharedResources* sh){

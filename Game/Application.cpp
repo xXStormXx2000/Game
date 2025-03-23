@@ -80,6 +80,8 @@ void Application::setStartScene(std::string path){
 
 void Application::start() {
 	fileManager.loadScene(this->sharedResources.getSceneFilePath(), this->systems, this->componentsTypes);
+	this->renderer.setCameraWidth(this->scene.getWidth());
+	this->renderer.setCameraHeight(this->scene.getHeight());
 	for (System* sys : systems) {
 		for (Entity entity : sys->getEntitys()) {
 			this->physicsEngine.addCustomCollisionResolve(entity.getId(), sys);
@@ -114,7 +116,7 @@ void Application::handleEvents(){
 }
 
 void Application::collisionHandling() {
-	this->physicsEngine.addEntitys();
+	this->physicsEngine.addAndRemoveEntitys();
 	CollisionEventMap collisions = this->physicsEngine.getAllCollisions();
 	this->physicsEngine.resolveCollision(collisions);
 

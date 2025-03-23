@@ -52,8 +52,22 @@ protected:
 	std::string getScene();
 	void changeScene(std::string);
 
+	float getCameraWidth();
+	float getCameraHeight();
+
+	void setCameraWidth(float);
+	void setCameraHeight(float);
+
+	Entity getCameraFollowEntity();
+	void setCameraFollowEntity(Entity);
+
+	Vector3D getCameraOffset();
+	void setCameraOffset(Vector3D);
+
 public:
 	DynamicArray<Entity> newPhysicsEntity;
+	DynamicArray<Entity> oldPhysicsEntity;
+
 	void setSharedResources(SharedResources*);
 	void setScene(Scene*);
 	void setRenderer(Renderer*);

@@ -5,10 +5,18 @@ SoftbodySpawner::SoftbodySpawner() : softbodys(16, DynamicArray<Entity>(16)) {
 }
 
 void SoftbodySpawner::start(Entity) {
+
+	setCameraWidth(getCameraWidth()*2);
+	setCameraHeight(getCameraHeight()*2);
+	setCameraOffset({-getCameraWidth()/2, -getCameraHeight()/2, 0});
+
 	for (int i = 0; i < softbodys.size(); i++) {
 		for (int j = 0; j < softbodys[0].size(); j++) {
 			Entity entity = createEntity();
 			
+			if (i == softbodys.size() / 2 && j == softbodys[0].size() / 2)
+				setCameraFollowEntity(entity);
+
 			EntityFlags* ef = new EntityFlags;
 			ef->flags = 27;
 

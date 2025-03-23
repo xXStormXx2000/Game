@@ -18,6 +18,12 @@ class Renderer {
 
 	DynamicArray<SDL_Texture*> sprites;
 
+	float cameraWidth = 0, cameraHeight = 0;
+	Vector3D cameraOffset = { 0, 0, 0 };
+	Entity cameraFollowEntity = -1;
+
+	SDL_Rect cameraTransform(Transform, const Sprite&);
+
 	DrawMap entitys;
 public:
 	Renderer(SDL_Window* window);
@@ -37,6 +43,18 @@ public:
 
 	void addEntity(Entity);
 	void removeEntity(Entity);
+
+	float getCameraWidth();
+	float getCameraHeight();
+
+	void setCameraWidth(float);
+	void setCameraHeight(float);
+
+	Entity getCameraFollowEntity();
+	void setCameraFollowEntity(Entity);
+
+	Vector3D getCameraOffset();
+	void setCameraOffset(Vector3D);
 
 	~Renderer();
 };

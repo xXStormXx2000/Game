@@ -20,8 +20,8 @@ class PhysicsEngine {
 
 	SharedResources* sharedResources;
 
-	DynamicArray<Entity> collisionEntitys;
-	DynamicArray<Entity> dynamicCollisionEntitys;
+	std::unordered_set<Entity> collisionEntitys;
+	std::unordered_set<Entity> dynamicCollisionEntitys;
 	SystemFunctionMap customCollisionResolve;
 
 	DynamicArray<Entity> physicsEntitys;
@@ -51,7 +51,7 @@ class PhysicsEngine {
 	void calculateMinArea();
 	
 public: 
-	void addEntitys();
+	void addAndRemoveEntitys();
 
 	void addCustomCollisionResolve(int, System*);
 

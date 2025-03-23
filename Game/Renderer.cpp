@@ -1,5 +1,20 @@
 #include "Renderer.h"
 
+SDL_Rect Renderer::cameraTransform(Transform tf, const Sprite& sp) {
+	tf.position -= this->cameraOffset;
+	if (this->cameraFollowEntity.getId() != -1)
+		tf.position -= this->scene->getComponent<Transform>(this->cameraFollowEntity.getId()).position;
+	SDL_Rect target;
+	tf.position += sp.offset;
+	float xScale = this->scene->getWidth() / this->cameraWidth;
+	float yScale = this->scene->getHeight() / this->cameraHeight;
+	target.x = tf.position.x * xScale;
+	target.y = tf.position.y * yScale;
+	target.w = sp.width * tf.scale.x  * xScale;
+	target.h = sp.height * tf.scale.y * yScale;
+	return target;
+}
+
 Renderer::Renderer(SDL_Window* window): window(window), renderer(NULL), scene(nullptr) {
 
 	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
@@ -44,15 +59,11 @@ void Renderer::render() {
 		assert(this->scene != nullptr && "Renderer can't find scene");
 		Transform& tf = this->scene->getComponent<Transform>(entity.getId());
 
-		Sprite& sprite = this->scene->getComponent<Sprite>(entity.getId());
+		Sprite& sp = this->scene->getComponent<Sprite>(entity.getId());
 
-		SDL_Rect target;
-		target.x = tf.position.x + sprite.offset.x;
-		target.y = tf.position.y + sprite.offset.y;
-		target.w = sprite.width * tf.scale.x;
-		target.h = sprite.height * tf.scale.y;
+		SDL_Rect target = cameraTransform(tf, sp);
 
-		if (SDL_RenderCopy(this->renderer, this->sprites[sprite.spriteIndex], &sprite.texturePortion, &target) != 0) {
+		if (SDL_RenderCopy(this->renderer, this->sprites[sp.spriteIndex], &sp.texturePortion, &target) != 0) {
 			debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
 		}
 	}
@@ -90,6 +101,38 @@ void Renderer::addEntity(Entity entity) {
 void Renderer::removeEntity(Entity entity) {
 	Transform tf = this->scene->getComponent<Transform>(entity.getId());
 	this->entitys[tf.position.z].erase(this->entitys[tf.position.z].find(entity));
+}
+
+float Renderer::getCameraWidth() {
+	return this->cameraWidth;
+}
+
+float Renderer::getCameraHeight() {
+	return this->cameraHeight;
+}
+
+void Renderer::setCameraWidth(float size) {
+	this->cameraWidth = size;
+}
+
+void Renderer::setCameraHeight(float size) {
+	this->cameraHeight = size;
+}
+
+Entity Renderer::getCameraFollowEntity() {
+	return this->cameraFollowEntity;
+}
+
+void Renderer::setCameraFollowEntity(Entity e) {
+	this->cameraFollowEntity = e;
+}
+
+Vector3D Renderer::getCameraOffset() {
+	return this->cameraOffset;
+}
+
+void Renderer::setCameraOffset(Vector3D offset) {
+	this->cameraOffset = offset;
 }
 
 Renderer::~Renderer() {

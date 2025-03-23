@@ -300,19 +300,24 @@ void PhysicsEngine::calculateMinArea() {
     if (this->minArea < 5) this->minArea = 5;
 }
 
-void PhysicsEngine::addEntitys() {
+void PhysicsEngine::addAndRemoveEntitys() {
     for (System* sys : *this->systems) {
         for (Entity entity : sys->newPhysicsEntity) {
             if (this->scene->getComponent<EntityFlags>(entity.getId()).getFlag(Dynamic)) {
-                this->dynamicCollisionEntitys.pushBack(entity);
+                this->dynamicCollisionEntitys.insert(entity);
             }
-            this->collisionEntitys.pushBack(entity); 
+            this->collisionEntitys.insert(entity);
             for (System* sys : *this->systems) {
                 const std::unordered_set<Entity>& e = sys->getEntitys();
                 if(e.find(entity) != e.end()) addCustomCollisionResolve(entity.getId(), sys);
             }
         }
         sys->newPhysicsEntity.empty();
+        for (Entity entity : sys->newPhysicsEntity) {
+            this->collisionEntitys.erase(entity);
+            this->dynamicCollisionEntitys.erase(entity);
+        }
+        sys->oldPhysicsEntity.empty();
     }
 }
 
@@ -346,11 +351,11 @@ void PhysicsEngine::resolveCollision(const CollisionEventMap& collisionsMap) {
 }
 
 void PhysicsEngine::setCollisionEntitys(DynamicArray<Entity>& entitys) {
-    this->collisionEntitys = std::move(entitys);
+    for(Entity entity: entitys) this->collisionEntitys.insert(entity);
 }
 
 void PhysicsEngine::setDynamicCollisionEntitys(DynamicArray<Entity>& entitys) {
-    this->dynamicCollisionEntitys = std::move(entitys);
+    for (Entity entity : entitys) this->dynamicCollisionEntitys.insert(entity);
 }
 
 void PhysicsEngine::applyVelocity(int id){
