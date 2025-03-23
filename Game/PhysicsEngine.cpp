@@ -1,26 +1,37 @@
 #include "PhysicsEngine.h"
 
-void PhysicsEngine::checkForCollision(Entity entity, CollisionMap& possibleCollisions) {
+CollisionEvent PhysicsEngine::createCollisionEvent(Entity entity, Entity other, Vector3D dir, float collisionTime)
+{
+    CollisionEvent cEvent;
+    if (other.getId() == entity.getId()) return cEvent;
 
-	CollisionEvent& collisionEventX = this->entityMinTimesCollisionEventX[entity.getId()];
-	collisionEventX = CollisionEvent();
-	CollisionEvent& collisionEventY = this->entityMinTimesCollisionEventY[entity.getId()];
-	collisionEventY = CollisionEvent();
+    cEvent.entity = entity;
+    cEvent.other = other;
+    cEvent.time = collisionTime;
+    cEvent.collisionDirection = dir;
 
+    return cEvent;
+}
+
+DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(int entity, const DynamicArray<int>& possibleCollisions) {
+    CollisionEvent collisionEventX;
+    CollisionEvent collisionEventY;
+    
     // Retrieve components for the current entity
-	Transform tf = *getTfComponent(entity.getId());
-   
-    EntityFlags ef = *getEfComponent(entity.getId());
+    Transform tf = *getTfComponent(entity);
+
+    EntityFlags ef = *getEfComponent(entity);
 
     if (ef.getFlag(MovedX)) tf.velocity.x = 0;
     if (ef.getFlag(MovedY)) tf.velocity.y = 0;
 
-    if (!(tf.velocity*tf.velocity)) return;
-    
-    const Collider* cl = getClComponent(entity.getId());
+    if (!(tf.velocity * tf.velocity)) return {};
+
+    const Collider* cl = getClComponent(entity);
     tf.position += cl->offset;
 
-    for (int otherEntity: possibleCollisions.at(entity.getId())) {
+    for (int i = 0; i < possibleCollisions.size(); i++) {
+        int otherEntity = possibleCollisions.at(i);
         // Retrieve components for the other entity
         Transform otherTf = *getTfComponent(otherEntity);
         EntityFlags otherEf = *getEfComponent(otherEntity);
@@ -28,12 +39,12 @@ void PhysicsEngine::checkForCollision(Entity entity, CollisionMap& possibleColli
         if (otherEf.getFlag(MovedX)) otherTf.velocity.x = 0;
         if (otherEf.getFlag(MovedY)) otherTf.velocity.y = 0;
 
-        
+
         // Calculate relative velocity
         Vector3D relativeVelocity = -tf.velocity;
         if (otherEf.getFlag(Dynamic)) relativeVelocity += otherTf.velocity;
 
-        if (!(relativeVelocity*relativeVelocity)) continue;
+        if (!(relativeVelocity * relativeVelocity)) continue;
 
         // Calculate relative position
         const Collider* otherCl = getClComponent(otherEntity);
@@ -52,135 +63,98 @@ void PhysicsEngine::checkForCollision(Entity entity, CollisionMap& possibleColli
             float timeExit = -(position + sizeB) / velocity;
             if (timeEnter > timeExit) return { timeExit, timeEnter };
             return { timeEnter, timeExit };
-        };
+            };
 
-        auto [xEnter, xExit] = calculateCollisionTime(relativePosition.x, relativeVelocity.x, cl->width*tf.scale.x, otherCl->width*otherTf.scale.x);
-        auto [yEnter, yExit] = calculateCollisionTime(relativePosition.y, relativeVelocity.y, cl->height*tf.scale.y, otherCl->height*otherTf.scale.y);
+        auto [xEnter, xExit] = calculateCollisionTime(relativePosition.x, relativeVelocity.x, cl->width * tf.scale.x, otherCl->width * otherTf.scale.x);
+        auto [yEnter, yExit] = calculateCollisionTime(relativePosition.y, relativeVelocity.y, cl->height * tf.scale.y, otherCl->height * otherTf.scale.y);
 
         // Check for overlapping collision intervals
         if (xEnter > yExit || yEnter > xExit) continue;
 
-        auto createCollisionEvent = [](Entity entity, Entity other, Vector3D dir, float collisionTime)->CollisionEvent {
-            CollisionEvent cEvent;
-            if (other.getId() == entity.getId()) return cEvent;
-
-            cEvent.entity = entity;
-            cEvent.other = other;
-            cEvent.time = collisionTime;
-            cEvent.collisionDirection = dir;
-
-            return cEvent;
-        };
-
-        if (yEnter < xEnter && 0 <= xEnter && xEnter <= 1 && 
+        if (yEnter < xEnter && 0 <= xEnter && xEnter <= 1 &&
             collisionEventX.time > xEnter) {
 
             float dir = float((relativePosition.x >= 0) - (relativePosition.x < 0));
             collisionEventX = createCollisionEvent(entity, otherEntity, { -dir, 0, 0 }, xEnter);
         }
 
-        if (xEnter <= yEnter && 0 <= yEnter && yEnter <= 1 && 
+        if (xEnter <= yEnter && 0 <= yEnter && yEnter <= 1 &&
             collisionEventY.time > yEnter) {
 
             float dir = float((relativePosition.y >= 0) - (relativePosition.y < 0));
             collisionEventY = createCollisionEvent(entity, otherEntity, { 0, -dir, 0 }, yEnter);
         }
     }
+    DynamicArray<CollisionEvent> out;
+    if (collisionEventX.time < 2 && !ef.getFlag(MovedX)) out.pushBack(collisionEventX);
+    if (collisionEventY.time < 2 && !ef.getFlag(MovedY)) out.pushBack(collisionEventY);
+    return out;
 }
 
-void PhysicsEngine::generateCollisionZones(ZoneMap& zoneMap, Vector3D pos, float width, float height, DynamicArray<Entity>& list, DynamicArray<DynamicArray<Entity>>& collisionZones) {
-
-    if (width*height <= this->minArea || list.size() <= 16) {
-        for (Entity entity : list) {
-            zoneMap[entity.getId()].pushBack(collisionZones.size());
-        }
-        collisionZones.pushBack(std::move(list));
+void PhysicsEngine::generateCollisionZones(Vector3D pos, float width, float height, DynamicArray<std::pair<int, Transform>>& entitys, DynamicArray<DynamicArray<std::pair<int, Transform>>>& collisionZones) {
+    const int minEntitys = 5;
+    if (width * height <= this->minArea || entitys.size() <= minEntitys) {
+        collisionZones.pushBack(entitys);
         return;
     }
-    
-    Vector3D offset;
+    Vector3D posTwo = pos;
     if (width > height) {
         width /= 2;
-        offset.x = width;
+        posTwo.x += width;
     } else {
         height /= 2;
-        offset.y = height;
+        posTwo.y += height;
     }
-
-    DynamicArray<Entity> subList1;
-    DynamicArray<Entity> subList2;
-
-    for (Entity entity : list) {
-        Transform tf = *getTfComponent(entity.getId());
-
-        const Collider* cl = getClComponent(entity.getId());
-
-        velocityAdjustCollisionBox(tf, cl);
-
-        bool box1 = simpleCollisionCheck(tf.position, tf.velocity, pos, { width, height , 0 });
-        bool box2 = simpleCollisionCheck(tf.position, tf.velocity, pos + offset, { width, height , 0 });
-
-        if (box1) subList1.pushBack(entity);
-        if (box2) subList2.pushBack(entity);
+    DynamicArray<std::pair<int, Transform>> entitysOne;
+    DynamicArray<std::pair<int, Transform>> entitysTwo;
+    for (std::pair<int, Transform>& entity : entitys) {
+        Transform& tf = entity.second;
+        if (simpleCollisionCheck(pos, { width, height, 0}, tf.position, tf.velocity)) {
+            entitysOne.pushBack(entity);
+        }
+        if (simpleCollisionCheck(posTwo, { width, height, 0 }, tf.position, tf.velocity)) {
+            entitysTwo.pushBack(entity);
+        }
     }
-    list.empty();
-	list.shrinkToFit();
-    generateCollisionZones(zoneMap, pos, width, height, subList1, collisionZones);
-    generateCollisionZones(zoneMap, pos + offset, width, height, subList2, collisionZones);
+    generateCollisionZones(pos, width, height, entitysOne, collisionZones);
+    generateCollisionZones(posTwo, width, height, entitysTwo, collisionZones);
 }
 
-PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap() {
-    float width = this->scene->getWidth(), height = this->scene->getHeight();
-
-    DynamicArray<DynamicArray<Entity>> collisionZones(2);
-    ZoneMap zoneMap;
-
-    for (Entity entity : this->collisionEntitys) {
-        Transform tf = *getTfComponent(entity.getId());
-
-        const Collider* cl = getClComponent(entity.getId());
-
-        velocityAdjustCollisionBox(tf, cl);
-        
-        if (this->simpleCollisionCheck(tf.position, tf.velocity, { 0, 0, 0 }, { width, height, 0 })) continue;
-        collisionZones[1].pushBack(entity);
-        zoneMap[entity.getId()].pushBack(1);
+PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(DynamicArray<std::pair<int, Transform>>& aCollisionBoxes) {
+    DynamicArray<DynamicArray<std::pair<int, Transform>>> collisionZones(1);
+    float width = this->scene->getWidth();
+    float height = this->scene->getWidth();
+    for (std::pair<int, Transform>& entity : aCollisionBoxes) {
+        Transform& tf = entity.second;
+        if (!simpleCollisionCheck({0, 0, 0}, { width, height, 0}, tf.position, tf.velocity)) {
+            collisionZones[0].pushBack(entity);
+        }
     }
-	DynamicArray<Entity> temp = this->collisionEntitys;
-    generateCollisionZones(zoneMap, { 0, 0, 0 }, width, height, temp, collisionZones);
-
-    CollisionMap possibleCollisions;
-    for (Entity entity: this->dynamicCollisionEntitys) {
-        EntityFlags ef = *getEfComponent(entity.getId());
-        Transform tf = *getTfComponent(entity.getId());
-
-        if (!(tf.velocity*tf.velocity) && ef.getFlag(Solid)) continue;
-
-        const Collider* cl = getClComponent(entity.getId());
-        velocityAdjustCollisionBox(tf, cl);
-
-        DynamicArray<int>& zones = zoneMap.at(entity.getId());
-        for (int zone : zones) {
-            for (Entity other: collisionZones[zone]) {
-                if (entity.getId() == other.getId()) continue;
-                Transform otherTf = *getTfComponent(other.getId());
-                const Collider* otherCl = getClComponent(other.getId());
-
-                velocityAdjustCollisionBox(otherTf, otherCl);
-
+    generateCollisionZones({ 0, 0, 0 }, width, height, aCollisionBoxes, collisionZones);
+    std::unordered_map<int, DynamicArray<int>> lookup;
+    for (int i = 0; i < collisionZones.size(); i++) {
+        for (auto& [id, tf] : collisionZones[i]) {
+            lookup[id].pushBack(i);
+        }
+    }
+    CollisionMap collisionMap;
+    for (auto& [id, tf] : aCollisionBoxes) {
+        for (int zone : lookup[id]) {
+            for (auto& [otherId, otherTf] : collisionZones[zone]) {
+                if (id == otherId) continue;
                 if (!simpleCollisionCheck(tf.position, tf.velocity, otherTf.position, otherTf.velocity)) continue;
-                possibleCollisions[entity.getId()].insert(other.getId());
+                collisionMap[id].pushBack(otherId);
             }
         }
     }
-    return possibleCollisions;
+    return collisionMap;
 }
 
 void PhysicsEngine::preventIntersection(const CollisionEvent& colEvent) {
     // Resolve collision along the appropriate axis
     int id = colEvent.entity.getId();
     EntityFlags* ef = getEfComponent(id);
-    if(!ef->getFlag(Dynamic)) return;
+    if (!ef->getFlag(Dynamic)) return;
 
     Transform* tf = getTfComponent(id);
 
@@ -199,7 +173,8 @@ void PhysicsEngine::preventIntersection(const CollisionEvent& colEvent) {
             float move = vel * colEvent.time;
             pos += move;
             ef->setFlag(moved, true);
-        } else {
+        }
+        else {
             if (dir < 0) {
                 pos = otherPos - size;
                 ef->setFlag(moved, true);
@@ -209,28 +184,104 @@ void PhysicsEngine::preventIntersection(const CollisionEvent& colEvent) {
                 ef->setFlag(moved, true);
             }
         }
-    };
+        };
 
-    if (!ef->getFlag(MovedX)) 
-        helper(MovedX, colEvent.collisionDirection.x, tf->position.x, tf->velocity.x, cl.width * tf->scale.x, otherTf.position.x, otherCl.width*otherTf.scale.x);
-    if (!ef->getFlag(MovedY)) 
+    if (!ef->getFlag(MovedX))
+        helper(MovedX, colEvent.collisionDirection.x, tf->position.x, tf->velocity.x, cl.width * tf->scale.x, otherTf.position.x, otherCl.width * otherTf.scale.x);
+    if (!ef->getFlag(MovedY))
         helper(MovedY, colEvent.collisionDirection.y, tf->position.y, tf->velocity.y, cl.height * tf->scale.y, otherTf.position.y, otherCl.height * otherTf.scale.y);
 }
 
-void PhysicsEngine::velocityAdjustCollisionBox(Transform& tf, const Collider* cl) {
-    tf.position += cl->offset;
+CollisionEventMap PhysicsEngine::getAllCollisions() {
+    DynamicArray<std::pair<int,Transform>> aCollisionBoxes = velocityAdjustCollisionBoxes();
+    calculateMinArea();
+    CollisionMap possibleCollisions = generateCollisionMap(aCollisionBoxes);
+    if (possibleCollisions.size() == 0) return {};
+    using Event = std::tuple<float, int, int, Vector3D>;
+    std::map<float, std::unordered_map<int, std::unordered_map<int, Vector3D>>> collisionQueue; 
+    std::unordered_map<int, std::unordered_set<float>> lookup;
 
-    if (tf.velocity.x < 0) {
-        tf.position.x += tf.velocity.x;
-        tf.velocity.x *= -1;
+    for (Entity entity : this->collisionEntitys) {
+        if (possibleCollisions.find(entity.getId()) == possibleCollisions.end()) continue;
+        DynamicArray<CollisionEvent> entityCols = checkForCollision(entity.getId(), possibleCollisions.at(entity.getId()));
+        for (CollisionEvent& colEvent : entityCols) {
+            collisionQueue[colEvent.time][entity.getId()][colEvent.other.getId()] = colEvent.collisionDirection;
+            lookup[entity.getId()].insert(colEvent.time);
+        }
     }
-    tf.velocity.x += cl->width * tf.scale.x;
+    CollisionEventMap out;
+    while (collisionQueue.size() != 0) {
+        float time = collisionQueue.begin()->first;
+        std::unordered_map<int, int> entitys;
+        std::unordered_map<int, std::unordered_map<int, Vector3D>>& collisions = collisionQueue.begin()->second;
 
-    if (tf.velocity.y < 0) {
-        tf.position.y += tf.velocity.y;
-        tf.velocity.y *= -1;
+        for (auto& collisionEvents : collisions) {
+            for (auto& c: collisionEvents.second) {
+                CollisionEvent collisionEvent = createCollisionEvent(collisionEvents.first, c.first, c.second, time);
+                preventIntersection(collisionEvent);
+                out[collisionEvent.entity.getId()].pushBack(collisionEvent);
+                entitys[collisionEvent.entity.getId()] = collisionEvent.other.getId();
+            }
+        }
+        collisionQueue.erase(time);
+        for (auto [entity, other] : entitys) {
+            for (float t : lookup[entity]) {
+                if (collisionQueue.find(t) == collisionQueue.end()) continue;
+                collisionQueue[t].erase(entity);
+            }
+            lookup.erase(entity);
+            DynamicArray<CollisionEvent> entityCols = checkForCollision(entity, possibleCollisions.at(entity));
+            for (CollisionEvent& colEvent : entityCols) {
+                collisionQueue[colEvent.time][entity][colEvent.other.getId()] = colEvent.collisionDirection;
+                lookup[entity].insert(colEvent.time);
+            }
+
+            for (int otherEntity: possibleCollisions[entity]) {
+                DynamicArray<float> list;
+                for (float t : lookup[otherEntity]) {
+                    collisionQueue[t][otherEntity].erase(entity);
+                    collisionQueue[t][otherEntity].erase(other);
+                    if (collisionQueue[t][otherEntity].size() == 0) {
+                        collisionQueue[t].erase(otherEntity);
+                        list.pushBack(t);
+                    }
+                }
+                for (float t : list) lookup[otherEntity].erase(t);
+                if (lookup[otherEntity].size() == 0)lookup.erase(otherEntity);
+
+                DynamicArray<CollisionEvent> entityCols = checkForCollision(otherEntity, { entity, other });
+                for (CollisionEvent& colEvent : entityCols) {
+                    collisionQueue[colEvent.time][otherEntity][colEvent.other.getId()] = colEvent.collisionDirection;
+                    lookup[otherEntity].insert(colEvent.time);
+                }
+            }
+        }
     }
-    tf.velocity.y += cl->height * tf.scale.y;
+    
+    return out;
+}
+
+DynamicArray<std::pair<int, Transform>> PhysicsEngine::velocityAdjustCollisionBoxes() {
+    DynamicArray<std::pair<int, Transform>> collisionBoxes;
+    for (Entity entity : this->collisionEntitys) {
+        Transform tf = *this->getTfComponent(entity.getId());
+        const Collider* cl = this->getClComponent(entity.getId());
+        tf.position += cl->offset;
+
+        if (tf.velocity.x < 0) {
+            tf.position.x += tf.velocity.x;
+            tf.velocity.x *= -1;
+        }
+        tf.velocity.x += cl->width * tf.scale.x;
+
+        if (tf.velocity.y < 0) {
+            tf.position.y += tf.velocity.y;
+            tf.velocity.y *= -1;
+        }
+        tf.velocity.y += cl->height * tf.scale.y;
+        collisionBoxes.pushBack({ entity.getId(), tf });
+    }
+    return collisionBoxes;
 }
 
 Transform* PhysicsEngine::getTfComponent(int entityId) {
@@ -250,9 +301,11 @@ void PhysicsEngine::calculateMinArea() {
         this->minArea = 5;
         return;
     }
-    for (Entity entity : this->dynamicCollisionEntitys) {
-        const Collider* cl = getClComponent(entity.getId());
-        this->minArea += cl->width * cl->height;
+    this->minArea = 0;
+    for (Entity entity: this->dynamicCollisionEntitys) {
+        const Transform* tf = this->getTfComponent(entity.getId());
+        const Collider* cl = this->getClComponent(entity.getId());
+        this->minArea += (tf->scale.x*cl->width + abs(tf->velocity.x))*(tf->scale.y*cl->height + abs(tf->velocity.y));
     }
     this->minArea /= this->dynamicCollisionEntitys.size();
     this->minArea *= 5; // Magic number to optimize zone size
@@ -260,9 +313,7 @@ void PhysicsEngine::calculateMinArea() {
 }
 
 void PhysicsEngine::addEntitys() {
-    int i = 0;
     for (System* sys : *systems) {
-        i += sys->newPhysicsEntity.size();
         for (Entity entity : sys->newPhysicsEntity) {
             if (this->scene->getComponent<EntityFlags>(entity.getId()).getFlag(Dynamic)) {
                 this->dynamicCollisionEntitys.pushBack(entity);
@@ -271,8 +322,6 @@ void PhysicsEngine::addEntitys() {
         }
         sys->newPhysicsEntity.empty();
     }
-    if (i == 0) return;
-    calculateMinArea();
 }
 
 void PhysicsEngine::addCustomCollisionResolve(int id, System* ptr) {
@@ -294,89 +343,6 @@ void PhysicsEngine::setSharedResources(SharedResources* sh) {
     this->sharedResources = sh;
 }
 
-CollisionEventMap PhysicsEngine::getAllCollisions(CollisionMap possibleCollisions) {
-    if (!possibleCollisions.size()) return{};
-
-    for (Entity entity : this->collisionEntitys) {
-        this->entityMinTimesCollisionEventX[entity.getId()] = CollisionEvent();
-        this->entityMinTimesCollisionEventY[entity.getId()] = CollisionEvent();
-    }
-    
-    std::map<float, DynamicArray<CollisionEvent>> colEventsMapX;
-    std::map<float, DynamicArray<CollisionEvent>> colEventsMapY;
-
-    
-    auto collisionHelper = [&](DynamicArray<Entity>& entitys) -> void {
-        for (Entity entity: entitys) {
-            if (possibleCollisions.find(entity.getId()) == possibleCollisions.end()) continue;
-            CollisionEvent& colEventX = this->entityMinTimesCollisionEventX[entity.getId()];
-            CollisionEvent& colEventY = this->entityMinTimesCollisionEventY[entity.getId()];
-            if (colEventX.time <= 1) {
-                for (int i = 0; i < colEventsMapX[colEventX.time].size(); i++) {
-                    const CollisionEvent& colEvent = colEventsMapX[colEventX.time].at(i);
-					if (colEvent.entity.getId() != entity.getId()) continue;
-                    colEventsMapX[colEventX.time].erase(i);
-					break;
-                }
-            }
-			if (colEventY.time <= 1) {
-				for (int i = 0; i < colEventsMapY[colEventY.time].size(); i++) {
-					const CollisionEvent& colEvent = colEventsMapY[colEventY.time].at(i);
-					if (colEvent.entity.getId() != entity.getId()) continue;
-					colEventsMapY[colEventY.time].erase(i);
-					break;
-				}
-			}
-
-            // Check for collisions
-            checkForCollision(entity, possibleCollisions);
-        }
-        for (Entity entity : entitys) {
-			CollisionEvent& colEventX = this->entityMinTimesCollisionEventX[entity.getId()];
-			CollisionEvent& colEventY = this->entityMinTimesCollisionEventY[entity.getId()];
-			if (colEventX.time <= 1) colEventsMapX[colEventX.time].pushBack(colEventX);
-			if (colEventY.time <= 1) colEventsMapY[colEventY.time].pushBack(colEventY);
-        }
-    };
-    
-    
-    collisionHelper(this->dynamicCollisionEntitys);
-
-    CollisionEventMap collisionEvents;
-    for (int i = 0; (colEventsMapX.size() || colEventsMapY.size()); i++) {
-        std::unordered_set<int> visited;
-        DynamicArray<Entity> newCollisions;
-        auto determineNewCollisions = [&](std::map<float, DynamicArray<CollisionEvent>>& colEventsMap, std::unordered_map<int, CollisionEvent>& entityMinTimesCollisionEvent) -> void {
-            if (!colEventsMap.size()) return;
-
-            for (const CollisionEvent& colEvent : colEventsMap.begin()->second) {
-                int oldId = colEvent.entity.getId();
-				entityMinTimesCollisionEvent[oldId] = CollisionEvent();
-
-                if (!getEfComponent(oldId)->getFlag(Dynamic)) continue;
-
-                preventIntersection(colEvent);
-                collisionEvents[oldId].pushBack(colEvent);
-                for (Entity entity : possibleCollisions[oldId]) {
-                    int id = entity.getId();
-                    if (!getEfComponent(id)->getFlag(Dynamic)) continue;
-                    if (visited.find(id) != visited.end()) continue;
-                    visited.insert(id);
-                    newCollisions.pushBack(entity);
-                }
-            }
-
-            colEventsMap.erase(colEventsMap.begin()->first);
-        };
-		determineNewCollisions(colEventsMapX, this->entityMinTimesCollisionEventX);
-		determineNewCollisions(colEventsMapY, this->entityMinTimesCollisionEventY);
-        
-        collisionHelper(newCollisions);
-    }
-
-    return collisionEvents;
-}
-
 void PhysicsEngine::resolveCollision(const CollisionEventMap& collisionsMap) {
     for (const std::pair<int, DynamicArray<CollisionEvent>>& idAndCollisions : collisionsMap) {
         DynamicArray<System*> systems = this->customCollisionResolve[idAndCollisions.first];
@@ -389,19 +355,10 @@ void PhysicsEngine::resolveCollision(const CollisionEventMap& collisionsMap) {
 
 void PhysicsEngine::setCollisionEntitys(DynamicArray<Entity>& entitys) {
     this->collisionEntitys = std::move(entitys);
-
-    this->entityMinTimesCollisionEventX.clear();
-    this->entityMinTimesCollisionEventY.clear();
-
-	for (Entity entity : this->collisionEntitys) {
-		this->entityMinTimesCollisionEventX[entity.getId()];
-		this->entityMinTimesCollisionEventY[entity.getId()];
-	}
 }
 
 void PhysicsEngine::setDynamicCollisionEntitys(DynamicArray<Entity>& entitys) {
     this->dynamicCollisionEntitys = std::move(entitys);
-    calculateMinArea();
 }
 
 void PhysicsEngine::applyVelocity(int id){

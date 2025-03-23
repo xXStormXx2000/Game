@@ -9,11 +9,9 @@
 #include "System.h"
 #include "SharedResources.h"
 
-
-
 class PhysicsEngine {
 	using SystemFunctionMap = std::unordered_map<int, DynamicArray<System*>>;
-	using CollisionMap = std::unordered_map<int, std::unordered_set<int>>;
+	using CollisionMap = std::unordered_map<int, DynamicArray<int>>;
 	using ZoneMap = std::unordered_map<int, DynamicArray<int>>;
 
 	Scene* scene;
@@ -32,19 +30,19 @@ class PhysicsEngine {
 	CompMap* efMap = nullptr;
 	CompMap* clMap = nullptr;
 
-	std::unordered_map<int, CollisionEvent> entityMinTimesCollisionEventX;
-	std::unordered_map<int, CollisionEvent> entityMinTimesCollisionEventY;
+	CollisionEvent createCollisionEvent(Entity entity, Entity other, Vector3D dir, float collisionTime);
 
-	long long minArea = 1;
+	long long minArea;
 
+	DynamicArray<CollisionEvent> checkForCollision(int, const DynamicArray<int>&);
 
-	void checkForCollision(Entity, CollisionMap&);
-
-	void generateCollisionZones(ZoneMap&, Vector3D, float, float, DynamicArray<Entity>&, DynamicArray<DynamicArray<Entity>>&);
+	void generateCollisionZones(Vector3D, float, float, DynamicArray<std::pair<int, Transform>>&, DynamicArray<DynamicArray<std::pair<int, Transform>>>&);
 
 	void preventIntersection(const CollisionEvent&);
 
-	void velocityAdjustCollisionBox(Transform&, const Collider*);
+	CollisionMap generateCollisionMap(DynamicArray<std::pair<int, Transform>>&);
+
+	DynamicArray<std::pair<int, Transform>> velocityAdjustCollisionBoxes();
 
 	Transform* getTfComponent(int);
 	EntityFlags* getEfComponent(int);
@@ -55,15 +53,13 @@ class PhysicsEngine {
 public: 
 	void addEntitys();
 
-	CollisionMap generateCollisionMap();
-
 	void addCustomCollisionResolve(int, System*);
 
 	void setScene(Scene*);
 	void setSystems(DynamicArray<System*>*);
 	void setSharedResources(SharedResources*);
 
-	CollisionEventMap getAllCollisions(CollisionMap);
+	CollisionEventMap getAllCollisions();
 	void resolveCollision(const CollisionEventMap&);
 
 	void setCollisionEntitys(DynamicArray<Entity>&);
