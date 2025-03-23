@@ -1,5 +1,5 @@
 # Getting started
-Open Visual Studio 2022 <sub>This might work with different version of Visual Studio but I can't guarantee it</sub
+Open Visual Studio 2022 <sub>This might work with different version of Visual Studio but I can't guarantee it</sub>
 
 Under **Get started** click on **Clone repository**.
 
@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
 }
 ```
 
-To run the engine you have to create a instant of the application class and run it.
+To run the engine you have to create a instant of the application class, choose a starting scene <sub>the file extension is .wgf</sub> and run it.
 
 Like this:
 ```
@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
     int fps = 60;
 
     Application game("GameName", "WindowIcon.png", windowWidth, windowHeight, fps);
+    game.setStartScene("MyScene.wgf");
     game.run();
 
     return 0;
@@ -46,6 +47,8 @@ int main(int argc, char* argv[]) {
     int fps = 60;
 
     Application game("GameName", "WindowIcon.png", windowWidth, windowHeight, fps);
+
+    game.setStartScene("MyScene.wgf");
 
     game.addSystem<MySystemOne>();
     game.addSystem<MySystemTwo>();
