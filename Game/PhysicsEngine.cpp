@@ -51,10 +51,10 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(int entity, const 
         otherTf.position += otherCl->offset;
 
         Vector3D relativePosition = otherTf.position - tf.position;
-
+        const float smallNum = 0.001;
         // Calculate collision times for X and Y axes
-        auto calculateCollisionTime = [](float position, float velocity, float sizeA, float sizeB) -> std::pair<float, float> {
-            if (abs(velocity) < 0.001) {
+        auto calculateCollisionTime = [&smallNum](float position, float velocity, float sizeA, float sizeB) -> std::pair<float, float> {
+            if (abs(velocity) < smallNum) {
                 float timeEnter = std::numeric_limits<float>::infinity();
                 if (position > -sizeB && position < sizeA) timeEnter *= -1;
                 return { timeEnter, std::numeric_limits<float>::infinity() };
@@ -71,14 +71,14 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(int entity, const 
         // Check for overlapping collision intervals
         if (xEnter > yExit || yEnter > xExit) continue;
 
-        if (yEnter < xEnter && 0 <= xEnter && xEnter <= 1 &&
+        if (yEnter < xEnter && -smallNum <= xEnter && xEnter <= 1 + smallNum &&
             collisionEventX.time > xEnter) {
 
             float dir = float((relativePosition.x >= 0) - (relativePosition.x < 0));
             collisionEventX = createCollisionEvent(entity, otherEntity, { -dir, 0, 0 }, xEnter);
         }
 
-        if (xEnter <= yEnter && 0 <= yEnter && yEnter <= 1 &&
+        if (xEnter <= yEnter && -smallNum <= yEnter && yEnter <= 1 + smallNum &&
             collisionEventY.time > yEnter) {
 
             float dir = float((relativePosition.y >= 0) - (relativePosition.y < 0));
@@ -198,44 +198,34 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
     CollisionMap possibleCollisions = generateCollisionMap(aCollisionBoxes);
     if (possibleCollisions.size() == 0) return {};
     using Event = std::tuple<float, int, int, Vector3D>;
-    std::map<float, std::unordered_map<int, std::pair<int, Vector3D>>> collisionQueue;
+    std::map<float, std::unordered_map<int, std::unordered_map<int, Vector3D>>> collisionQueue;
     std::unordered_map<int, std::unordered_set<float>> lookup;
 
     for (Entity entity : this->collisionEntitys) {
         if (possibleCollisions.find(entity.getId()) == possibleCollisions.end()) continue;
         DynamicArray<CollisionEvent> entityCols = checkForCollision(entity.getId(), possibleCollisions.at(entity.getId()));
         for (CollisionEvent& colEvent : entityCols) {
-            collisionQueue[colEvent.time][entity.getId()] = { colEvent.other.getId(), colEvent.collisionDirection };
+            collisionQueue[colEvent.time][entity.getId()][colEvent.other.getId()] = colEvent.collisionDirection;
             lookup[entity.getId()].insert(colEvent.time);
         }
     }
     CollisionEventMap out;
     while (collisionQueue.size() != 0) {
         float time = collisionQueue.begin()->first;
-        std::unordered_set<int> entitys;
-        std::unordered_map<int, std::pair<int, Vector3D>>& collisions = collisionQueue.begin()->second;
+        std::unordered_map<int, int> entitys;
+        std::unordered_map<int, std::unordered_map<int, Vector3D>>& collisions = collisionQueue.begin()->second;
 
         for (auto& collisionEvents : collisions) {
-            auto [other, dir] = collisionEvents.second;
-            CollisionEvent collisionEvent = createCollisionEvent(collisionEvents.first, other, dir, time);
-            preventIntersection(collisionEvent);
-            out[collisionEvent.entity.getId()].pushBack(collisionEvent);
-            entitys.insert(collisionEvent.entity.getId());
+            for (auto& c : collisionEvents.second) {
+                CollisionEvent collisionEvent = createCollisionEvent(collisionEvents.first, c.first, c.second, time);
+                preventIntersection(collisionEvent);
+                out[collisionEvent.entity.getId()].pushBack(collisionEvent);
+                entitys[collisionEvent.entity.getId()] = collisionEvent.other.getId();
+            }
         }
         collisionQueue.erase(time);
-        for (int entity : entitys) {
-            for (int otherEntity : possibleCollisions[entity]) {
-                for (float t : lookup[otherEntity]) {
-                    if (collisionQueue.find(t) == collisionQueue.end()) continue;
-                    collisionQueue[t].erase(otherEntity);
-                }
-                lookup.erase(otherEntity);
-                DynamicArray<CollisionEvent> entityCols = checkForCollision(otherEntity, possibleCollisions.at(otherEntity));
-                for (CollisionEvent& colEvent : entityCols) {
-                    collisionQueue[colEvent.time][otherEntity] = { colEvent.other.getId(), colEvent.collisionDirection };
-                    lookup[otherEntity].insert(colEvent.time);
-                }
-            }
+
+        auto helper = [&](int entity) {
             for (float t : lookup[entity]) {
                 if (collisionQueue.find(t) == collisionQueue.end()) continue;
                 collisionQueue[t].erase(entity);
@@ -243,8 +233,16 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
             lookup.erase(entity);
             DynamicArray<CollisionEvent> entityCols = checkForCollision(entity, possibleCollisions.at(entity));
             for (CollisionEvent& colEvent : entityCols) {
-                collisionQueue[colEvent.time][entity] = { colEvent.other.getId(), colEvent.collisionDirection };
+                collisionQueue[colEvent.time][entity][colEvent.other.getId()] = colEvent.collisionDirection;
                 lookup[entity].insert(colEvent.time);
+            }
+        };
+        for (auto [entity, other] : entitys) {
+            helper(entity);
+            for (int otherEntity : possibleCollisions[entity]) {
+                DynamicArray<CollisionEvent> col = checkForCollision(otherEntity, { entity });
+                if (col.size() == 0) continue;
+                helper(otherEntity);
             }
         }
     }
