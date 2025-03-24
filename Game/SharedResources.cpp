@@ -68,3 +68,19 @@ bool SharedResources::getSceneChange() {
 void SharedResources::setSceneChange(bool b){
     this->sceneChange = b;
 }
+
+void SharedResources::addEntityTag(const std::string& tag, Entity entity) {
+    this->tagEntityLookup[tag].insert(entity);
+}
+
+void SharedResources::removeEntityTag(const std::string& tag, Entity entity) {
+    if (this->tagEntityLookup.find(tag) == this->tagEntityLookup.end()) return;
+    this->tagEntityLookup[tag].erase(entity);
+    if (this->tagEntityLookup[tag].size()) return;
+    this->tagEntityLookup.erase(tag);
+}
+
+const std::unordered_set<Entity>& SharedResources::getTagEntitys(const std::string& tag) {
+    if (this->tagEntityLookup.find(tag) == this->tagEntityLookup.end()) return {};
+    return this->tagEntityLookup[tag];
+}

@@ -64,6 +64,11 @@ protected:
 	Vector3D getCameraOffset();
 	void setCameraOffset(Vector3D);
 
+	void addEntityTag(const std::string&, Entity);
+	void removeEntityTag(const std::string&, Entity);
+	const std::unordered_set<Entity>& getTagEntitys(const std::string&);
+
+
 public:
 	DynamicArray<Entity> newPhysicsEntity;
 	DynamicArray<Entity> oldPhysicsEntity;

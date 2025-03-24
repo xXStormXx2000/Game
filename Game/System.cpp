@@ -57,6 +57,18 @@ void System::setCameraOffset(Vector3D offset) {
 	this->renderer->setCameraOffset(offset);
 }
 
+void System::addEntityTag(const std::string& tag, Entity entity) {
+	this->sharedResources->addEntityTag(tag, entity);
+}
+
+void System::removeEntityTag(const std::string& tag, Entity entity) {
+	this->removeEntityTag(tag, entity);
+}
+
+const std::unordered_set<Entity>& System::getTagEntitys(const std::string& tag){
+	return this->sharedResources->getTagEntitys(tag);
+}
+
 void System::setSharedResources(SharedResources* sh){
 	this->sharedResources = sh;
 }
