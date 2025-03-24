@@ -77,6 +77,11 @@ void System::addSound(const std::string& name, const std::string& path) {
 	this->audioManager->addSound(name, path);
 }
 
+void System::drawText(const std::string& text, Vector3D pos) {
+	//pos.z is the scale
+	this->renderer->addTextToDraw(text, pos);
+}
+
 void System::setSharedResources(SharedResources* sh){
 	this->sharedResources = sh;
 }

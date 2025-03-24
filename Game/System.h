@@ -73,6 +73,7 @@ protected:
 	void playSound(const std::string&);
 	void addSound(const std::string&, const std::string&);
 
+	void drawText(const std::string&, Vector3D);
 public:
 	DynamicArray<Entity> newPhysicsEntity;
 	DynamicArray<Entity> oldPhysicsEntity;

@@ -42,6 +42,15 @@ class Renderer {
 	SDL_Rect cameraTransform(Transform, const Sprite&);
 
 	DrawMap entitys;
+
+	SDL_Texture* font;
+	struct TextDrawCall {
+		std::string text;
+		Vector3D pos;
+	};
+	DynamicArray<TextDrawCall> textToDraw;
+	void drawText(const std::string&, Vector3D);
+
 public:
 	Renderer(SDL_Window* window);
 	Renderer();
@@ -74,6 +83,8 @@ public:
 
 	Vector3D getCameraOffset();
 	void setCameraOffset(Vector3D);
+
+	void addTextToDraw(const std::string&, Vector3D);
 
 	~Renderer();
 };

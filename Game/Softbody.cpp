@@ -24,4 +24,7 @@ void Softbody::update(Entity entity) {
 		tf.velocity.y = -20;
 		playSound("jump");
 	}
+	if (this->keyDown('w')) {
+		drawText("JUMP TEST", {100, 100, 1});
+	}
 }

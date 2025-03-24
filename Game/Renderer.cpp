@@ -47,7 +47,7 @@ SDL_Rect Renderer::cameraTransform(Transform tf, const Sprite& sp) {
 	return target;
 }
 
-Renderer::Renderer(SDL_Window* window): window(window), renderer(NULL), scene(nullptr) {
+Renderer::Renderer(SDL_Window* window): window(window), renderer(NULL), scene(nullptr), font(NULL) {
 
 	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
 		debugMessage("SDL_image could not initialize! SDL_image Error: " << IMG_GetError());
@@ -59,9 +59,18 @@ Renderer::Renderer(SDL_Window* window): window(window), renderer(NULL), scene(nu
 		debugMessage("Renderer could not be created! SDL_Error: " << SDL_GetError());
 		return;
 	}
+
+	SDL_Surface* surface = IMG_Load("Assets/Fonts/Font.png");
+
+	this->font = SDL_CreateTextureFromSurface(this->renderer, surface);
+	if (this->font == NULL) debugMessage("SDL_image Error: " << IMG_GetError());
+
+	SDL_SetTextureBlendMode(this->font, SDL_BLENDMODE_BLEND);
+
+	SDL_FreeSurface(surface);
 }
 
-Renderer::Renderer(): window(NULL), renderer(NULL), scene(nullptr) {
+Renderer::Renderer(): window(NULL), renderer(NULL), scene(nullptr), font(NULL) {
 }
 
 void Renderer::setScene(Scene* scene) {
@@ -72,9 +81,11 @@ Renderer& Renderer::operator=(Renderer&& other) noexcept {
 	this->window = other.window;
 	this->renderer = other.renderer;
 	this->scene = other.scene;
+	this->font = other.font;
 	other.window = NULL;
 	other.renderer = NULL;
 	other.scene = nullptr;
+	other.font = nullptr;
 	return *this;
 }
 
@@ -84,7 +95,6 @@ bool Renderer::exist() {
 
 void Renderer::render() {
 	SDL_RenderClear(this->renderer);
-
 	for (auto entityList: this->entitys) for (Entity entity: entityList.second) {
 		if (entity.getId() < -1) {
 			float xScale = this->scene->getWidth() / this->cameraWidth;
@@ -133,6 +143,11 @@ void Renderer::render() {
 			}
 		}
 	}
+	for (auto [text, pos] : this->textToDraw) {
+		drawText(text, pos);
+	}
+	this->textToDraw.empty();
+
 	SDL_RenderPresent(this->renderer);
 }
 
@@ -203,6 +218,37 @@ Vector3D Renderer::getCameraOffset() {
 
 void Renderer::setCameraOffset(Vector3D offset) {
 	this->cameraOffset = offset;
+}
+
+void Renderer::addTextToDraw(const std::string& text, Vector3D pos) {
+	this->textToDraw.pushBack({ text, pos });
+}
+
+void Renderer::drawText(const std::string& text, Vector3D pos) {
+	// pos.z is the scale
+	for (int i = 0; i < text.size(); i++) {
+		char c = text.at(i);
+		if (c == ' ') {
+			pos.x += 6*pos.z;
+		}
+		SDL_Rect target;
+		target.x = (16 * i  + int(pos.x))*pos.z;
+		target.y = int(pos.y);
+		target.w = 16 * pos.z;
+		target.h = 16 * pos.z;
+
+		c -= 'A';
+
+		SDL_Rect texturePortion;
+		texturePortion.x = 16 * c;
+		texturePortion.y = 0;
+		texturePortion.w = 16;
+		texturePortion.h = 16;
+
+		if (SDL_RenderCopy(this->renderer, this->font, &texturePortion, &target) != 0) {
+			debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
+		}
+	}
 }
 
 Renderer::~Renderer() {
