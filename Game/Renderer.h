@@ -17,8 +17,8 @@ struct Tile
 using DrawMap = std::map<float, DynamicArray<Entity>>;
 struct TileSet {
 	Vector3D offset = { 0,0,0 }; // pixels
-	float tileWidth = 0, tileHeight = 0; // pixels
-	float textureTileWidth = 0, textureTileHeight = 0; // pixels
+	int tileWidth = 0, tileHeight = 0; // pixels
+	int textureTileWidth = 0, textureTileHeight = 0; // pixels
 	int spriteIndex = -1;
 	float depht = 0;
 	DynamicArray<Tile> tiles;

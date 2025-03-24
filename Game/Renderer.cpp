@@ -11,7 +11,9 @@ TileSet TileSet::readFile(std::ifstream& file) {
 	int size;
 	file >> size;
 	for (int i = 0; i < size; i++) {
-		file >> ts.tiles[i].tileX >> ts.tiles[i].tileY >> ts.tiles[i].posX >> ts.tiles[i].posY;
+		Tile t;
+		file >> t.tileX >> t.tileY >> t.posX >> t.posY;
+		ts.tiles.pushBack(t);
 	}
 	return ts;
 }
@@ -85,16 +87,23 @@ void Renderer::render() {
 
 	for (auto entityList: this->entitys) for (Entity entity: entityList.second) {
 		if (entity.getId() < -1) {
-			TileSet tileSet = this->tileSets[-(entity.getId() + 2)];
 			float xScale = this->scene->getWidth() / this->cameraWidth;
 			float yScale = this->scene->getHeight() / this->cameraHeight;
+
+			TileSet tileSet = this->tileSets[-(entity.getId() + 2)];
+			Vector3D camPos = -this->cameraOffset;
+			if (this->cameraFollowEntity.getId() != -1)
+				camPos -= this->scene->getComponent<Transform>(this->cameraFollowEntity.getId()).position;
+			camPos.x *= xScale;
+			camPos.y *= yScale;
+
 			tileSet.tileWidth *= xScale;
 			tileSet.tileHeight *= yScale;
-
+			
 			for (const Tile& tile : tileSet.tiles) {
 				SDL_Rect target;
-				target.x = tileSet.tileWidth  * tile.posX;
-				target.y = tileSet.tileHeight * tile.posY;
+				target.x = tileSet.tileWidth  * tile.posX + int(camPos.x);
+				target.y = tileSet.tileHeight * tile.posY + int(camPos.y);
 				target.w = tileSet.tileWidth;
 				target.h = tileSet.tileHeight;
 

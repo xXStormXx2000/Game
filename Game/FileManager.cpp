@@ -70,7 +70,7 @@ void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, Dy
             file >> num;
             for(int i = 0; i < num; i++) {
                 TileSet tileSet;
-                tileSet.readFile(file);
+                tileSet = tileSet.readFile(file);
                 entitysToRender[tileSet.depht].pushBack(-(i + 2));
                 tileSets.pushBack(tileSet);
             }

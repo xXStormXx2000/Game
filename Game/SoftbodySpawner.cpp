@@ -1,13 +1,13 @@
 #include "SoftbodySpawner.h"
 
-SoftbodySpawner::SoftbodySpawner() : softbodys(16, DynamicArray<Entity>(16)) {
+SoftbodySpawner::SoftbodySpawner() : softbodys(12, DynamicArray<Entity>(12)) {
 
 }
 
 void SoftbodySpawner::start(Entity) {
 
-	setCameraWidth(getCameraWidth()*2);
-	setCameraHeight(getCameraHeight()*2);
+	setCameraWidth(getCameraWidth()/3*2);
+	setCameraHeight(getCameraHeight()/3*2);
 	setCameraOffset({-getCameraWidth()/2, -getCameraHeight()/2, 0});
 
 	for (int i = 0; i < softbodys.size(); i++) {
