@@ -7,12 +7,14 @@
 #include "SharedResources.h"
 #include "CollisionEvent.h"
 #include "Renderer.h"
+#include "AudioManager.h"
 
 class System {
 	SharedResources* sharedResources;
 	DynamicArray<System*>* systems;
 	Scene* scene;
 	Renderer* renderer;
+	AudioManager* audioManager;
 	std::unordered_set<Entity> entitys;
 protected:
 	float getDeltaTime();
@@ -68,6 +70,8 @@ protected:
 	void removeEntityTag(const std::string&, Entity);
 	const std::unordered_set<Entity>& getTagEntitys(const std::string&);
 
+	void playSound(const std::string&);
+	void addSound(const std::string&, const std::string&);
 
 public:
 	DynamicArray<Entity> newPhysicsEntity;
@@ -76,6 +80,7 @@ public:
 	void setSharedResources(SharedResources*);
 	void setScene(Scene*);
 	void setRenderer(Renderer*);
+	void setAudioManager(AudioManager*);
 
 	void run(void (System::*)(Entity));
 

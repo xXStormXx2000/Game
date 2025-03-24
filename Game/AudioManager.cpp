@@ -24,14 +24,17 @@ bool AudioManager::failure() {
 	return this->initFeil;
 }
 
-void AudioManager::addSound(std::string name, std::string path){
-	this->audioMap[name];
+void AudioManager::addSound(const std::string& name, const std::string& path){
+	this->audioMap[name] = Mix_LoadWAV(path.c_str());
 }
 
-void AudioManager::playSound(std::string name) {
+void AudioManager::playSound(const std::string& name) {
+	Mix_PlayChannel(-1, this->audioMap[name], 0);
 }
 
 AudioManager::~AudioManager() {
+	for (auto& sound: this->audioMap) Mix_FreeChunk(sound.second);
+	for (auto& music : this->musicMap) Mix_FreeMusic(music.second);
 	Mix_CloseAudio();
 	Mix_Quit();
 }

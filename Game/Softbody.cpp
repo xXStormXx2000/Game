@@ -19,6 +19,9 @@ void Softbody::update(Entity entity) {
 
 	if (tf.velocity.y < 20) tf.velocity.y += 1;
 	if(this->keyDown('d') || this->keyDown('a')) tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 7;
-	if(this->keyDown('s') || this->keyDown('w')) tf.velocity.y = (this->keyDown('s') - this->keyDown('w')) * 7;
-	//if (this->keyPressed('w')) tf.velocity.y = -20;
+	//if(this->keyDown('s') || this->keyDown('w')) tf.velocity.y = (this->keyDown('s') - this->keyDown('w')) * 7;
+	if (this->keyPressed('w')) {
+		tf.velocity.y = -20;
+		playSound("jump");
+	}
 }

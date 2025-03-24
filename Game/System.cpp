@@ -69,6 +69,14 @@ const std::unordered_set<Entity>& System::getTagEntitys(const std::string& tag){
 	return this->sharedResources->getTagEntitys(tag);
 }
 
+void System::playSound(const std::string& sound) {
+	this->audioManager->playSound(sound);
+}
+
+void System::addSound(const std::string& name, const std::string& path) {
+	this->audioManager->addSound(name, path);
+}
+
 void System::setSharedResources(SharedResources* sh){
 	this->sharedResources = sh;
 }
@@ -79,6 +87,10 @@ void System::setScene(Scene* scene) {
 
 void System::setRenderer(Renderer* r) {
 	this->renderer = r;
+}
+
+void System::setAudioManager(AudioManager* a) {
+	this->audioManager = a;
 }
 
 void System::setSystems(DynamicArray<System*>* systems)

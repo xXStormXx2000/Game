@@ -10,6 +10,8 @@ void SoftbodySpawner::start(Entity) {
 	setCameraHeight(getCameraHeight()/3*2);
 	setCameraOffset({-getCameraWidth()/2, -getCameraHeight()/2, 0});
 
+	addSound("jump", "Assets/Audio/jump.wav");
+
 	for (int i = 0; i < softbodys.size(); i++) {
 		for (int j = 0; j < softbodys[0].size(); j++) {
 			Entity entity = createEntity();

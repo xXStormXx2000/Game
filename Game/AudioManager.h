@@ -7,7 +7,6 @@
 
 
 class AudioManager {
-	SDL_AudioDeviceID audioDevice;
 	std::unordered_map<std::string, Mix_Chunk*> audioMap;
 	std::unordered_map<std::string, Mix_Music*> musicMap;
 	bool initFeil = false;
@@ -17,9 +16,9 @@ public:
 
 	bool failure();
 
-	void addSound(std::string, std::string);
+	void addSound(const std::string&, const std::string&);
 
-	void playSound(std::string);
+	void playSound(const std::string&);
 
 	~AudioManager();
 };

@@ -51,6 +51,7 @@ public:
 		System* sys = new T;
 		sys->setSystems(&this->systems);
 		sys->setRenderer(&this->renderer);
+		sys->setAudioManager(&this->audioManager);
 		this->systems.pushBack(sys);
 	}
 
