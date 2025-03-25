@@ -5,8 +5,8 @@
 #include "DynamicArray.h"
 
 struct CollisionEvent {
-	Entity entity = { -1 };
-	Entity other = { -1 };
+	Entity entity = -1;
+	Entity other = -1;
 	Vector3D collisionDirection = { 0, 0, 0 };
 	float time = 2;
 };

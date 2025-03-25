@@ -53,7 +53,7 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(int entity, const 
         Vector3D relativePosition = otherTf.position - tf.position;
         const float smallNum = 0.001;
         // Calculate collision times for X and Y axes
-        auto calculateCollisionTime = [&smallNum](float position, float velocity, float sizeA, float sizeB) -> std::pair<float, float> {
+        auto calculateCollisionTime = [smallNum](float position, float velocity, float sizeA, float sizeB) -> std::pair<float, float> {
             if (abs(velocity) < smallNum) {
                 float timeEnter = std::numeric_limits<float>::infinity();
                 if (position > -sizeB && position < sizeA) timeEnter *= -1;
@@ -240,8 +240,6 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
         for (auto [entity, other] : entitys) {
             helper(entity);
             for (int otherEntity : possibleCollisions[entity]) {
-                DynamicArray<CollisionEvent> col = checkForCollision(otherEntity, { entity });
-                if (col.size() == 0) continue;
                 helper(otherEntity);
             }
         }

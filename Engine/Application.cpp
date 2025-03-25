@@ -59,11 +59,11 @@ void Application::run() {
 		this->start();
 		while (!this->sharedResources.getSceneChange() && this->getRunning()) {
 
-			this->collisionHandling();
-
 			this->handleEvents();
 
 			this->update();
+
+			this->collisionHandling();
 
 			this->render();
 
