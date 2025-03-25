@@ -25,28 +25,32 @@
     <Filter Include="Source Files\Systems">
       <UniqueIdentifier>{c78332d0-0f71-4da8-9e34-45b3f4714daa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Pictures">
+      <UniqueIdentifier>{e7315a5f-eaf1-4c67-87f4-35ce57852c7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Sounds">
+      <UniqueIdentifier>{dec89cf5-7be2-4c6b-a2e6-38c54381ec77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Scenes">
+      <UniqueIdentifier>{c0acd0c0-1ca4-40fc-980c-a5d7ddb73a1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Art\flaim.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Pictures</Filter>
     </Image>
     <Image Include="Assets\Art\hitbox.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Pictures</Filter>
     </Image>
     <Image Include="Assets\Art\slime.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Pictures</Filter>
     </Image>
     <Image Include="Assets\Art\smil.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Pictures</Filter>
     </Image>
     <Image Include="Assets\Art\TileSet.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Pictures</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="Assets\Audio\jump.wav">
-      <Filter>Resource Files</Filter>
-    </Media>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,8 +78,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Media Include="Assets\Audio\jump.wav">
+      <Filter>Resource Files\Sounds</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Assets\Scenes\Tests.wgf">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Scenes</Filter>
     </None>
   </ItemGroup>
 </Project>
