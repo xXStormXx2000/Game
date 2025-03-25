@@ -195,7 +195,7 @@
     <Image Include="Assets\Art\slime.png" />
     <Image Include="Assets\Art\smil.png" />
     <Image Include="Assets\Art\TileSet.png" />
-    <Image Include="Assets\Fonts\Font.png" />
+    <Image Include="Font.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
