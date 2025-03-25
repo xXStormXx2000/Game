@@ -25,6 +25,9 @@
     <Filter Include="Header Files\systems">
       <UniqueIdentifier>{322c8ca4-1d7a-495a-8042-4561ead32f4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Scenes">
+      <UniqueIdentifier>{b86784cf-bbef-4535-b3e6-0aaeec575693}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,5 +53,30 @@
     <ClInclude Include="SoftbodySpawner.h">
       <Filter>Header Files\systems</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Game\Assets\Scenes\Tests.wgf">
+      <Filter>Resource Files\Scenes</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Game\Assets\Art\flaim.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Game\Font.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Game\Assets\Art\hitbox.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Game\Assets\Art\slime.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Game\Assets\Art\smil.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Game\Assets\Art\TileSet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

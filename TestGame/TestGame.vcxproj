@@ -29,6 +29,17 @@
     <ClInclude Include="SoftbodySpawner.h" />
     <ClInclude Include="somData.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Game\Assets\Scenes\Tests.wgf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Game\Assets\Art\flaim.png" />
+    <Image Include="..\Game\Assets\Art\hitbox.png" />
+    <Image Include="..\Game\Assets\Art\slime.png" />
+    <Image Include="..\Game\Assets\Art\smil.png" />
+    <Image Include="..\Game\Assets\Art\TileSet.png" />
+    <Image Include="..\Game\Font.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

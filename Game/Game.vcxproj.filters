@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{242598d8-f396-4bc8-911b-7125b6212bbf}</UniqueIdentifier>
     </Filter>
@@ -43,9 +39,6 @@
     <Filter Include="Header Files\Engine\Functionality">
       <UniqueIdentifier>{0a25686c-f546-4f67-a486-656debfebbe4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Systems">
-      <UniqueIdentifier>{4703abe1-b295-423d-a0ab-862ec8a062c5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Engine\Debug">
       <UniqueIdentifier>{b9e8caee-eb52-4a99-8221-119cd409751b}</UniqueIdentifier>
     </Filter>
@@ -61,11 +54,8 @@
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{a2c0777c-add3-4170-861d-81f86099d824}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Components">
-      <UniqueIdentifier>{39634403-761f-4bd2-9a1a-5939d846abc3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Scenes">
-      <UniqueIdentifier>{318798dc-0c1a-4b93-ae93-5a6cbfad1c8b}</UniqueIdentifier>
+    <Filter Include="Header Files\Resource Files">
+      <UniqueIdentifier>{63155035-11b8-4e7d-a69a-326109889f56}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,9 +95,6 @@
     <ClInclude Include="System.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Softbody.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>Header Files\Engine\SubSystems</Filter>
     </ClInclude>
@@ -119,12 +106,6 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Header Files\Engine\SubSystems</Filter>
-    </ClInclude>
-    <ClInclude Include="somData.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="SoftbodySpawner.h">
-      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -152,17 +133,11 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SharedResources.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="System.cpp">
       <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Softbody.cpp">
-      <Filter>Source Files\Systems</Filter>
     </ClCompile>
     <ClCompile Include="spring.h">
       <Filter>Header Files\Engine\Functionality</Filter>
@@ -182,33 +157,5 @@
     <ClCompile Include="PhysicsEngine.cpp">
       <Filter>Source Files\Engine\SubSystems</Filter>
     </ClCompile>
-    <ClCompile Include="somData.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="SoftbodySpawner.cpp">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Scenes\Tests.wgf">
-      <Filter>Resource Files\Scenes</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\Art\flaim.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Assets\Art\hitbox.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Assets\Art\slime.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Assets\Art\smil.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Assets\Art\TileSet.png">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>
