@@ -22,24 +22,33 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{c6806bb3-6055-4dc1-accc-b24c363ce49d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\systems">
+      <UniqueIdentifier>{322c8ca4-1d7a-495a-8042-4561ead32f4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Game\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Softbody.cpp">
+    <ClCompile Include="SoftbodySpawner.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\SoftbodySpawner.cpp">
+    <ClCompile Include="Softbody.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\somData.cpp">
+    <ClCompile Include="somData.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Game\somData.h">
+    <ClInclude Include="somData.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Softbody.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftbodySpawner.h">
+      <Filter>Header Files\systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

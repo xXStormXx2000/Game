@@ -18,6 +18,17 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Softbody.cpp" />
+    <ClCompile Include="SoftbodySpawner.cpp" />
+    <ClCompile Include="somData.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Softbody.h" />
+    <ClInclude Include="SoftbodySpawner.h" />
+    <ClInclude Include="somData.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -126,15 +137,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Game\main.cpp" />
-    <ClCompile Include="..\Game\Softbody.cpp" />
-    <ClCompile Include="..\Game\SoftbodySpawner.cpp" />
-    <ClCompile Include="..\Game\somData.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Game\somData.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

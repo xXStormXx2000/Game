@@ -60,7 +60,7 @@ Renderer::Renderer(SDL_Window* window): window(window), renderer(NULL), scene(nu
 		return;
 	}
 
-	SDL_Surface* surface = IMG_Load("Assets/Fonts/Font.png");
+	SDL_Surface* surface = IMG_Load("Font.png");
 
 	this->font = SDL_CreateTextureFromSurface(this->renderer, surface);
 	if (this->font == NULL) debugMessage("SDL_image Error: " << IMG_GetError());
