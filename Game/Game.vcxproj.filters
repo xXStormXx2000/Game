@@ -42,17 +42,11 @@
     <Filter Include="Source Files\Engine\Debug">
       <UniqueIdentifier>{b9e8caee-eb52-4a99-8221-119cd409751b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Systems">
-      <UniqueIdentifier>{bbad60dd-f207-43b6-a526-503a9a1054b7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine\SubSystems">
       <UniqueIdentifier>{d2d7c9ba-6a42-48fe-a553-56ef278af86c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Engine\SubSystems">
       <UniqueIdentifier>{a9de843f-7db5-4bdb-ab40-9ebc1ec9a230}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Components">
-      <UniqueIdentifier>{a2c0777c-add3-4170-861d-81f86099d824}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Resource Files">
       <UniqueIdentifier>{63155035-11b8-4e7d-a69a-326109889f56}</UniqueIdentifier>
