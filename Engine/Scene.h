@@ -9,7 +9,7 @@
 #include "Debug.h"
 
 using CompMap = std::unordered_map<int, Component*>;
-using CompMapList = std::unordered_map <std::type_index, std::unordered_map<int, Component*>>;
+using CompMapList = std::unordered_map <std::type_index, CompMap>;
 
 class Scene {
 	std::unordered_set<Entity> entitys;

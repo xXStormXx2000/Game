@@ -144,8 +144,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Font.png">
-      <Filter>Source Files</Filter>
-    </Image>
+    <Image Include="Font.png" />
   </ItemGroup>
 </Project>
