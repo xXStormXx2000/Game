@@ -226,25 +226,50 @@ void Renderer::addTextToDraw(const std::string& text, Vector3D pos) {
 
 void Renderer::drawText(const std::string& text, Vector3D pos) {
 	// pos.z is the scale
+	int line = 0, x = 0;
 	for (int i = 0; i < text.size(); i++) {
 		char c = text.at(i);
-		if (c == ' ') {
-			pos.x += 6*pos.z;
+		if (c == '\n') {
+			line++;
+			x = 0;
+			continue;
 		}
 		SDL_Rect target;
-		target.x = (16 * i  + int(pos.x))*pos.z;
-		target.y = int(pos.y);
+		target.y = (22*line) * pos.z + int(pos.y);
 		target.w = 16 * pos.z;
-		target.h = 16 * pos.z;
-
-		c -= 'A';
+		target.h = 21 * pos.z;
 
 		SDL_Rect texturePortion;
-		texturePortion.x = 16 * c;
-		texturePortion.y = 0;
+		texturePortion.y = -1;
 		texturePortion.w = 16;
-		texturePortion.h = 16;
+		texturePortion.h = 21;
+		if ('A' <= c && c <= 'Z') {
+			texturePortion.y = 0;
+			texturePortion.x = 16 * (c-'A');
+		}
+		if ('a' <= c && c <= 'z') {
+			texturePortion.y = 21;
+			texturePortion.x = 16 * (c - 'a');
+			if(c == 'l') x -= 3 * pos.z;
+		}
+		if ('0' <= c && c <= '9') {
+			texturePortion.y = 42;
+			texturePortion.x = 16 * (c - '0');
+		}
+		target.x = x + int(pos.x) * pos.z;
+		if (texturePortion.y == -1) {
+			texturePortion.y = 63;
 
+			texturePortion.x = 6 * (c - ' ');
+			texturePortion.w = 6;
+
+			x += 8 * pos.z;
+			target.w = 6 * pos.z;
+			if (c == '\'') x -= 4 * pos.z;
+		} else {
+			x += 17 * pos.z;
+			if (c == 'l') x -= 3 * pos.z;
+		}
 		if (SDL_RenderCopy(this->renderer, this->font, &texturePortion, &target) != 0) {
 			debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
 		}
