@@ -27,7 +27,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -40,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -76,11 +76,20 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I "SDL2\lib\x86\SDL2.dll" "$(OutDir)"
+xcopy /Y /I "SDL2_image\lib\x86\SDL2_image.dll" "$(OutDir)"
+xcopy /Y /I "SDL2_mixer\lib\x86\SDL2_mixer.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)SDL\SDL2_mixer\include;$(SolutionDir)SDL\SDL2_image\include;$(SolutionDir)SDL\SDL2\include;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -90,6 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -97,6 +107,14 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I "SDL2\lib\x86\SDL2.dll" "$(OutDir)"
+xcopy /Y /I "SDL2_image\lib\x86\SDL2_image.dll" "$(OutDir)"
+xcopy /Y /I "SDL2_mixer\lib\x86\SDL2_mixer.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)SDL\SDL2_mixer\include;$(SolutionDir)SDL\SDL2_image\include;$(SolutionDir)SDL\SDL2\include;</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -104,11 +122,22 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>SDL2_mixer\lib\x64;SDL2_image\lib\x64;SDL2\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I "SDL2\lib\x64\SDL2.dll" "$(OutDir)"
+xcopy /Y /I "SDL2_image\lib\x64\SDL2_image.dll" "$(OutDir)"
+xcopy /Y /I "SDL2_mixer\lib\x64\SDL2_mixer.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -118,6 +147,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,6 +155,16 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>SDL2_mixer\lib\x64;SDL2_image\lib\x64;SDL2\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I "SDL2\lib\x64\SDL2.dll" "$(OutDir)"
+xcopy /Y /I "SDL2_image\lib\x64\SDL2_image.dll" "$(OutDir)"
+xcopy /Y /I "SDL2_mixer\lib\x64\SDL2_mixer.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="SDL2\include\begin_code.h" />
@@ -222,7 +262,6 @@
     <ClInclude Include="SDL2_mixer\include\SDL_mixer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SDL2.dll" />
     <None Include="SDL2\.git-hash" />
     <None Include="SDL2\cmake\sdl2-config-version.cmake" />
     <None Include="SDL2\cmake\sdl2-config.cmake" />
@@ -268,7 +307,6 @@
     <None Include="SDL2\lib\x64\SDL2.pdb" />
     <None Include="SDL2\lib\x86\SDL2.dll" />
     <None Include="SDL2\lib\x86\SDL2.pdb" />
-    <None Include="SDL2_image.dll" />
     <None Include="SDL2_image\cmake\sdl2_image-config-version.cmake" />
     <None Include="SDL2_image\cmake\sdl2_image-config.cmake" />
     <None Include="SDL2_image\lib\x64\optional\libavif-16.dll" />
@@ -281,10 +319,21 @@
     <None Include="SDL2_image\lib\x86\optional\libwebp-7.dll" />
     <None Include="SDL2_image\lib\x86\optional\libwebpdemux-2.dll" />
     <None Include="SDL2_image\lib\x86\SDL2_image.dll" />
-    <None Include="SDL2_mixer.dll" />
     <None Include="SDL2_mixer\cmake\sdl2_mixer-config-version.cmake" />
     <None Include="SDL2_mixer\cmake\sdl2_mixer-config.cmake" />
+    <None Include="SDL2_mixer\lib\x64\optional\libgme.dll" />
+    <None Include="SDL2_mixer\lib\x64\optional\libogg-0.dll" />
+    <None Include="SDL2_mixer\lib\x64\optional\libopus-0.dll" />
+    <None Include="SDL2_mixer\lib\x64\optional\libopusfile-0.dll" />
+    <None Include="SDL2_mixer\lib\x64\optional\libwavpack-1.dll" />
+    <None Include="SDL2_mixer\lib\x64\optional\libxmp.dll" />
     <None Include="SDL2_mixer\lib\x64\SDL2_mixer.dll" />
+    <None Include="SDL2_mixer\lib\x86\optional\libgme.dll" />
+    <None Include="SDL2_mixer\lib\x86\optional\libogg-0.dll" />
+    <None Include="SDL2_mixer\lib\x86\optional\libopus-0.dll" />
+    <None Include="SDL2_mixer\lib\x86\optional\libopusfile-0.dll" />
+    <None Include="SDL2_mixer\lib\x86\optional\libwavpack-1.dll" />
+    <None Include="SDL2_mixer\lib\x86\optional\libxmp.dll" />
     <None Include="SDL2_mixer\lib\x86\SDL2_mixer.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -317,6 +366,18 @@
     <Text Include="SDL2_image\LICENSE.txt" />
     <Text Include="SDL2_image\README.txt" />
     <Text Include="SDL2_mixer\CHANGES.txt" />
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.gme.txt" />
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.ogg-vorbis.txt" />
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.opus.txt" />
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.opusfile.txt" />
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.wavpack.txt" />
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.xmp.txt" />
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.gme.txt" />
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.ogg-vorbis.txt" />
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.opus.txt" />
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.opusfile.txt" />
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.wavpack.txt" />
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.xmp.txt" />
     <Text Include="SDL2_mixer\LICENSE.txt" />
     <Text Include="SDL2_mixer\README.txt" />
   </ItemGroup>

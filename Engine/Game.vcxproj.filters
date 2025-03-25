@@ -152,4 +152,9 @@
       <Filter>Source Files\Engine\SubSystems</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Font.png">
+      <Filter>Source Files\Engine</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

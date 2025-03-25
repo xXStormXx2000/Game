@@ -296,102 +296,351 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SDL2\cmake\sdl2-config.cmake" />
-    <None Include="SDL2\cmake\sdl2-config-version.cmake" />
-    <None Include="SDL2\docs\CONTRIBUTING.md" />
-    <None Include="SDL2\docs\doxyfile" />
-    <None Include="SDL2\docs\README.md" />
-    <None Include="SDL2\docs\README-android.md" />
-    <None Include="SDL2\docs\README-cmake.md" />
-    <None Include="SDL2\docs\README-directfb.md" />
-    <None Include="SDL2\docs\README-dynapi.md" />
-    <None Include="SDL2\docs\README-emscripten.md" />
-    <None Include="SDL2\docs\README-gdk.md" />
-    <None Include="SDL2\docs\README-gesture.md" />
-    <None Include="SDL2\docs\README-git.md" />
-    <None Include="SDL2\docs\README-hg.md" />
-    <None Include="SDL2\docs\README-ios.md" />
-    <None Include="SDL2\docs\README-kmsbsd.md" />
-    <None Include="SDL2\docs\README-linux.md" />
-    <None Include="SDL2\docs\README-macos.md" />
-    <None Include="SDL2\docs\README-n3ds.md" />
-    <None Include="SDL2\docs\README-nacl.md" />
-    <None Include="SDL2\docs\README-ngage.md" />
-    <None Include="SDL2\docs\README-os2.md" />
-    <None Include="SDL2\docs\README-pandora.md" />
-    <None Include="SDL2\docs\README-platforms.md" />
-    <None Include="SDL2\docs\README-porting.md" />
-    <None Include="SDL2\docs\README-ps2.md" />
-    <None Include="SDL2\docs\README-psp.md" />
-    <None Include="SDL2\docs\README-raspberrypi.md" />
-    <None Include="SDL2\docs\README-riscos.md" />
-    <None Include="SDL2\docs\README-touch.md" />
-    <None Include="SDL2\docs\README-versions.md" />
-    <None Include="SDL2\docs\README-visualc.md" />
-    <None Include="SDL2\docs\README-vita.md" />
-    <None Include="SDL2\docs\README-wince.md" />
-    <None Include="SDL2\docs\README-windows.md" />
-    <None Include="SDL2\docs\README-winrt.md" />
-    <None Include="SDL2\docs\release_checklist.md" />
-    <None Include="SDL2\include\SDL_config.h.cmake" />
-    <None Include="SDL2\include\SDL_config.h.in" />
-    <None Include="SDL2\include\SDL_revision.h.cmake" />
-    <None Include="SDL2\lib\x64\SDL2.dll" />
-    <None Include="SDL2\lib\x64\SDL2.pdb" />
-    <None Include="SDL2\lib\x86\SDL2.dll" />
-    <None Include="SDL2\lib\x86\SDL2.pdb" />
-    <None Include="SDL2\.git-hash" />
-    <None Include="SDL2_image\cmake\sdl2_image-config.cmake" />
-    <None Include="SDL2_image\cmake\sdl2_image-config-version.cmake" />
-    <None Include="SDL2_image\lib\x64\optional\libavif-16.dll" />
-    <None Include="SDL2_image\lib\x64\optional\libtiff-5.dll" />
-    <None Include="SDL2_image\lib\x64\optional\libwebp-7.dll" />
-    <None Include="SDL2_image\lib\x64\optional\libwebpdemux-2.dll" />
-    <None Include="SDL2_image\lib\x64\SDL2_image.dll" />
-    <None Include="SDL2_image\lib\x86\optional\libavif-16.dll" />
-    <None Include="SDL2_image\lib\x86\optional\libtiff-5.dll" />
-    <None Include="SDL2_image\lib\x86\optional\libwebp-7.dll" />
-    <None Include="SDL2_image\lib\x86\optional\libwebpdemux-2.dll" />
-    <None Include="SDL2_image\lib\x86\SDL2_image.dll" />
-    <None Include="SDL2.dll" />
-    <None Include="SDL2_image.dll" />
-    <None Include="SDL2_mixer.dll" />
-    <None Include="SDL2_mixer\cmake\sdl2_mixer-config.cmake" />
-    <None Include="SDL2_mixer\cmake\sdl2_mixer-config-version.cmake" />
-    <None Include="SDL2_mixer\lib\x64\SDL2_mixer.dll" />
-    <None Include="SDL2_mixer\lib\x86\SDL2_mixer.dll" />
+    <None Include="SDL2\.git-hash">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\CONTRIBUTING.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\doxyfile">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\lib\x64\optional\libavif-16.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\lib\x86\optional\libavif-16.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x86\optional\libgme.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x64\optional\libgme.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x64\optional\libogg-0.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x86\optional\libogg-0.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x86\optional\libopus-0.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x64\optional\libopus-0.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x86\optional\libopusfile-0.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x64\optional\libopusfile-0.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\lib\x64\optional\libtiff-5.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\lib\x86\optional\libtiff-5.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x64\optional\libwavpack-1.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x86\optional\libwavpack-1.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\lib\x64\optional\libwebp-7.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\lib\x86\optional\libwebp-7.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\lib\x64\optional\libwebpdemux-2.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\lib\x86\optional\libwebpdemux-2.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x64\optional\libxmp.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x86\optional\libxmp.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-android.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-cmake.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-directfb.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-dynapi.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-emscripten.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-gdk.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-gesture.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-git.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-hg.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-ios.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-kmsbsd.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-linux.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-macos.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-n3ds.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-nacl.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-ngage.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-os2.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-pandora.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-platforms.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-porting.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-ps2.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-psp.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-raspberrypi.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-riscos.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-touch.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-versions.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-visualc.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-vita.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-wince.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-windows.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\README-winrt.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\docs\release_checklist.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\include\SDL_config.h.cmake">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\include\SDL_config.h.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\include\SDL_revision.h.cmake">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\lib\x86\SDL2.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\lib\x64\SDL2.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\lib\x86\SDL2.pdb">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\lib\x64\SDL2.pdb">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\lib\x64\SDL2_image.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\lib\x86\SDL2_image.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\cmake\sdl2_image-config.cmake">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_image\cmake\sdl2_image-config-version.cmake">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x64\SDL2_mixer.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\lib\x86\SDL2_mixer.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\cmake\sdl2_mixer-config.cmake">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2_mixer\cmake\sdl2_mixer-config-version.cmake">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\cmake\sdl2-config.cmake">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SDL2\cmake\sdl2-config-version.cmake">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="SDL2\lib\x64\SDL2.lib" />
-    <Library Include="SDL2\lib\x64\SDL2main.lib" />
-    <Library Include="SDL2\lib\x64\SDL2test.lib" />
-    <Library Include="SDL2\lib\x86\SDL2.lib" />
-    <Library Include="SDL2\lib\x86\SDL2main.lib" />
-    <Library Include="SDL2\lib\x86\SDL2test.lib" />
-    <Library Include="SDL2_image\lib\x64\SDL2_image.lib" />
-    <Library Include="SDL2_image\lib\x86\SDL2_image.lib" />
-    <Library Include="SDL2_mixer\lib\x64\SDL2_mixer.lib" />
-    <Library Include="SDL2_mixer\lib\x86\SDL2_mixer.lib" />
+    <Library Include="SDL2\lib\x64\SDL2.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="SDL2\lib\x86\SDL2.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="SDL2_image\lib\x86\SDL2_image.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="SDL2_image\lib\x64\SDL2_image.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="SDL2_mixer\lib\x64\SDL2_mixer.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="SDL2_mixer\lib\x86\SDL2_mixer.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="SDL2\lib\x86\SDL2main.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="SDL2\lib\x64\SDL2main.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="SDL2\lib\x64\SDL2test.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
+    <Library Include="SDL2\lib\x86\SDL2test.lib">
+      <Filter>Resource Files</Filter>
+    </Library>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="SDL2\BUGS.txt" />
-    <Text Include="SDL2\COPYING.txt" />
-    <Text Include="SDL2\README.txt" />
-    <Text Include="SDL2\README-SDL.txt" />
-    <Text Include="SDL2\WhatsNew.txt" />
-    <Text Include="SDL2_image\lib\x64\optional\LICENSE.avif.txt" />
-    <Text Include="SDL2_image\lib\x64\optional\LICENSE.dav1d.txt" />
-    <Text Include="SDL2_image\lib\x64\optional\LICENSE.tiff.txt" />
-    <Text Include="SDL2_image\lib\x64\optional\LICENSE.webp.txt" />
-    <Text Include="SDL2_image\lib\x86\optional\LICENSE.avif.txt" />
-    <Text Include="SDL2_image\lib\x86\optional\LICENSE.dav1d.txt" />
-    <Text Include="SDL2_image\lib\x86\optional\LICENSE.tiff.txt" />
-    <Text Include="SDL2_image\lib\x86\optional\LICENSE.webp.txt" />
-    <Text Include="SDL2_image\CHANGES.txt" />
-    <Text Include="SDL2_image\LICENSE.txt" />
-    <Text Include="SDL2_image\README.txt" />
-    <Text Include="SDL2_mixer\CHANGES.txt" />
-    <Text Include="SDL2_mixer\LICENSE.txt" />
-    <Text Include="SDL2_mixer\README.txt" />
+    <Text Include="SDL2\BUGS.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\CHANGES.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\CHANGES.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2\COPYING.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\lib\x64\optional\LICENSE.avif.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\lib\x86\optional\LICENSE.avif.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\lib\x64\optional\LICENSE.dav1d.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\lib\x86\optional\LICENSE.dav1d.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.gme.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.gme.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.ogg-vorbis.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.ogg-vorbis.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.opus.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.opus.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.opusfile.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.opusfile.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\lib\x64\optional\LICENSE.tiff.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\lib\x86\optional\LICENSE.tiff.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\LICENSE.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\LICENSE.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.wavpack.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.wavpack.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\lib\x86\optional\LICENSE.webp.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\lib\x64\optional\LICENSE.webp.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x86\optional\LICENSE.xmp.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\lib\x64\optional\LICENSE.xmp.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_image\README.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2\README.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2_mixer\README.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2\README-SDL.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="SDL2\WhatsNew.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

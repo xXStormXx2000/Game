@@ -11,6 +11,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL", "SDL\SDL.vcxproj", "{69FB7507-3D27-4B00-9B74-50FC36E7694E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Game.vcxproj", "{B7518884-971F-44DC-8FE0-A6E20FCB2FDD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69FB7507-3D27-4B00-9B74-50FC36E7694E} = {69FB7507-3D27-4B00-9B74-50FC36E7694E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
