@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "Softbody.h"
-#include "SoftbodySpawner.h"
+#include "SoftbodyNode.h"
 #include "somData.h"
 
 int main(int argc, char* argv[]) {
@@ -9,8 +9,8 @@ int main(int argc, char* argv[]) {
 
 	game.setStartScene("Assets/Scenes/Tests.wgf");
 
+	game.addSystem<SoftbodyNode>();
 	game.addSystem<Softbody>();
-	game.addSystem<SoftbodySpawner>();
 	game.addComponent<somData>();
 
 	game.run();

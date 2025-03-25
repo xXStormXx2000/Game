@@ -55,22 +55,22 @@
     <ClCompile Include="somData.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Softbody.cpp">
+    <ClCompile Include="SoftbodyNode.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="SoftbodySpawner.cpp">
+    <ClCompile Include="Softbody.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Softbody.h">
+    <ClInclude Include="SoftbodyNode.h">
       <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="SoftbodySpawner.h">
-      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="somData.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Softbody.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

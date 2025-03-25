@@ -7,8 +7,12 @@
 #include "somData.h"
 
 class Softbody : public System {
+	DynamicArray<DynamicArray<Entity>> softbodys;
+	std::unordered_map<int, std::pair<int, int>> posMap;
 public:
-	void onCollision(const CollisionEvent&);
+	Softbody();
+	void start(Entity);
+	void preUpdate(Entity);
 	void update(Entity);
 };
 

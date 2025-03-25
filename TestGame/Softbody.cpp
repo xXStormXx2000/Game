@@ -1,30 +1,102 @@
 #include "Softbody.h"
 
+Softbody::Softbody() : softbodys(12, DynamicArray<Entity>(12)) {
+	
+}
 
-void Softbody::onCollision(const CollisionEvent& colEvent) {
-	Transform& tf = this->getComponent<Transform>(colEvent.entity.getId());
-	if (colEvent.collisionDirection.x) {
-		tf.velocity.x = colEvent.collisionDirection.x;
-	}
-	if (colEvent.collisionDirection.y) {
-		tf.velocity.y = colEvent.collisionDirection.y;
+void Softbody::start(Entity) {
+
+	setCameraWidth(getCameraWidth()/3*2);
+	setCameraHeight(getCameraHeight()/3*2);
+	setCameraOffset({-getCameraWidth()/2, -getCameraHeight()/2, 0});
+
+	addSound("jump", "Assets/Audio/jump.wav");
+
+	for (int i = 0; i < softbodys.size(); i++) {
+		for (int j = 0; j < softbodys[0].size(); j++) {
+			Entity entity = createEntity();
+			
+			if (i == softbodys.size() / 2 && j == softbodys[0].size() / 2)
+				setCameraFollowEntity(entity);
+
+			EntityFlags* ef = new EntityFlags;
+			ef->flags = 27;
+
+			addEntity(entity, ef);
+			
+			addEntityToSystem(entity, 0);
+
+			Transform* tf = new Transform;
+			addComponentToEntity(entity, tf);
+			tf->scale = { 1, 1, 0 };
+			tf->position.x = i * 30 + 50;
+			tf->position.y = j * 30 + 50;
+
+			Collider* cl = new Collider;
+			addComponentToEntity(entity, cl);
+			cl->height = 5;
+			cl->width = 5;
+
+
+			somData* sD = new somData;
+			addComponentToEntity(entity, sD);
+			sD->data = rand() % 10000;
+
+			Sprite* sp = new Sprite;
+			addComponentToEntity(entity, sp);
+			sp->height = 5;
+			sp->width = 5;
+			sp->texturePortion.x = 0;
+			sp->texturePortion.y = 0;
+			sp->texturePortion.w = 64;
+			sp->texturePortion.h = 64;
+			sp->spriteIndex = 0;
+
+			addEntityToRenderer(entity);
+
+			addEntityToPhysicsEngine(entity);
+
+			this->softbodys[i][j] = entity;
+			this->posMap[entity.getId()] = { i, j };
+
+		}
 	}
 }
 
-void Softbody::update(Entity entity) {
-	Transform& tf = getComponent<Transform>(entity.getId());
-	//if (this->softbodys[0][0].getId() != entity.getId()) return;
-	somData& sD = getComponent<somData>(entity.getId());
-	//debugMessage(sD.data);
 
-	if (tf.velocity.y < 20) tf.velocity.y += 1;
-	if(this->keyDown('d') || this->keyDown('a')) tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 7;
-	//if(this->keyDown('s') || this->keyDown('w')) tf.velocity.y = (this->keyDown('s') - this->keyDown('w')) * 7;
+void Softbody::preUpdate(Entity) {
+	float dist = 30;
+	for (auto [entity, xy] : this->posMap) {
+		Transform& tf = getComponent<Transform>(entity);
+		int x = xy.first;
+		int y = xy.second;
+		for (int i = -1; i < 2; i++) {
+			if (i + y < 0 || i + y >= this->softbodys[0].size()) continue;
+			for (int j = -1; j < 2; j++) {
+				if (!i && !j) continue;
+				if (j + x < 0 || j + x >= this->softbodys.size()) continue;
+				Entity other = this->softbodys[j + x][i + y];
+				Transform otherTf = getComponent<Transform>(other.getId());
+				if (j) {
+					float vel = (otherTf.velocity.x - tf.velocity.x) * j;
+					vel = spring(vel, (otherTf.position.x - tf.position.x) * j, dist, 0.3, 0.1);
+					tf.velocity.x += vel * j;
+				}
+				if (i) {
+					float vel = (otherTf.velocity.y - tf.velocity.y) * i;
+					vel = spring(vel, (otherTf.position.y - tf.position.y) * i, dist, 0.3, 0.1);
+					tf.velocity.y += vel * i;
+				}
+			}
+		}
+	}
+}
+
+void Softbody::update(Entity) {
 	if (this->keyPressed('w')) {
-		tf.velocity.y = -20;
 		playSound("jump");
 	}
 	if (this->keyDown('w')) {
-		drawText("Jump Test!\nHello World!\nThat's cool, man.", {100, 100, 1});
+		drawText("Jump Test!\nHello World!\nThat's cool, man.", { 100, 100, 1 });
 	}
 }

@@ -149,13 +149,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SoftbodyNode.cpp" />
     <ClCompile Include="Softbody.cpp" />
-    <ClCompile Include="SoftbodySpawner.cpp" />
     <ClCompile Include="somData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SoftbodyNode.h" />
     <ClInclude Include="Softbody.h" />
-    <ClInclude Include="SoftbodySpawner.h" />
     <ClInclude Include="somData.h" />
   </ItemGroup>
   <ItemGroup>
