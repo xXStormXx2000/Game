@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b7518884-971f-44dc-8fe0-a6e20fcb2fdd}</ProjectGuid>
-    <RootNamespace>Game</RootNamespace>
+    <ProjectGuid>{9ddcc41d-f1f7-4f1a-a633-cd675d506e5a}</ProjectGuid>
+    <RootNamespace>TestGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -72,130 +72,68 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>dev\SDL2\include;dev\SDL2_image\include;dev\SDL2_mixer\include</AdditionalIncludeDirectories>
-      <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>dev\SDL2\lib\x64;dev\SDL2_image\lib\x64;dev\SDL2_mixer\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;shell32.lib;SDL2_image.lib;SDL2_mixer.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>dev\SDL2\include;dev\SDL2_image\include;dev\SDL2_mixer\include</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>dev\SDL2\lib\x64;dev\SDL2_image\lib\x64;dev\SDL2_mixer\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;shell32.lib;SDL2_image.lib;SDL2_mixer.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>dev\SDL2\include;dev\SDL2_image\include;dev\SDL2_mixer\include</AdditionalIncludeDirectories>
-      <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>dev\SDL2\lib\x64;dev\SDL2_image\lib\x64;dev\SDL2_mixer\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;shell32.lib;SDL2_image.lib;SDL2_mixer.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>dev\SDL2\include;dev\SDL2_image\include;dev\SDL2_mixer\include</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>dev\SDL2\lib\x64;dev\SDL2_image\lib\x64;dev\SDL2_mixer\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;shell32.lib;SDL2_image.lib;SDL2_mixer.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="AStar.h" />
-    <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="CollisionEvent.h" />
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="DynamicArray.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="HexagonGrid.h" />
-    <ClInclude Include="PhysicsEngine.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="FileManager.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SharedResources.h" />
-    <ClInclude Include="Softbody.h" />
-    <ClInclude Include="SoftbodySpawner.h" />
-    <ClInclude Include="System.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="Vector3D.h" />
+    <ClCompile Include="..\Game\main.cpp" />
+    <ClCompile Include="..\Game\Softbody.cpp" />
+    <ClCompile Include="..\Game\SoftbodySpawner.cpp" />
+    <ClCompile Include="..\Game\somData.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="Components.cpp" />
-    <ClCompile Include="Debug.h" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="HexagonGrid.cpp" />
-    <ClCompile Include="PhysicsEngine.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="FileManager.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SharedResources.cpp" />
-    <ClCompile Include="spring.cpp" />
-    <ClCompile Include="spring.h" />
-    <ClCompile Include="System.cpp" />
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Vector3D.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Scenes\Tests.wgf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\Art\flaim.png" />
-    <Image Include="Assets\Art\hitbox.png" />
-    <Image Include="Assets\Art\slime.png" />
-    <Image Include="Assets\Art\smil.png" />
-    <Image Include="Assets\Art\TileSet.png" />
-    <Image Include="Assets\Fonts\Font.png" />
+    <ClInclude Include="..\Game\somData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
