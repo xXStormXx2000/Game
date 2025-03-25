@@ -13,70 +13,69 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Systems">
-      <UniqueIdentifier>{c5e6efb5-1410-4038-b350-b2332b2575ae}</UniqueIdentifier>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{13639621-93d3-43b0-85d2-5b5504c7537d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Components">
-      <UniqueIdentifier>{66f26136-62c2-4aa8-a9e3-f8cff44a5ec3}</UniqueIdentifier>
+      <UniqueIdentifier>{5e1491c1-0ecb-42db-996b-fe137a2521ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Components">
-      <UniqueIdentifier>{c6806bb3-6055-4dc1-accc-b24c363ce49d}</UniqueIdentifier>
+    <Filter Include="Header Files\Systems">
+      <UniqueIdentifier>{9a0170fa-d357-4c7f-8a05-3cb3d5443478}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\systems">
-      <UniqueIdentifier>{322c8ca4-1d7a-495a-8042-4561ead32f4c}</UniqueIdentifier>
+    <Filter Include="Source Files\Systems">
+      <UniqueIdentifier>{c78332d0-0f71-4da8-9e34-45b3f4714daa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Scenes">
-      <UniqueIdentifier>{b86784cf-bbef-4535-b3e6-0aaeec575693}</UniqueIdentifier>
-    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Art\flaim.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Art\hitbox.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Art\slime.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Art\smil.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Art\TileSet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\Audio\jump.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SoftbodySpawner.cpp">
-      <Filter>Source Files\Systems</Filter>
+    <ClCompile Include="somData.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Softbody.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="somData.cpp">
-      <Filter>Source Files\Components</Filter>
+    <ClCompile Include="SoftbodySpawner.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Softbody.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftbodySpawner.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
     <ClInclude Include="somData.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Softbody.h">
-      <Filter>Header Files\systems</Filter>
-    </ClInclude>
-    <ClInclude Include="SoftbodySpawner.h">
-      <Filter>Header Files\systems</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Game\Assets\Scenes\Tests.wgf">
-      <Filter>Resource Files\Scenes</Filter>
+    <None Include="Assets\Scenes\Tests.wgf">
+      <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Game\Assets\Art\flaim.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\Game\Font.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\Game\Assets\Art\hitbox.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\Game\Assets\Art\slime.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\Game\Assets\Art\smil.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\Game\Assets\Art\TileSet.png">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>

@@ -18,37 +18,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Softbody.cpp" />
-    <ClCompile Include="SoftbodySpawner.cpp" />
-    <ClCompile Include="somData.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Softbody.h" />
-    <ClInclude Include="SoftbodySpawner.h" />
-    <ClInclude Include="somData.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Game\Assets\Scenes\Tests.wgf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Game\Assets\Art\flaim.png" />
-    <Image Include="..\Game\Assets\Art\hitbox.png" />
-    <Image Include="..\Game\Assets\Art\slime.png" />
-    <Image Include="..\Game\Assets\Art\smil.png" />
-    <Image Include="..\Game\Assets\Art\TileSet.png" />
-    <Image Include="..\Game\Font.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Engine\Game.vcxproj">
-      <Project>{b7518884-971f-44dc-8fe0-a6e20fcb2fdd}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{9ddcc41d-f1f7-4f1a-a633-cd675d506e5a}</ProjectGuid>
+    <ProjectGuid>{c86b87d9-a2b7-42e4-898a-ff36fd1d98dc}</ProjectGuid>
     <RootNamespace>TestGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -103,8 +76,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine;$(SolutionDir)SDL\SDL2\include;$(SolutionDir)SDL\SDL2_image\include;$(SolutionDir)SDL\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,8 +92,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine;$(SolutionDir)SDL\SDL2\include;$(SolutionDir)SDL\SDL2_image\include;$(SolutionDir)SDL\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,8 +108,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Engine;$(SolutionDir)SDL\SDL2_mixer\include;$(SolutionDir)SDL\SDL2_image\include;$(SolutionDir)SDL\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine;$(SolutionDir)SDL\SDL2\include;$(SolutionDir)SDL\SDL2_image\include;$(SolutionDir)SDL\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,8 +124,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Engine;$(SolutionDir)SDL\SDL2_mixer\include;$(SolutionDir)SDL\SDL2_image\include;$(SolutionDir)SDL\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine;$(SolutionDir)SDL\SDL2\include;$(SolutionDir)SDL\SDL2_image\include;$(SolutionDir)SDL\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,6 +134,35 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <Image Include="Assets\Art\flaim.png" />
+    <Image Include="Assets\Art\hitbox.png" />
+    <Image Include="Assets\Art\slime.png" />
+    <Image Include="Assets\Art\smil.png" />
+    <Image Include="Assets\Art\TileSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\Audio\jump.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Scenes\Tests.wgf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Softbody.cpp" />
+    <ClCompile Include="SoftbodySpawner.cpp" />
+    <ClCompile Include="somData.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Softbody.h" />
+    <ClInclude Include="SoftbodySpawner.h" />
+    <ClInclude Include="somData.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Game.vcxproj">
+      <Project>{b7518884-971f-44dc-8fe0-a6e20fcb2fdd}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

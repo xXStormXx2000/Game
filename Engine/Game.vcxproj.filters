@@ -9,152 +9,143 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Header Files\Engine">
-      <UniqueIdentifier>{242598d8-f396-4bc8-911b-7125b6212bbf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine">
-      <UniqueIdentifier>{d547d49d-f362-4f95-a735-28722159d48b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Events">
-      <UniqueIdentifier>{508db991-755c-4823-8bf6-b75389313cbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Components">
-      <UniqueIdentifier>{3edcf83d-59f4-4a00-aa89-dc9d0ff84d2c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Debug">
-      <UniqueIdentifier>{58a102ee-0bdf-4348-a6bb-0d979a6d2e83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Types">
-      <UniqueIdentifier>{08b826d7-4109-4d0a-aeeb-ebae91298bae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Components">
+    <Filter Include="Source Files\Components">
       <UniqueIdentifier>{7628f67c-604f-466e-a28c-d648e3183852}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Functionality">
-      <UniqueIdentifier>{e2a33f70-9044-4ef3-b5f5-e62e8841a8b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Types">
-      <UniqueIdentifier>{2f66ed08-4d1a-4994-a395-99e40ba84ddf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Functionality">
-      <UniqueIdentifier>{0a25686c-f546-4f67-a486-656debfebbe4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Debug">
+    <Filter Include="Source Files\Debug">
       <UniqueIdentifier>{b9e8caee-eb52-4a99-8221-119cd409751b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\SubSystems">
-      <UniqueIdentifier>{d2d7c9ba-6a42-48fe-a553-56ef278af86c}</UniqueIdentifier>
+    <Filter Include="Source Files\Functionality">
+      <UniqueIdentifier>{e2a33f70-9044-4ef3-b5f5-e62e8841a8b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\SubSystems">
+    <Filter Include="Source Files\SubSystems">
       <UniqueIdentifier>{a9de843f-7db5-4bdb-ab40-9ebc1ec9a230}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Resource Files">
-      <UniqueIdentifier>{63155035-11b8-4e7d-a69a-326109889f56}</UniqueIdentifier>
+    <Filter Include="Source Files\Types">
+      <UniqueIdentifier>{2f66ed08-4d1a-4994-a395-99e40ba84ddf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{3edcf83d-59f4-4a00-aa89-dc9d0ff84d2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Debug">
+      <UniqueIdentifier>{58a102ee-0bdf-4348-a6bb-0d979a6d2e83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Events">
+      <UniqueIdentifier>{508db991-755c-4823-8bf6-b75389313cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Functionality">
+      <UniqueIdentifier>{0a25686c-f546-4f67-a486-656debfebbe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SubSystems">
+      <UniqueIdentifier>{d2d7c9ba-6a42-48fe-a553-56ef278af86c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Types">
+      <UniqueIdentifier>{08b826d7-4109-4d0a-aeeb-ebae91298bae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DynamicArray.h">
-      <Filter>Header Files\Engine\Types</Filter>
+      <Filter>Header Files\Types</Filter>
     </ClInclude>
     <ClInclude Include="Vector3D.h">
-      <Filter>Header Files\Engine\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\Engine</Filter>
+      <Filter>Header Files\Types</Filter>
     </ClInclude>
     <ClInclude Include="HexagonGrid.h">
-      <Filter>Header Files\Engine\Functionality</Filter>
+      <Filter>Header Files\Functionality</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Header Files\Engine\Functionality</Filter>
+      <Filter>Header Files\Functionality</Filter>
     </ClInclude>
     <ClInclude Include="AStar.h">
-      <Filter>Header Files\Engine\Functionality</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files\Engine</Filter>
+      <Filter>Header Files\Functionality</Filter>
     </ClInclude>
     <ClInclude Include="Components.h">
-      <Filter>Header Files\Engine\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="SharedResources.h">
-      <Filter>Header Files\Engine</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="CollisionEvent.h">
-      <Filter>Header Files\Engine\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="System.h">
-      <Filter>Header Files\Engine</Filter>
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="AudioManager.h">
-      <Filter>Header Files\Engine\SubSystems</Filter>
+      <Filter>Header Files\SubSystems</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsEngine.h">
-      <Filter>Header Files\Engine\SubSystems</Filter>
+      <Filter>Header Files\SubSystems</Filter>
     </ClInclude>
     <ClInclude Include="FileManager.h">
-      <Filter>Header Files\Engine\SubSystems</Filter>
+      <Filter>Header Files\SubSystems</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Header Files\Engine\SubSystems</Filter>
+      <Filter>Header Files\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedResources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Debug.h">
-      <Filter>Header Files\Engine\Debug</Filter>
+      <Filter>Header Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Vector3D.cpp">
-      <Filter>Source Files\Engine\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Types</Filter>
     </ClCompile>
     <ClCompile Include="HexagonGrid.cpp">
-      <Filter>Source Files\Engine\Functionality</Filter>
+      <Filter>Source Files\Functionality</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Source Files\Engine\Functionality</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Functionality</Filter>
     </ClCompile>
     <ClCompile Include="Components.cpp">
-      <Filter>Source Files\Engine\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="SharedResources.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="System.cpp">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="spring.h">
-      <Filter>Header Files\Engine\Functionality</Filter>
+      <Filter>Header Files\Functionality</Filter>
     </ClCompile>
     <ClCompile Include="spring.cpp">
-      <Filter>Source Files\Engine\Functionality</Filter>
+      <Filter>Source Files\Functionality</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
-      <Filter>Source Files\Engine\SubSystems</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileManager.cpp">
-      <Filter>Source Files\Engine\SubSystems</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files\Engine\SubSystems</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsEngine.cpp">
-      <Filter>Source Files\Engine\SubSystems</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedResources.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Font.png">
-      <Filter>Source Files\Engine</Filter>
+      <Filter>Source Files</Filter>
     </Image>
   </ItemGroup>
 </Project>
