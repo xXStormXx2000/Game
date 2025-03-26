@@ -5,6 +5,10 @@ Under **Get started** click on **Clone repository**.
 
 Under **Repository location** write: https://github.com/xXStormXx2000/Game.git and click **Clone**.
 
+You will need to configure which project is your startup Project. You do this by right clicking on a project and going down to 
+
+**Configure Startup Project...** and click on it. Select **Single starter project** and choose your startup project under it.
+
 # How to use the engine
 You have to write the main function correctly because this engine uses SDL.
 
