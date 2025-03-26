@@ -473,18 +473,6 @@
     <None Include="SDL2\include\SDL_revision.h.cmake">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="SDL2\lib\x86\SDL2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="SDL2\lib\x64\SDL2.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="SDL2\lib\x86\SDL2.pdb">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="SDL2\lib\x64\SDL2.pdb">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="SDL2_image\lib\x64\SDL2_image.dll">
       <Filter>Resource Files</Filter>
     </None>
@@ -515,14 +503,12 @@
     <None Include="SDL2\cmake\sdl2-config-version.cmake">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="SDL2\lib\x64\SDL2.dll" />
+    <None Include="SDL2\lib\x64\SDL2.pdb" />
+    <None Include="SDL2\lib\x86\SDL2.dll" />
+    <None Include="SDL2\lib\x86\SDL2.pdb" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="SDL2\lib\x64\SDL2.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-    <Library Include="SDL2\lib\x86\SDL2.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
     <Library Include="SDL2_image\lib\x86\SDL2_image.lib">
       <Filter>Resource Files</Filter>
     </Library>
@@ -535,18 +521,12 @@
     <Library Include="SDL2_mixer\lib\x86\SDL2_mixer.lib">
       <Filter>Resource Files</Filter>
     </Library>
-    <Library Include="SDL2\lib\x86\SDL2main.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-    <Library Include="SDL2\lib\x64\SDL2main.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-    <Library Include="SDL2\lib\x64\SDL2test.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-    <Library Include="SDL2\lib\x86\SDL2test.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
+    <Library Include="SDL2\lib\x86\SDL2test.lib" />
+    <Library Include="SDL2\lib\x64\SDL2.lib" />
+    <Library Include="SDL2\lib\x64\SDL2main.lib" />
+    <Library Include="SDL2\lib\x64\SDL2test.lib" />
+    <Library Include="SDL2\lib\x86\SDL2.lib" />
+    <Library Include="SDL2\lib\x86\SDL2main.lib" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SDL2\BUGS.txt">

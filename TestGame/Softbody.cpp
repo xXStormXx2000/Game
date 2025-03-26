@@ -1,14 +1,12 @@
 #include "Softbody.h"
 
-Softbody::Softbody() : softbodys(12, DynamicArray<Entity>(12)) {
+Softbody::Softbody() : softbodys(64, DynamicArray<Entity>(64)) {
 	
 }
 
 void Softbody::start(Entity) {
 
-	setCameraWidth(getCameraWidth()/3*2);
-	setCameraHeight(getCameraHeight()/3*2);
-	setCameraOffset({-getCameraWidth()/2, -getCameraHeight()/2, 0});
+	
 
 	addSound("jump", "Assets/Audio/jump.wav");
 
@@ -16,8 +14,7 @@ void Softbody::start(Entity) {
 		for (int j = 0; j < softbodys[0].size(); j++) {
 			Entity entity = createEntity();
 			
-			if (i == softbodys.size() / 2 && j == softbodys[0].size() / 2)
-				setCameraFollowEntity(entity);
+
 
 			EntityFlags* ef = new EntityFlags;
 			ef->flags = 27;
@@ -29,8 +26,8 @@ void Softbody::start(Entity) {
 			Transform* tf = new Transform;
 			addComponentToEntity(entity, tf);
 			tf->scale = { 1, 1, 0 };
-			tf->position.x = i * 30 + 50;
-			tf->position.y = j * 30 + 50;
+			tf->position.x = i * 5 + 50;
+			tf->position.y = j * 5 + 50;
 
 			Collider* cl = new Collider;
 			addComponentToEntity(entity, cl);
@@ -65,7 +62,7 @@ void Softbody::start(Entity) {
 
 
 void Softbody::preUpdate(Entity) {
-	float dist = 30;
+	/*float dist = 30;
 	for (auto [entity, xy] : this->posMap) {
 		Transform& tf = getComponent<Transform>(entity);
 		int x = xy.first;
@@ -89,7 +86,7 @@ void Softbody::preUpdate(Entity) {
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void Softbody::update(Entity) {
