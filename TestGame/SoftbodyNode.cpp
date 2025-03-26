@@ -18,7 +18,5 @@ void SoftbodyNode::update(Entity entity) {
 
 	//if (tf.velocity.y < 20) tf.velocity.y += 1;
 	//if(this->keyDown('d') || this->keyDown('a')) tf.velocity.x = (this->keyDown('d') - this->keyDown('a')) * 7;
-	//if (this->keyPressed('w')) {
-		//tf.velocity.y = -20;
-	//}
+	//if (this->keyPressed('w')) tf.velocity.y = -20;
 }
