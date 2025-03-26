@@ -1,6 +1,6 @@
 #include "Softbody.h"
 
-Softbody::Softbody() : softbodys(32, DynamicArray<Entity>(32)) {
+Softbody::Softbody() : softbodys(64, DynamicArray<Entity>(64)) {
 	
 }
 
@@ -25,9 +25,10 @@ void Softbody::start(Entity) {
 
 			Transform* tf = new Transform;
 			addComponentToEntity(entity, tf);
-			tf->scale = { 2, 2, 0 };
-			tf->position.x = i * 15 + 50;
-			tf->position.y = j * 15 + 50;
+			tf->scale = { 1, 1, 0 };
+			tf->position.x = i * 10 + 50;
+			tf->position.y = j * 10 + 50;
+			tf->velocity = { -2, 2, 0 };
 
 			Collider* cl = new Collider;
 			addComponentToEntity(entity, cl);
