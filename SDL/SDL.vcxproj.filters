@@ -521,12 +521,12 @@
     <Library Include="SDL2_mixer\lib\x86\SDL2_mixer.lib">
       <Filter>Resource Files</Filter>
     </Library>
-    <Library Include="SDL2\lib\x86\SDL2test.lib" />
     <Library Include="SDL2\lib\x64\SDL2.lib" />
     <Library Include="SDL2\lib\x64\SDL2main.lib" />
     <Library Include="SDL2\lib\x64\SDL2test.lib" />
     <Library Include="SDL2\lib\x86\SDL2.lib" />
     <Library Include="SDL2\lib\x86\SDL2main.lib" />
+    <Library Include="SDL2\lib\x86\SDL2test.lib" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SDL2\BUGS.txt">
