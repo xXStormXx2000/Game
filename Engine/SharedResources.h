@@ -18,6 +18,9 @@ class SharedResources {
 
 	std::unordered_map<std::string, std::unordered_set<Entity>> tagEntityLookup;
 
+	int windowWidth;
+	int windowHeight;
+
 public:
 	DynamicArray<CollisionEvent> getCollisionEvents(int);
 	void setCollisionEvents(CollisionEventMap);
@@ -46,5 +49,9 @@ public:
 	void removeEntityTag(const std::string&, Entity);
 	const std::unordered_set<Entity>& getTagEntitys(const std::string&);
 
+	void setWindowSize(int, int);
+
+	int getWindowWidth();
+	int getWindowHeight();
 };
 

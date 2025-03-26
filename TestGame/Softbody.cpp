@@ -1,14 +1,11 @@
 #include "Softbody.h"
 
-Softbody::Softbody() : softbodys(64, DynamicArray<Entity>(64)) {
+Softbody::Softbody() : softbodys(128, DynamicArray<Entity>(128)) {
 	
 }
 
 void Softbody::start(Entity) {
 
-	
-
-	addSound("jump", "Assets/Audio/jump.wav");
 
 	for (int i = 0; i < softbodys.size(); i++) {
 		for (int j = 0; j < softbodys[0].size(); j++) {
@@ -25,10 +22,10 @@ void Softbody::start(Entity) {
 
 			Transform* tf = new Transform;
 			addComponentToEntity(entity, tf);
-			tf->scale = { 1, 1, 0 };
-			tf->position.x = i * 10 + 50;
-			tf->position.y = j * 10 + 50;
-			tf->velocity = { -2, 2, 0 };
+			tf->scale = { 0.5, 0.5, 0 };
+			tf->position.x = i * 6 + 50;
+			tf->position.y = j * 6 + 50;
+			tf->velocity = { 0.75f*float(rand()%3-1), 0.75f*float(rand()%3-1), 0};
 
 			Collider* cl = new Collider;
 			addComponentToEntity(entity, cl);
@@ -91,10 +88,4 @@ void Softbody::preUpdate(Entity) {
 }
 
 void Softbody::update(Entity) {
-	if (this->keyPressed('w')) {
-		playSound("jump");
-	}
-	if (this->keyDown('w')) {
-		drawText("Jump Test!\nHello World!\nThat's cool, man.", { 100, 100, 1 });
-	}
 }

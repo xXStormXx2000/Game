@@ -60,6 +60,9 @@ protected:
 	void setCameraWidth(float);
 	void setCameraHeight(float);
 
+	float getWindowWidth();
+	float getWindowHeight();
+
 	Entity getCameraFollowEntity();
 	void setCameraFollowEntity(Entity);
 

@@ -3,6 +3,7 @@
 Textures
 Assets/Art/hitbox.png
 Assets/Art/tileSet.png
+Assets/Art/smil.png
 #
 
 TileSet
@@ -46,29 +47,6 @@ Transform
 0.0 0.0 0
 0.0 0.0 0.0
 23.0 0.1 1.0
-
-Collider
-0 0 0
-50 50
-
-Sprite
-0.0 0.0 0.0
-50 50
-0 0 64 64
-0
-
-Render
-
-Collision
-
-
-! 11
-
-Transform
-300.0 400.0 0
-0.0 0.0 0.0
-4.0 7 1.0
-
 
 Collider
 0 0 0
@@ -133,3 +111,28 @@ Collision
 
 sys 
 1
+
+! 27
+
+Transform
+20.0 20.0 0
+0.0 0.0 0.0
+1.0 1.0 1.0
+
+
+Collider
+0 0 0
+16 16
+
+Sprite
+0.0 0.0 0.0
+16 16
+0 0 64 64
+2
+
+Render
+
+Collision
+
+sys
+2

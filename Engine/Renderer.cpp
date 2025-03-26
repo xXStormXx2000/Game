@@ -38,8 +38,8 @@ SDL_Rect Renderer::cameraTransform(Transform tf, const Sprite& sp) {
 		tf.position -= this->scene->getComponent<Transform>(this->cameraFollowEntity.getId()).position;
 	SDL_Rect target;
 	tf.position += sp.offset;
-	float xScale = this->scene->getWidth() / this->cameraWidth;
-	float yScale = this->scene->getHeight() / this->cameraHeight;
+	float xScale = this->sharedResources->getWindowWidth() / this->cameraWidth;
+	float yScale = this->sharedResources->getWindowHeight()/this->cameraHeight;
 	target.x = tf.position.x * xScale;
 	target.y = tf.position.y * yScale;
 	target.w = sp.width * tf.scale.x  * xScale;
@@ -47,7 +47,7 @@ SDL_Rect Renderer::cameraTransform(Transform tf, const Sprite& sp) {
 	return target;
 }
 
-Renderer::Renderer(SDL_Window* window): window(window), renderer(NULL), scene(nullptr), font(NULL) {
+Renderer::Renderer(SDL_Window* window): window(window), renderer(NULL), scene(nullptr), font(NULL), sharedResources(nullptr) {
 
 	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
 		debugMessage("SDL_image could not initialize! SDL_image Error: " << IMG_GetError());
@@ -70,7 +70,7 @@ Renderer::Renderer(SDL_Window* window): window(window), renderer(NULL), scene(nu
 	SDL_FreeSurface(surface);
 }
 
-Renderer::Renderer(): window(NULL), renderer(NULL), scene(nullptr), font(NULL) {
+Renderer::Renderer(): window(NULL), renderer(NULL), scene(nullptr), font(NULL), sharedResources(nullptr) {
 }
 
 void Renderer::setScene(Scene* scene) {
@@ -97,8 +97,8 @@ void Renderer::render() {
 	SDL_RenderClear(this->renderer);
 	for (auto entityList: this->entitys) for (Entity entity: entityList.second) {
 		if (entity.getId() < -1) {
-			float xScale = this->scene->getWidth() / this->cameraWidth;
-			float yScale = this->scene->getHeight() / this->cameraHeight;
+			float xScale = this->sharedResources->getWindowWidth() / this->cameraWidth;
+			float yScale = this->sharedResources->getWindowHeight() / this->cameraHeight;
 
 			TileSet tileSet = this->tileSets[-(entity.getId() + 2)];
 			Vector3D camPos = -this->cameraOffset;
@@ -222,6 +222,10 @@ void Renderer::setCameraOffset(Vector3D offset) {
 
 void Renderer::addTextToDraw(const std::string& text, Vector3D pos) {
 	this->textToDraw.pushBack({ text, pos });
+}
+
+void Renderer::setSharedResources(SharedResources* sr) {
+	this->sharedResources = sr;
 }
 
 void Renderer::drawText(const std::string& text, Vector3D pos) {

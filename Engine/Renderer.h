@@ -7,6 +7,7 @@
 #include <map>
 #include "Entity.h"
 #include "Scene.h"
+#include "SharedResources.h"
 #include <string>
 
 struct Tile
@@ -30,6 +31,7 @@ class Renderer {
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	Scene* scene;
+	SharedResources* sharedResources;
 
 	DynamicArray<SDL_Texture*> sprites;
 	DynamicArray<TileSet> tileSets;
@@ -85,6 +87,8 @@ public:
 	void setCameraOffset(Vector3D);
 
 	void addTextToDraw(const std::string&, Vector3D);
+
+	void setSharedResources(SharedResources*);
 
 	~Renderer();
 };

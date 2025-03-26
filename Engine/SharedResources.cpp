@@ -84,3 +84,16 @@ const std::unordered_set<Entity>& SharedResources::getTagEntitys(const std::stri
     if (this->tagEntityLookup.find(tag) == this->tagEntityLookup.end()) return {};
     return this->tagEntityLookup[tag];
 }
+
+void SharedResources::setWindowSize(int w, int h) {
+    this->windowWidth = w;
+    this->windowHeight = h;
+}
+
+int SharedResources::getWindowWidth() {
+    return this->windowWidth;
+}
+
+int SharedResources::getWindowHeight() {
+    return this->windowHeight;
+}

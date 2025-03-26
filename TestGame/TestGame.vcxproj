@@ -148,12 +148,14 @@
     <None Include="Assets\Scenes\Tests.wgf" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Controler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SoftbodyNode.cpp" />
     <ClCompile Include="Softbody.cpp" />
     <ClCompile Include="somData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controler.h" />
     <ClInclude Include="SoftbodyNode.h" />
     <ClInclude Include="Softbody.h" />
     <ClInclude Include="somData.h" />

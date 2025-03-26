@@ -41,6 +41,14 @@ void System::setCameraHeight(float size) {
 	this->renderer->setCameraHeight(size);
 }
 
+float System::getWindowWidth() {
+	return this->sharedResources->getWindowWidth();
+}
+
+float System::getWindowHeight() {
+	return this->sharedResources->getWindowHeight();
+}
+
 Entity System::getCameraFollowEntity() {
 	return this->renderer->getCameraFollowEntity();
 }

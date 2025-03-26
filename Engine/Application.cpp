@@ -24,9 +24,12 @@ Application::Application(const char* title, const char* icon, int width, int hei
 	SDL_SetWindowIcon(this->window, iconSurface);
 	SDL_FreeSurface(iconSurface);
 
+	this->sharedResources.setWindowSize(width, height);
+
 	this->renderer = Renderer(this->window);
 	if (!this->renderer.exist()) return;
 	this->renderer.setScene(&this->scene);
+	this->renderer.setSharedResources(&this->sharedResources);
 
 	this->fileManager.setScene(&this->scene);
 	this->fileManager.setRenderer(&this->renderer);
@@ -79,8 +82,8 @@ void Application::setStartScene(std::string path){
 
 void Application::start() {
 	fileManager.loadScene(this->sharedResources.getSceneFilePath(), this->systems, this->componentsTypes);
-	this->renderer.setCameraWidth(this->scene.getWidth());
-	this->renderer.setCameraHeight(this->scene.getHeight());
+	this->renderer.setCameraWidth(this->sharedResources.getWindowWidth());
+	this->renderer.setCameraHeight(this->sharedResources.getWindowHeight());
 	for (System* sys : systems) {
 		for (Entity entity : sys->getEntitys()) {
 			this->physicsEngine.addCustomCollisionResolve(entity.getId(), sys);
