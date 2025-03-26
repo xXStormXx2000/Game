@@ -1,5 +1,5 @@
 #pragma once
-#if _DEBUG
+#if 1
 #include <assert.h>
 #include <iostream>
 #define debugMessage(x) std::cout << x << '\n'

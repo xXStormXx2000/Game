@@ -193,6 +193,30 @@ void PhysicsEngine::preventIntersection(const CollisionEvent& colEvent) {
 }
 
 CollisionEventMap PhysicsEngine::getAllCollisions() {
+
+#if 0
+    std::unordered_set<int> overlaping;
+    for (Entity e : this->dynamicCollisionEntitys) {
+        const Transform* tf = getTfComponent(e.getId());
+        const Collider* c = getClComponent(e.getId());
+        Vector3D cl = { c->width, c->height, 0 };
+        cl *= 0.8;
+        cl.hadamardProduct(tf->scale);
+        for (Entity oe : this->dynamicCollisionEntitys) {
+            if (e.getId() == oe.getId()) continue;
+            const Transform* otf = getTfComponent(oe.getId());
+            const Collider* oc = getClComponent(oe.getId());
+            Vector3D ocl = { oc->width, oc->height, 0 };
+            ocl.hadamardProduct(otf->scale);
+            ocl *= 0.8;
+            if (!simpleCollisionCheck(tf->position, cl, otf->position, ocl)) continue;
+            overlaping.insert(e.getId());
+            overlaping.insert(oe.getId());
+        }
+    }
+    debugMessage(overlaping.size());
+#endif
+
     DynamicArray<std::pair<int,Transform>> aCollisionBoxes = velocityAdjustCollisionBoxes();
     calculateMinArea();
     CollisionMap possibleCollisions = generateCollisionMap(aCollisionBoxes);
@@ -212,7 +236,7 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
     CollisionEventMap out;
     while (collisionQueue.size() != 0) {
         float time = collisionQueue.begin()->first;
-        std::unordered_map<int, int> entitys;
+        std::unordered_set<int> entitys;
         std::unordered_map<int, std::unordered_map<int, Vector3D>>& collisions = collisionQueue.begin()->second;
 
         for (auto& collisionEvents : collisions) {
@@ -220,7 +244,7 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
                 CollisionEvent collisionEvent = createCollisionEvent(collisionEvents.first, c.first, c.second, time);
                 preventIntersection(collisionEvent);
                 out[collisionEvent.entity.getId()].pushBack(collisionEvent);
-                entitys[collisionEvent.entity.getId()] = collisionEvent.other.getId();
+                entitys.insert(collisionEvent.entity.getId());
             }
         }
         collisionQueue.erase(time);
@@ -237,7 +261,7 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
                 lookup[entity].insert(colEvent.time);
             }
         };
-        for (auto [entity, other] : entitys) {
+        for (int entity : entitys) {
             helper(entity);
             for (int otherEntity : possibleCollisions[entity]) {
                 helper(otherEntity);
