@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGame", "TestGame\TestGa
 		{B7518884-971F-44DC-8FE0-A6E20FCB2FDD} = {B7518884-971F-44DC-8FE0-A6E20FCB2FDD}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LevelEditor", "LevelEditor\LevelEditor.vcxproj", "{C8DA504A-F8A9-43ED-B835-182979FC3ACC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -47,6 +49,14 @@ Global
 		{C86B87D9-A2B7-42E4-898A-FF36FD1D98DC}.Release|x64.Build.0 = Release|x64
 		{C86B87D9-A2B7-42E4-898A-FF36FD1D98DC}.Release|x86.ActiveCfg = Release|Win32
 		{C86B87D9-A2B7-42E4-898A-FF36FD1D98DC}.Release|x86.Build.0 = Release|Win32
+		{C8DA504A-F8A9-43ED-B835-182979FC3ACC}.Debug|x64.ActiveCfg = Debug|x64
+		{C8DA504A-F8A9-43ED-B835-182979FC3ACC}.Debug|x64.Build.0 = Debug|x64
+		{C8DA504A-F8A9-43ED-B835-182979FC3ACC}.Debug|x86.ActiveCfg = Debug|Win32
+		{C8DA504A-F8A9-43ED-B835-182979FC3ACC}.Debug|x86.Build.0 = Debug|Win32
+		{C8DA504A-F8A9-43ED-B835-182979FC3ACC}.Release|x64.ActiveCfg = Release|x64
+		{C8DA504A-F8A9-43ED-B835-182979FC3ACC}.Release|x64.Build.0 = Release|x64
+		{C8DA504A-F8A9-43ED-B835-182979FC3ACC}.Release|x86.ActiveCfg = Release|Win32
+		{C8DA504A-F8A9-43ED-B835-182979FC3ACC}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

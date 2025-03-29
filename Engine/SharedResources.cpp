@@ -1,5 +1,25 @@
 #include "SharedResources.h"
 
+void SharedResources::updateMouseState() {
+    this->mouseButtonBitmask = SDL_GetMouseState(&this->mouseX, &this->mouseY);
+}
+
+Vector3D SharedResources::getMousePos() {
+    return { this->mouseX, this->mouseY, 0 };
+}
+
+bool SharedResources::leftMouseButton() {
+    return this->mouseButtonBitmask & 0b1;
+}
+
+bool SharedResources::middleMouseButton() {
+    return this->mouseButtonBitmask & 0b10;
+}
+
+bool SharedResources::rightMouseButton() {
+    return this->mouseButtonBitmask & 0b100;
+}
+
 DynamicArray<CollisionEvent> SharedResources::getCollisionEvents(int id) {
     return this->collisionEvents[id];
 }

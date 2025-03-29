@@ -3,6 +3,7 @@
 #include "CollisionEvent.h"
 #include <unordered_set>
 #include <unordered_map>
+#include "SDL_mouse.h"
 
 
 class SharedResources {
@@ -16,12 +17,22 @@ class SharedResources {
 	char keysDown[32];
 	char keysReleased[32];
 
+	int mouseX, mouseY;
+	uint32_t mouseButtonBitmask;
+
 	std::unordered_map<std::string, std::unordered_set<Entity>> tagEntityLookup;
 
 	int windowWidth;
 	int windowHeight;
 
 public:
+	void updateMouseState();
+	Vector3D getMousePos();
+	bool leftMouseButton();
+	bool middleMouseButton();
+	bool rightMouseButton();
+
+
 	DynamicArray<CollisionEvent> getCollisionEvents(int);
 	void setCollisionEvents(CollisionEventMap);
 	

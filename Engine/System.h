@@ -77,6 +77,12 @@ protected:
 	void addSound(const std::string&, const std::string&);
 
 	void drawText(const std::string&, Vector3D);
+
+	Vector3D getMousePos();
+	bool leftMouseButton();
+	bool middleMouseButton();
+	bool rightMouseButton();
+
 public:
 	DynamicArray<Entity> newPhysicsEntity;
 	DynamicArray<Entity> oldPhysicsEntity;

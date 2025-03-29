@@ -15,14 +15,15 @@ Application::Application(const char* title, const char* icon, int width, int hei
 		debugMessage("Window could not be created! SDL_Error: " << SDL_GetError());
 		return;
 	}
-
-	SDL_Surface* iconSurface = IMG_Load(icon);
-	if (iconSurface == NULL) {
-		debugMessage("Icon could not be loaded! SDL_Error: " << IMG_GetError());
-		return;
+	if (icon != "") {
+		SDL_Surface* iconSurface = IMG_Load(icon);
+		if (iconSurface == NULL) {
+			debugMessage("Icon could not be loaded! SDL_Error: " << IMG_GetError());
+			return;
+		}
+		SDL_SetWindowIcon(this->window, iconSurface);
+		SDL_FreeSurface(iconSurface);
 	}
-	SDL_SetWindowIcon(this->window, iconSurface);
-	SDL_FreeSurface(iconSurface);
 
 	this->sharedResources.setWindowSize(width, height);
 
@@ -115,6 +116,7 @@ void Application::handleEvents(){
 			break;
 		}
 	}
+	this->sharedResources.updateMouseState();
 }
 
 void Application::collisionHandling() {

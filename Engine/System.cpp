@@ -90,6 +90,22 @@ void System::drawText(const std::string& text, Vector3D pos) {
 	this->renderer->addTextToDraw(text, pos);
 }
 
+Vector3D System::getMousePos() {
+	return this->sharedResources->getMousePos();
+}
+
+bool System::leftMouseButton() {
+	return this->sharedResources->leftMouseButton();
+}
+
+bool System::middleMouseButton() {
+	return this->sharedResources->middleMouseButton();
+}
+
+bool System::rightMouseButton() {
+	return this->sharedResources->rightMouseButton();
+}
+
 void System::setSharedResources(SharedResources* sh){
 	this->sharedResources = sh;
 }
@@ -98,12 +114,12 @@ void System::setScene(Scene* scene) {
 	this->scene = scene;
 }
 
-void System::setRenderer(Renderer* r) {
-	this->renderer = r;
+void System::setRenderer(Renderer* renderer) {
+	this->renderer = renderer;
 }
 
-void System::setAudioManager(AudioManager* a) {
-	this->audioManager = a;
+void System::setAudioManager(AudioManager* audioManager) {
+	this->audioManager = audioManager;
 }
 
 void System::setSystems(DynamicArray<System*>* systems)
