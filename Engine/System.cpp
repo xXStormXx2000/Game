@@ -17,7 +17,7 @@ void System::removeEntityToPhysicsEngine(Entity entity) {
 }
 
 std::string System::getScene() {
-	return this->sharedResources->getSceneFilePath();
+	return this->sharedResources->getSceneFilePath().stem().string();
 }
 
 void System::changeScene(std::string path) {

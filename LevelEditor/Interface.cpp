@@ -14,12 +14,82 @@ DynamicArray<std::filesystem::path> Interface::findFiles(const std::filesystem::
     return out;
 }
 
+bool Interface::mouseInBox(float x, float y, float w, float h) {
+    return (x <= getMousePos().x && getMousePos().x <= x + w &&
+            y <= getMousePos().y && getMousePos().y <= y + h);
+}
+
+bool Interface::isNum(const std::string& str) {
+    if (str.size() == 0) return false;
+    for(char c: str) 
+        if('0' > c || c > '9') 
+            return false;
+    return true;
+}
+
 void Interface::setGamePath(const std::filesystem::path& path) {
 	this->gamePath = path;
+}
+
+void Interface::setSceneFile(const std::filesystem::path& file) {
+    this->sceneFile = file;
 }
 
 void Interface::start(Entity) {
     artFiles = findFiles(gamePath / "Assets" / "Art");
     audioFiles = findFiles(gamePath / "Assets" / "Audio");
     musicFiles = findFiles(gamePath / "Assets" / "Music");
+}
+
+void Interface::update(Entity) {
+    std::string sceneW = std::to_string(sceneSizeX), sceneH = std::to_string(sceneSizeY);
+    
+
+    float x = 10, y = 10;
+    if (leftMouseButton()) {
+        select = -1;
+        if(this->getTextInputState()) this->toggleTextInputState();
+        if (mouseInBox(x + 20, y + 23, 100, 21)) {
+            this->toggleTextInputState();
+            select = 0;
+        }
+        if (mouseInBox(x + 20, y + 23 * 2, 100, 21)) {
+            this->toggleTextInputState();
+            select = 1;
+        }
+    }
+
+    if (select != -1) {
+        blinkTime++;
+        if (blinkTime > 30) blinkTime = 0;
+    }
+
+    switch (select) {
+    case 0:
+        sceneW = this->getTextInput();
+        if (blinkTime <= 15) sceneW += '/';
+        if (this->keyPressed(0)) {
+            if(!isNum(this->getTextInput())) break;
+            sceneSizeX = std::stoi(this->getTextInput());
+        }
+        break;
+    case 1:
+        sceneH = this->getTextInput();
+        if (blinkTime <= 15) sceneH += '/';
+        if (this->keyPressed(0)) {
+            if (!isNum(this->getTextInput())) break;
+            sceneSizeY = std::stoi(this->getTextInput());
+        }
+        break;
+    default:
+        break;
+    }
+    if (this->keyPressed(0)) {
+        select = -1;
+        blinkTime = 0;
+        this->toggleTextInputState();
+    }
+    this->drawText("Scene Size", { x, y, 1 });
+    this->drawText("W - " + sceneW, { x, y + 23, 1 });
+    this->drawText("H - " + sceneH, { x, y + 23*2, 1 });
 }

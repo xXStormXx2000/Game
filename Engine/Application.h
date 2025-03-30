@@ -10,6 +10,7 @@
 #include "SharedResources.h"
 #include "DynamicArray.h"
 #include "AudioManager.h"
+#include <filesystem>
 
 #include "System.h"
 
@@ -44,7 +45,7 @@ public:
 
 	void run();
 
-	void setStartScene(std::string);
+	void setStartScene(const std::filesystem::path&);
 
 	template<class T>
 	void addSystem(T* sys) {

@@ -77,7 +77,7 @@ void Application::run() {
 	}
 }
 
-void Application::setStartScene(std::string path){
+void Application::setStartScene(const std::filesystem::path& path){
 	this->sharedResources.setSceneFilePath(path);
 }
 

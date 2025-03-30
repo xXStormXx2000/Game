@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include "DynamicArray.h"
+#include <filesystem>
 
 #include "System.h"
 #include "Entity.h"
@@ -30,6 +31,6 @@ public:
 	void setPhysicsEngine(PhysicsEngine*);
 	void setAudioManager(AudioManager*);
 
-	void loadScene(std::string, DynamicArray<System*>&, DynamicArray<Component*>&);
+	void loadScene(const std::filesystem::path&, DynamicArray<System*>&, DynamicArray<Component*>&);
 };
 

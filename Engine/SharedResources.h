@@ -4,13 +4,14 @@
 #include <unordered_set>
 #include <unordered_map>
 #include "SDL_mouse.h"
+#include <filesystem>
 
 
 class SharedResources {
 	CollisionEventMap collisionEvents;
 	float deltaTime; //s
 
-	std::string sceneFilePath;
+	std::filesystem::path sceneFilePath;
 	bool sceneChange = false;
 
 	char keysPressed[32];
@@ -53,8 +54,8 @@ public:
 	void setDeltaTime(float);
 	float getDeltaTime();
 
-	const std::string& getSceneFilePath();
-	void setSceneFilePath(const std::string&);
+	const std::filesystem::path& getSceneFilePath();
+	void setSceneFilePath(const std::filesystem::path&);
 
 	bool getSceneChange();
 	void setSceneChange(bool);

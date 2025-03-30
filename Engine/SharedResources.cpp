@@ -73,11 +73,11 @@ float SharedResources::getDeltaTime() {
     return this->deltaTime;
 }
 
-const std::string& SharedResources::getSceneFilePath() {
+const std::filesystem::path& SharedResources::getSceneFilePath() {
     return this->sceneFilePath;
 }
 
-void SharedResources::setSceneFilePath(const std::string& path) {
+void SharedResources::setSceneFilePath(const std::filesystem::path& path) {
     this->sceneFilePath = path;
 }
 

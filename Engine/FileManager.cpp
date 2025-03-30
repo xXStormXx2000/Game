@@ -1,9 +1,8 @@
 #include "FileManager.h"
 
-void FileManager::loadScene(std::string path, DynamicArray<System*>& systems, DynamicArray<Component*>& componentsTypes) {
+void FileManager::loadScene(const std::filesystem::path& path, DynamicArray<System*>& systems, DynamicArray<Component*>& componentsTypes) {
 
-    assert(path[path.size() - 4] == '.' && path[path.size() - 3] == 'w' && path[path.size() - 2] == 'g' && path[path.size() - 1] == 'f'
-        && "Non-matching file format");
+    assert(path.extension() == ".wgf" && "Non-matching file format");
 
 	DynamicArray<std::unordered_set<Entity>> systemsEntitys(systems.size()); // Entitys for each system
 
