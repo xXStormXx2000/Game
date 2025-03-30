@@ -10,10 +10,10 @@ int main(int argc, char* argv[]) {
 
 	game.setStartScene("Assets/Scenes/Tests.wgf");
 
-	game.addSystem<SoftbodyNode>();
-	game.addSystem<Softbody>();
+	game.addSystem(new SoftbodyNode);
+	game.addSystem(new Softbody);
 	game.addComponent<somData>();
-	game.addSystem<Controler>();
+	game.addSystem(new Controler);
 
 	game.run();
 	return 0;

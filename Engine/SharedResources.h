@@ -25,6 +25,9 @@ class SharedResources {
 	int windowWidth;
 	int windowHeight;
 
+	std::string textInput;
+	bool textInputSate = false;
+
 public:
 	void updateMouseState();
 	Vector3D getMousePos();
@@ -64,5 +67,13 @@ public:
 
 	int getWindowWidth();
 	int getWindowHeight();
+
+	std::string getTextInput();
+	void concatenateTextInput(const std::string&);
+	void setTextInput(const std::string&);
+	void popBackTextInput();
+
+	void toggleTextInputState();
+	bool getTextInputState();
 };
 

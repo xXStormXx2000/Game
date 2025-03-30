@@ -83,6 +83,14 @@ protected:
 	bool middleMouseButton();
 	bool rightMouseButton();
 
+	std::string getTextInput();
+	void concatenateTextInput(const std::string&);
+	void setTextInput(const std::string&);
+	void popBackTextInput();
+
+	void toggleTextInputState();
+	bool getTextInputState();
+
 public:
 	DynamicArray<Entity> newPhysicsEntity;
 	DynamicArray<Entity> oldPhysicsEntity;

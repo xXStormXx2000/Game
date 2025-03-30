@@ -106,6 +106,30 @@ bool System::rightMouseButton() {
 	return this->sharedResources->rightMouseButton();
 }
 
+std::string System::getTextInput() {
+	return this->sharedResources->getTextInput();
+}
+
+void System::concatenateTextInput(const std::string& str){
+	this->sharedResources->concatenateTextInput(str);
+}
+
+void System::setTextInput(const std::string& str) {
+	this->sharedResources->setTextInput(str);
+}
+
+void System::popBackTextInput() {
+	this->sharedResources->popBackTextInput();
+}
+
+void System::toggleTextInputState() {
+	this->sharedResources->toggleTextInputState();
+}
+
+bool System::getTextInputState() {
+	return this->sharedResources->getTextInputState();
+}
+
 void System::setSharedResources(SharedResources* sh){
 	this->sharedResources = sh;
 }

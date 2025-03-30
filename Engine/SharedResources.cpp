@@ -5,7 +5,7 @@ void SharedResources::updateMouseState() {
 }
 
 Vector3D SharedResources::getMousePos() {
-    return { this->mouseX, this->mouseY, 0 };
+    return { float(this->mouseX), float(this->mouseY), 0 };
 }
 
 bool SharedResources::leftMouseButton() {
@@ -116,4 +116,30 @@ int SharedResources::getWindowWidth() {
 
 int SharedResources::getWindowHeight() {
     return this->windowHeight;
+}
+
+std::string SharedResources::getTextInput() {
+    return this->textInput;
+}
+
+void SharedResources::concatenateTextInput(const std::string& str) {
+    this->textInput += str;
+}
+
+void SharedResources::setTextInput(const std::string& str) {
+    this->textInput = str;
+}
+
+void SharedResources::popBackTextInput() {
+    if (this->textInput.size() == 0) return;
+    this->textInput.pop_back();
+}
+
+void SharedResources::toggleTextInputState() {
+    if (this->textInputSate) this->textInput = "";
+    this->textInputSate = !this->textInputSate;
+}
+
+bool SharedResources::getTextInputState() {
+    return this->textInputSate;
 }

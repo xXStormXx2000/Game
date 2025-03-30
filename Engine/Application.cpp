@@ -95,27 +95,64 @@ void Application::start() {
 }
 
 void Application::handleEvents(){
-	SDL_Event event;
+	SDL_Event SDLevent;
 	char key = 0;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
+
+	auto helperKeydown = [&](int translateKey, int low, int high)->void {
+		translateKey += low;
+		if (low <= translateKey && translateKey <= high
+			&& !this->sharedResources.getKeyDown(translateKey))
+			this->sharedResources.setKeyPressed(translateKey);
+
+		if (this->sharedResources.getKeyPressed(translateKey))
+			this->sharedResources.setKeyDown(translateKey, true);
+	};
+
+	auto helperKeyup = [&](int translateKey, int low, int high)->void {
+		translateKey += low;
+		if (low <= translateKey && translateKey <= high)
+			this->sharedResources.setKeyReleased(translateKey);
+
+		if (low <= translateKey && translateKey <= high)
+			this->sharedResources.setKeyDown(translateKey, false);
+	};
+
+	while (SDL_PollEvent(&SDLevent)) {
+		switch (SDLevent.type) {
 		case(SDL_QUIT):
 			this->appRunning = false;
 			break;
 		case SDL_KEYDOWN:
-			key = event.key.keysym.scancode - SDL_SCANCODE_A + 'a';
-			if('a' <= key && key <= 'z' && !this->sharedResources.getKeyDown(key)) this->sharedResources.setKeyPressed(key);
-			if (this->sharedResources.getKeyPressed(key)) this->sharedResources.setKeyDown(key, true);
+			key = SDLevent.key.keysym.scancode;
+			helperKeydown(key - SDL_SCANCODE_A, 'a', 'z');
+			helperKeydown(key - SDL_SCANCODE_1, '1', '9');
+			helperKeydown(key - SDL_SCANCODE_0, '0', '0');
+			helperKeydown(key - SDL_SCANCODE_RETURN, 0, 47);
+			helperKeydown(key - SDL_SCANCODE_RETURN + 47, 58, 96);
+			if (this->sharedResources.getTextInputState() && key == SDL_SCANCODE_BACKSPACE) {
+				this->sharedResources.popBackTextInput();
+			}
+
 			break;
 		case SDL_KEYUP:
-			key = event.key.keysym.scancode - SDL_SCANCODE_A + 'a';
-			if ('a' <= key && key <= 'z') this->sharedResources.setKeyReleased(key);
-			if ('a' <= key && key <= 'z') this->sharedResources.setKeyDown(key, false);
+			key = SDLevent.key.keysym.scancode;
+			helperKeyup(key - SDL_SCANCODE_A, 'a', 'z');
+			helperKeyup(key - SDL_SCANCODE_1, '1', '9');
+			helperKeyup(key - SDL_SCANCODE_0, '0', '0');
+			helperKeyup(key - SDL_SCANCODE_RETURN, 0, 47);
+			helperKeyup(key - SDL_SCANCODE_RETURN + 47, 58, 96);
+
+			break;
+		case SDL_TEXTINPUT:
+			if (this->sharedResources.getTextInputState()) {
+				this->sharedResources.concatenateTextInput(SDLevent.text.text);
+			}
 			break;
 		default:
 			break;
 		}
 	}
+	
 	this->sharedResources.updateMouseState();
 }
 

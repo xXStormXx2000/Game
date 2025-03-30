@@ -47,8 +47,7 @@ public:
 	void setStartScene(std::string);
 
 	template<class T>
-	void addSystem() {
-		System* sys = new T;
+	void addSystem(T* sys) {
 		sys->setSystems(&this->systems);
 		sys->setRenderer(&this->renderer);
 		sys->setAudioManager(&this->audioManager);
