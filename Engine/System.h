@@ -54,14 +54,14 @@ protected:
 	std::string getScene();
 	void changeScene(std::string);
 
+	float getWindowWidth();
+	float getWindowHeight();
+
 	float getCameraWidth();
 	float getCameraHeight();
 
 	void setCameraWidth(float);
 	void setCameraHeight(float);
-
-	float getWindowWidth();
-	float getWindowHeight();
 
 	Entity getCameraFollowEntity();
 	void setCameraFollowEntity(Entity);
@@ -90,6 +90,12 @@ protected:
 
 	void toggleTextInputState();
 	bool getTextInputState();
+
+	SDL_Renderer* getRenderer();
+
+	Vector3D getSceneOrigin();
+
+	Vector3D absPosToScenePos(const Vector3D&);
 
 public:
 	DynamicArray<Entity> newPhysicsEntity;

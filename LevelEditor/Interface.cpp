@@ -92,4 +92,19 @@ void Interface::update(Entity) {
     this->drawText("Scene Size", { x, y, 1 });
     this->drawText("W - " + sceneW, { x, y + 23, 1 });
     this->drawText("H - " + sceneH, { x, y + 23*2, 1 });
+
+    float speed = 20;
+    if (keyDown('a')) setCameraOffset(getCameraOffset() - Vector3D({ speed, 0, 0 }));
+    if (keyDown('w')) setCameraOffset(getCameraOffset() + Vector3D({ speed, 0, 0 }));
+    if (keyDown('w')) setCameraOffset(getCameraOffset() - Vector3D({ 0, speed, 0 }));
+    if (keyDown('s')) setCameraOffset(getCameraOffset() + Vector3D({ 0, speed, 0 }));
+    
+
+
+    Vector3D origo = getSceneOrigin();
+    Vector3D lineEnd = absPosToScenePos({ 0, 1000, 0 });
+
+    if (SDL_RenderDrawLine(getRenderer(), 100, 100, 300, 300)) debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
+    debugMessage(getRenderer());
+
 }

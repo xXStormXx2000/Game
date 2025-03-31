@@ -94,6 +94,8 @@ bool Renderer::exist() {
 }
 
 void Renderer::render() {
+	debugMessage(this->renderer);
+	SDL_RenderPresent(this->renderer);
 	SDL_RenderClear(this->renderer);
 	for (auto entityList: this->entitys) for (Entity entity: entityList.second) {
 		if (entity.getId() < -1) {
@@ -147,8 +149,6 @@ void Renderer::render() {
 		drawText(text, pos);
 	}
 	this->textToDraw.empty();
-
-	SDL_RenderPresent(this->renderer);
 }
 
 void Renderer::createTexture(const std::string& path) {
@@ -226,6 +226,10 @@ void Renderer::addTextToDraw(const std::string& text, Vector3D pos) {
 
 void Renderer::setSharedResources(SharedResources* sr) {
 	this->sharedResources = sr;
+}
+
+SDL_Renderer* Renderer::getRenderer() {
+	return this->renderer;
 }
 
 void Renderer::drawText(const std::string& text, Vector3D pos) {

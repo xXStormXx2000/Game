@@ -90,6 +90,8 @@ public:
 
 	void setSharedResources(SharedResources*);
 
+	SDL_Renderer* getRenderer();
+
 	~Renderer();
 };
 

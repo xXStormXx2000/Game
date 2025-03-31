@@ -130,6 +130,20 @@ bool System::getTextInputState() {
 	return this->sharedResources->getTextInputState();
 }
 
+SDL_Renderer* System::getRenderer() {
+	return this->renderer->getRenderer();
+}
+
+Vector3D System::getSceneOrigin() {
+	return -this->renderer->getCameraOffset();
+}
+
+Vector3D System::absPosToScenePos(const Vector3D& absPos) {
+	float xScale = this->sharedResources->getWindowWidth() / this->renderer->getCameraWidth();
+	float yScale = this->sharedResources->getWindowHeight() / this->renderer->getCameraHeight();
+	return (absPos - this->renderer->getCameraOffset()).hadamardProduct({ xScale, yScale, 1});
+}
+
 void System::setSharedResources(SharedResources* sh){
 	this->sharedResources = sh;
 }
