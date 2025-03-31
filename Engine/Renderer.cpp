@@ -13,7 +13,7 @@ TileSet TileSet::readFile(std::ifstream& file) {
 	for (int i = 0; i < size; i++) {
 		Tile t;
 		file >> t.tileX >> t.tileY >> t.posX >> t.posY;
-		ts.tiles.pushBack(t);
+		ts.tiles.insert(t);
 	}
 	return ts;
 }
@@ -25,8 +25,8 @@ void TileSet::writeFile(std::ofstream& file) {
 	file << this->spriteIndex << '\n';
 	file << this->depht << '\n';
 	file << this->tiles.size() << '\n';
-	for (int i = 0; i < this->tiles.size(); i++) {
-		file << this->tiles[i].tileX << this->tiles[i].tileY << this->tiles[i].posX << this->tiles[i].posY << '\t';
+	for (const Tile& tile: this->tiles) {
+		file << tile.tileX << tile.tileY << tile.posX << tile.posY << '\t';
 	}
 }
 
@@ -295,4 +295,8 @@ void Renderer::drawText(const std::string& text, Vector3D pos) {
 
 Renderer::~Renderer() {
 	SDL_DestroyRenderer(this->renderer);
+}
+
+bool Tile::operator==(const Tile& other) const {
+	return this->posX == other.posX && this->posY == other.posY;
 }

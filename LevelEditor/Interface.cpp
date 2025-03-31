@@ -66,7 +66,7 @@ void Interface::update(Entity) {
 		if (!mouseInBox(x, y, 120, 63)) {
 			TileSet& tileSet = getTileSet(0);
 			Vector3D pos = getMousePos()+getCameraOffset();
-            tileSet.tiles.pushBack({ 0, 0, int(pos.x)/tileSet.tileWidth, int(pos.y)/tileSet.tileHeight});
+            tileSet.tiles.insert({ 0, 0, int(pos.x)/tileSet.tileWidth, int(pos.y)/tileSet.tileHeight});
 		}
         if (mouseInBox(x + 20, y + 23, 100, 21)) {
             this->toggleTextInputState();

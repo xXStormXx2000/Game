@@ -138,10 +138,13 @@ Vector3D System::getSceneOrigin() {
 	return -this->renderer->getCameraOffset();
 }
 
-Vector3D System::absPosToScenePos(const Vector3D& absPos) {
+Vector3D System::absPosToScenePos(Vector3D absPos) {
+	absPos -= this->getCameraOffset();
+	if (this->getCameraFollowEntity() != -1)
+		absPos -= getComponent<Transform>(this->getCameraFollowEntity().getId()).position;
 	float xScale = this->sharedResources->getWindowWidth() / this->renderer->getCameraWidth();
 	float yScale = this->sharedResources->getWindowHeight() / this->renderer->getCameraHeight();
-	return (absPos.hadamardProduct({ xScale, yScale, 1}) - this->renderer->getCameraOffset());
+	return absPos.hadamardProduct({ xScale, yScale, 1});
 }
 
 void System::addTexture(const std::filesystem::path& path) {

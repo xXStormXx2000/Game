@@ -5,6 +5,7 @@
 #include "SDL_image.h"
 #include "DynamicArray.h"
 #include <map>
+#include <unordered_set>
 #include "Entity.h"
 #include "Scene.h"
 #include "SharedResources.h"
@@ -15,7 +16,20 @@ struct Tile
 {
 	short tileX, tileY;
 	int posX, posY;
+
+	bool operator==(const Tile& other) const;
 };
+namespace std {
+	template<>
+	struct hash<Tile> {
+		typedef Tile argument_type;
+		typedef std::size_t result_type;
+
+		result_type operator()(argument_type const& obj) const {
+			return uint64_t(obj.posX)<<32 + uint64_t(obj.tileY);
+		}
+	};
+}
 using DrawMap = std::map<float, DynamicArray<Entity>>;
 struct TileSet {
 	Vector3D offset = { 0,0,0 }; // pixels
@@ -23,7 +37,7 @@ struct TileSet {
 	int textureTileWidth = 0, textureTileHeight = 0; // pixels
 	int spriteIndex = -1;
 	float depht = 0;
-	DynamicArray<Tile> tiles;
+	std::unordered_set<Tile> tiles;
 	TileSet readFile(std::ifstream&);
 	void writeFile(std::ofstream&);
 };

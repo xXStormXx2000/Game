@@ -95,7 +95,7 @@ protected:
 
 	Vector3D getSceneOrigin();
 
-	Vector3D absPosToScenePos(const Vector3D&);
+	Vector3D absPosToScenePos(Vector3D);
 
 	void addTexture(const std::filesystem::path&);
 
