@@ -6,7 +6,6 @@ Softbody::Softbody() : softbodys(128, DynamicArray<Entity>(128)) {
 
 void Softbody::start(Entity) {
 
-
 	for (int i = 0; i < softbodys.size(); i++) {
 		for (int j = 0; j < softbodys[0].size(); j++) {
 			Entity entity = createEntity();

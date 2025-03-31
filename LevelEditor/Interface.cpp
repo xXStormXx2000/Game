@@ -36,9 +36,23 @@ void Interface::setSceneFile(const std::filesystem::path& file) {
 }
 
 void Interface::start(Entity) {
+	cameraAspectRation = getCameraWidth() / getCameraHeight();
     artFiles = findFiles(gamePath / "Assets" / "Art");
+    for (const std::filesystem::path& file : artFiles) {
+        addTexture(file);
+    }
+	TileSet tileSet;
+    tileSet.tileWidth = 32;
+	tileSet.tileHeight = 32;
+	tileSet.textureTileHeight = 16;
+	tileSet.textureTileWidth = 16;
+	tileSet.offset;
+	tileSet.spriteIndex = 4;
+	tileSet.depht = 100;
+	addTileSet(tileSet);
     audioFiles = findFiles(gamePath / "Assets" / "Audio");
     musicFiles = findFiles(gamePath / "Assets" / "Music");
+
 }
 
 void Interface::update(Entity) {
@@ -49,6 +63,11 @@ void Interface::update(Entity) {
     if (leftMouseButton()) {
         select = -1;
         if(this->getTextInputState()) this->toggleTextInputState();
+		if (!mouseInBox(x, y, 120, 63)) {
+			TileSet& tileSet = getTileSet(0);
+			Vector3D pos = getMousePos()+getCameraOffset();
+            tileSet.tiles.pushBack({ 0, 0, int(pos.x)/tileSet.tileWidth, int(pos.y)/tileSet.tileHeight});
+		}
         if (mouseInBox(x + 20, y + 23, 100, 21)) {
             this->toggleTextInputState();
             select = 0;
@@ -93,18 +112,28 @@ void Interface::update(Entity) {
     this->drawText("W - " + sceneW, { x, y + 23, 1 });
     this->drawText("H - " + sceneH, { x, y + 23*2, 1 });
 
-    float speed = 20;
+    float speed = 10;
     if (keyDown('a')) setCameraOffset(getCameraOffset() - Vector3D({ speed, 0, 0 }));
-    if (keyDown('w')) setCameraOffset(getCameraOffset() + Vector3D({ speed, 0, 0 }));
+    if (keyDown('d')) setCameraOffset(getCameraOffset() + Vector3D({ speed, 0, 0 }));
     if (keyDown('w')) setCameraOffset(getCameraOffset() - Vector3D({ 0, speed, 0 }));
     if (keyDown('s')) setCameraOffset(getCameraOffset() + Vector3D({ 0, speed, 0 }));
-    
+
+    if (keyDown('q')) {
+        if (getCameraHeight() - speed > 1) {
+            setCameraWidth(getCameraWidth() - speed * cameraAspectRation);
+            setCameraHeight(getCameraHeight() - speed);
+        }
+    }
+    if (keyDown('e')) {
+        setCameraWidth(getCameraWidth() + speed * cameraAspectRation);
+        setCameraHeight(getCameraHeight() + speed);
+    }
 
 
     Vector3D origo = getSceneOrigin();
-    Vector3D lineEnd = absPosToScenePos({ 0, 1000, 0 });
-
-    if (SDL_RenderDrawLine(getRenderer(), 100, 100, 300, 300)) debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
-    debugMessage(getRenderer());
+    Vector3D lineEnd = absPosToScenePos({ float(sceneSizeX), float(sceneSizeY), 0 });
+    SDL_SetRenderDrawColor(getRenderer(), 255, 0, 0, 255);
+    const SDL_Point points[5] = {{origo.x, origo.y}, {lineEnd.x, origo.y}, {lineEnd.x, lineEnd.y}, {origo.x, lineEnd.y}, {origo.x, origo.y}};
+    if (SDL_RenderDrawLines(getRenderer(), points, 5)) debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
 
 }

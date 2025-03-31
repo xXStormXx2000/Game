@@ -94,7 +94,7 @@ bool Renderer::exist() {
 }
 
 void Renderer::render() {
-	debugMessage(this->renderer);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderPresent(this->renderer);
 	SDL_RenderClear(this->renderer);
 	for (auto entityList: this->entitys) for (Entity entity: entityList.second) {
@@ -151,8 +151,8 @@ void Renderer::render() {
 	this->textToDraw.empty();
 }
 
-void Renderer::createTexture(const std::string& path) {
-	SDL_Surface* surface = IMG_Load(path.c_str());
+void Renderer::createTexture(const std::filesystem::path& path) {
+	SDL_Surface* surface = IMG_Load(path.string().c_str());
 
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(this->renderer, surface);
 	if(texture == NULL) debugMessage("SDL_image Error: " << IMG_GetError());
@@ -176,6 +176,15 @@ void Renderer::setEntitys(DrawMap& newEntitys) {
 
 void Renderer::setTileSets(DynamicArray<TileSet>& ts) {
 	this->tileSets = std::move(ts);
+}
+
+void Renderer::addTileSet(TileSet& tileSet) {
+	this->tileSets.pushBack(std::move(tileSet));
+	this->entitys[tileSet.depht].pushBack(-(int(this->tileSets.size()) + 1));
+}
+
+TileSet& Renderer::getTileSets(int num) {
+	return this->tileSets[num];
 }
 
 void Renderer::addEntity(Entity entity) {

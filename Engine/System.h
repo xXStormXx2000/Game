@@ -97,6 +97,11 @@ protected:
 
 	Vector3D absPosToScenePos(const Vector3D&);
 
+	void addTexture(const std::filesystem::path&);
+
+	void addTileSet(TileSet&);
+	TileSet& getTileSet(int);
+
 public:
 	DynamicArray<Entity> newPhysicsEntity;
 	DynamicArray<Entity> oldPhysicsEntity;

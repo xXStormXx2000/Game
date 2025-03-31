@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "SharedResources.h"
 #include <string>
+#include <filesystem>
 
 struct Tile
 {
@@ -64,12 +65,16 @@ public:
 	bool exist();
 	void render();
 
-	void createTexture(const std::string&);
+	void createTexture(const std::filesystem::path&);
 	void destroyTextures();
 
 	void setEntitys(DrawMap&);
 
 	void setTileSets(DynamicArray<TileSet>&);
+
+	void addTileSet(TileSet&);
+
+	TileSet& getTileSets(int);
 
 	void addEntity(Entity);
 	void removeEntity(Entity);

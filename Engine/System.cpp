@@ -141,7 +141,19 @@ Vector3D System::getSceneOrigin() {
 Vector3D System::absPosToScenePos(const Vector3D& absPos) {
 	float xScale = this->sharedResources->getWindowWidth() / this->renderer->getCameraWidth();
 	float yScale = this->sharedResources->getWindowHeight() / this->renderer->getCameraHeight();
-	return (absPos - this->renderer->getCameraOffset()).hadamardProduct({ xScale, yScale, 1});
+	return (absPos.hadamardProduct({ xScale, yScale, 1}) - this->renderer->getCameraOffset());
+}
+
+void System::addTexture(const std::filesystem::path& path) {
+	this->renderer->createTexture(path);
+}
+
+void System::addTileSet(TileSet& tileSet) {
+	this->renderer->addTileSet(tileSet);
+}
+
+TileSet& System::getTileSet(int num) {
+	return this->renderer->getTileSets(num);
 }
 
 void System::setSharedResources(SharedResources* sh){

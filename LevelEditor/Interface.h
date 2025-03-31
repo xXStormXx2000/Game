@@ -22,7 +22,7 @@ class Interface : public System {
 	int sceneSizeX;
 	int sceneSizeY;
 
-
+	float cameraAspectRation;
 
 
 public:
