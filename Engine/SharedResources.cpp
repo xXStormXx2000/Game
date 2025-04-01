@@ -61,20 +61,20 @@ void SharedResources::resetKeysPressed() {
 }
 
 bool SharedResources::getKeyPressed(char key) {
-    return this->keysPressed[key / 64] & 1 << (key%64);
+    return this->keysPressed[key / 64] & 1ull << (key%64);
 }
 
 void SharedResources::setKeyPressed(char key) {
-    this->keysPressed[key / 64] |= 1 << (key % 64);
+    this->keysPressed[key / 64] |= 1ull << (key % 64);
 }
 
 bool SharedResources::getKeyDown(char key) {
-    return this->keysDown[key / 64] & 1 << (key % 64);
+    return this->keysDown[key / 64] & 1ull << (key % 64);
 }
 
 void SharedResources::setKeyDown(char key, bool input) {
-    this->keysDown[key / 64] &= ~(1 << (key % 64));
-    this->keysDown[key / 64] |= input << (key % 64);
+    this->keysDown[key / 64] &= ~(1ull << (key % 64));
+    this->keysDown[key / 64] |= uint64_t(input) << (key % 64);
 }
 
 void SharedResources::resetKeysReleased() {
@@ -84,11 +84,11 @@ void SharedResources::resetKeysReleased() {
 }
 
 bool SharedResources::getKeyReleased(char key) {
-    return this->keysReleased[key / 64] & 1 << (key % 64);
+    return this->keysReleased[key / 64] & 1ull << (key % 64);
 }
 
 void SharedResources::setKeyReleased(char key) {
-    this->keysReleased[key / 64] |= 1 << (key % 64);
+    this->keysReleased[key / 64] |= 1ull << (key % 64);
 }
 
 void SharedResources::setDeltaTime(float dt) {
