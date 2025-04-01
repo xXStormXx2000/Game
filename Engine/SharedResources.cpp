@@ -81,7 +81,6 @@ void SharedResources::resetKeysReleased() {
     for (int i = 0; i < 32; i++) {
         this->keysReleased[i] = 0;
     }
-    this->mouseButtonReleased = 0;
 }
 
 bool SharedResources::getKeyReleased(char key) {
