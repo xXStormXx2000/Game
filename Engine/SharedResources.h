@@ -14,9 +14,9 @@ class SharedResources {
 	std::filesystem::path sceneFilePath;
 	bool sceneChange = false;
 
-	char keysPressed[32];
-	char keysDown[32];
-	char keysReleased[32];
+	uint64_t keysPressed[4];
+	uint64_t keysDown[4];
+	uint64_t keysReleased[4];
 
 	int mouseX, mouseY;
 	uint32_t mouseButtonPressed;
