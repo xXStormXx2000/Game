@@ -19,7 +19,10 @@ class SharedResources {
 	char keysReleased[32];
 
 	int mouseX, mouseY;
-	uint32_t mouseButtonBitmask;
+	uint32_t mouseButtonPressed;
+	uint32_t mouseButtonDown;
+	uint32_t mouseButtonReleased;
+
 
 	std::unordered_map<std::string, std::unordered_set<Entity>> tagEntityLookup;
 
@@ -30,11 +33,22 @@ class SharedResources {
 	bool textInputSate = false;
 
 public:
+
 	void updateMouseState();
+
 	Vector3D getMousePos();
-	bool leftMouseButton();
-	bool middleMouseButton();
-	bool rightMouseButton();
+
+	bool leftMouseButtonPressed();
+	bool middleMouseButtonPressed();
+	bool rightMouseButtonPressed();
+
+	bool leftMouseButtonDown();
+	bool middleMouseButtonDown();
+	bool rightMouseButtonDown();
+
+	bool leftMouseButtonReleased();
+	bool middleMouseButtonReleased();
+	bool rightMouseButtonReleased();
 
 
 	DynamicArray<CollisionEvent> getCollisionEvents(int);

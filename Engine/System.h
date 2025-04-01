@@ -79,9 +79,17 @@ protected:
 	void drawText(const std::string&, Vector3D);
 
 	Vector3D getMousePos();
-	bool leftMouseButton();
-	bool middleMouseButton();
-	bool rightMouseButton();
+	bool leftMouseButtonPressed();
+	bool middleMouseButtonPressed();
+	bool rightMouseButtonPressed();
+
+	bool leftMouseButtonDown();
+	bool middleMouseButtonDown();
+	bool rightMouseButtonDown();
+
+	bool leftMouseButtonReleased();
+	bool middleMouseButtonReleased();
+	bool rightMouseButtonReleased();
 
 	std::string getTextInput();
 	void concatenateTextInput(const std::string&);

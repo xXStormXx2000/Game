@@ -1,23 +1,49 @@
 #include "SharedResources.h"
 
 void SharedResources::updateMouseState() {
-    this->mouseButtonBitmask = SDL_GetMouseState(&this->mouseX, &this->mouseY);
+	this->mouseButtonPressed = SDL_GetMouseState(&this->mouseX, &this->mouseY) & ~this->mouseButtonDown;
+	this->mouseButtonReleased = ~SDL_GetMouseState(&this->mouseX, &this->mouseY) & this->mouseButtonDown;
+    this->mouseButtonDown = SDL_GetMouseState(&this->mouseX, &this->mouseY);
 }
 
 Vector3D SharedResources::getMousePos() {
     return { float(this->mouseX), float(this->mouseY), 0 };
 }
 
-bool SharedResources::leftMouseButton() {
-    return this->mouseButtonBitmask & 0b1;
+bool SharedResources::leftMouseButtonPressed() {
+	return this->mouseButtonPressed & 0b1;
 }
 
-bool SharedResources::middleMouseButton() {
-    return this->mouseButtonBitmask & 0b10;
+bool SharedResources::middleMouseButtonPressed() {
+	return this->mouseButtonPressed & 0b10;
 }
 
-bool SharedResources::rightMouseButton() {
-    return this->mouseButtonBitmask & 0b100;
+bool SharedResources::rightMouseButtonPressed() {
+	return this->mouseButtonPressed & 0b100;
+}
+
+bool SharedResources::leftMouseButtonDown() {
+    return this->mouseButtonDown & 0b1;
+}
+
+bool SharedResources::middleMouseButtonDown() {
+    return this->mouseButtonDown & 0b10;
+}
+
+bool SharedResources::rightMouseButtonDown() {
+    return this->mouseButtonDown & 0b100;
+}
+
+bool SharedResources::leftMouseButtonReleased() {
+	return this->mouseButtonReleased & 0b1;
+}
+
+bool SharedResources::middleMouseButtonReleased() {
+	return this->mouseButtonReleased & 0b10;
+}
+
+bool SharedResources::rightMouseButtonReleased() {
+	return this->mouseButtonReleased & 0b100;
 }
 
 DynamicArray<CollisionEvent> SharedResources::getCollisionEvents(int id) {
@@ -55,6 +81,7 @@ void SharedResources::resetKeysReleased() {
     for (int i = 0; i < 32; i++) {
         this->keysReleased[i] = 0;
     }
+    this->mouseButtonReleased = 0;
 }
 
 bool SharedResources::getKeyReleased(char key) {
