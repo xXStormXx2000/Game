@@ -102,6 +102,9 @@ protected:
 	void addTileSet(TileSet&);
 	TileSet& getTileSet(int);
 
+	bool mouseInBox(float, float, float, float);
+	void button(float, float, float, float, void (*)());
+
 public:
 	DynamicArray<Entity> newPhysicsEntity;
 	DynamicArray<Entity> oldPhysicsEntity;
@@ -127,6 +130,7 @@ public:
 	virtual void update(Entity);
 	virtual void postUpdate(Entity);
 
+	virtual void draw(Entity);
 
 	virtual void end(Entity);
 

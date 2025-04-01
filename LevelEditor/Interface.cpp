@@ -14,11 +14,6 @@ DynamicArray<std::filesystem::path> Interface::findFiles(const std::filesystem::
     return out;
 }
 
-bool Interface::mouseInBox(float x, float y, float w, float h) {
-    return (x <= getMousePos().x && getMousePos().x <= x + w &&
-            y <= getMousePos().y && getMousePos().y <= y + h);
-}
-
 bool Interface::isNum(const std::string& str) {
     if (str.size() == 0) return false;
     for(char c: str) 
@@ -58,6 +53,11 @@ void Interface::start(Entity) {
 void Interface::update(Entity) {
     std::string sceneW = std::to_string(sceneSizeX), sceneH = std::to_string(sceneSizeY);
     
+    float speed = 10;
+    if (keyDown('a')) setCameraOffset(getCameraOffset() - Vector3D({ speed, 0, 0 }));
+    if (keyDown('d')) setCameraOffset(getCameraOffset() + Vector3D({ speed, 0, 0 }));
+    if (keyDown('w')) setCameraOffset(getCameraOffset() - Vector3D({ 0, speed, 0 }));
+    if (keyDown('s')) setCameraOffset(getCameraOffset() + Vector3D({ 0, speed, 0 }));
 
     float x = 10, y = 10;
     if (leftMouseButton()) {
@@ -112,11 +112,6 @@ void Interface::update(Entity) {
     this->drawText("W - " + sceneW, { x, y + 23, 1 });
     this->drawText("H - " + sceneH, { x, y + 23*2, 1 });
 
-    float speed = 10;
-    if (keyDown('a')) setCameraOffset(getCameraOffset() - Vector3D({ speed, 0, 0 }));
-    if (keyDown('d')) setCameraOffset(getCameraOffset() + Vector3D({ speed, 0, 0 }));
-    if (keyDown('w')) setCameraOffset(getCameraOffset() - Vector3D({ 0, speed, 0 }));
-    if (keyDown('s')) setCameraOffset(getCameraOffset() + Vector3D({ 0, speed, 0 }));
 
     if (keyDown('q')) {
         if (getCameraHeight() - speed > 1) {

@@ -11,4 +11,4 @@ struct CollisionEvent {
 	float time = 2;
 };
 
-using CollisionEventMap = std::unordered_map<int, DynamicArray<CollisionEvent>>;
+using CollisionEventMap = std::unordered_map<Entity, DynamicArray<CollisionEvent>>;

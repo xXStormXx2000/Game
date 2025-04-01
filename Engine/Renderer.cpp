@@ -145,10 +145,6 @@ void Renderer::render() {
 			}
 		}
 	}
-	for (auto [text, pos] : this->textToDraw) {
-		drawText(text, pos);
-	}
-	this->textToDraw.empty();
 }
 
 void Renderer::createTexture(const std::filesystem::path& path) {
@@ -227,10 +223,6 @@ Vector3D Renderer::getCameraOffset() {
 
 void Renderer::setCameraOffset(Vector3D offset) {
 	this->cameraOffset = offset;
-}
-
-void Renderer::addTextToDraw(const std::string& text, Vector3D pos) {
-	this->textToDraw.pushBack({ text, pos });
 }
 
 void Renderer::setSharedResources(SharedResources* sr) {

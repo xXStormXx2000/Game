@@ -65,8 +65,6 @@ class Renderer {
 		std::string text;
 		Vector3D pos;
 	};
-	DynamicArray<TextDrawCall> textToDraw;
-	void drawText(const std::string&, Vector3D);
 
 public:
 	Renderer(SDL_Window* window);
@@ -105,7 +103,7 @@ public:
 	Vector3D getCameraOffset();
 	void setCameraOffset(Vector3D);
 
-	void addTextToDraw(const std::string&, Vector3D);
+	void drawText(const std::string&, Vector3D);
 
 	void setSharedResources(SharedResources*);
 

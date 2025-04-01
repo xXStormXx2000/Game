@@ -10,9 +10,9 @@
 #include "SharedResources.h"
 
 class PhysicsEngine {
-	using SystemFunctionMap = std::unordered_map<int, DynamicArray<System*>>;
-	using CollisionMap = std::unordered_map<int, DynamicArray<int>>;
-	using ZoneMap = std::unordered_map<int, DynamicArray<int>>;
+	using SystemFunctionMap = std::unordered_map<Entity, DynamicArray<System*>>;
+	using CollisionMap = std::unordered_map<Entity, DynamicArray<Entity>>;
+	using ZoneMap = std::unordered_map<Entity, DynamicArray<Entity>>;
 
 	Scene* scene;
 
@@ -34,26 +34,26 @@ class PhysicsEngine {
 
 	long long minArea;
 
-	DynamicArray<CollisionEvent> checkForCollision(int, const DynamicArray<int>&);
+	DynamicArray<CollisionEvent> checkForCollision(Entity, const DynamicArray<Entity>&);
 
-	void generateCollisionZones(Vector3D, float, float, DynamicArray<std::pair<int, Transform>>&, DynamicArray<DynamicArray<std::pair<int, Transform>>>&);
+	void generateCollisionZones(Vector3D, float, float, DynamicArray<std::pair<Entity, Transform>>&, DynamicArray<DynamicArray<std::pair<Entity, Transform>>>&);
 
 	void preventIntersection(const CollisionEvent&);
 
-	CollisionMap generateCollisionMap(DynamicArray<std::pair<int, Transform>>&);
+	CollisionMap generateCollisionMap(DynamicArray<std::pair<Entity, Transform>>&);
 
-	DynamicArray<std::pair<int, Transform>> velocityAdjustCollisionBoxes();
+	DynamicArray<std::pair<Entity, Transform>> velocityAdjustCollisionBoxes();
 
-	Transform* getTfComponent(int);
-	EntityFlags* getEfComponent(int);
-	Collider* getClComponent(int);
+	Transform* getTfComponent(Entity);
+	EntityFlags* getEfComponent(Entity);
+	Collider* getClComponent(Entity);
 
 	void calculateMinArea();
 	
 public: 
 	void addAndRemoveEntitys();
 
-	void addCustomCollisionResolve(int, System*);
+	void addCustomCollisionResolve(Entity, System*);
 
 	void setScene(Scene*);
 	void setSystems(DynamicArray<System*>*);
@@ -65,7 +65,7 @@ public:
 	void setCollisionEntitys(DynamicArray<Entity>&);
 	void setDynamicCollisionEntitys(DynamicArray<Entity>&);
 
-	void applyVelocity(int);
+	void applyVelocity(Entity);
 
 	static bool simpleCollisionCheck(Vector3D, Vector3D, Vector3D, Vector3D);
 

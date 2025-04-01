@@ -87,7 +87,7 @@ void System::addSound(const std::string& name, const std::string& path) {
 
 void System::drawText(const std::string& text, Vector3D pos) {
 	//pos.z is the scale
-	this->renderer->addTextToDraw(text, pos);
+	this->renderer->drawText(text, pos);
 }
 
 Vector3D System::getMousePos() {
@@ -157,6 +157,21 @@ void System::addTileSet(TileSet& tileSet) {
 
 TileSet& System::getTileSet(int num) {
 	return this->renderer->getTileSets(num);
+}
+
+bool System::mouseInBox(float x, float y, float w, float h) {
+	return (x <= getMousePos().x && getMousePos().x <= x + w &&
+		y <= getMousePos().y && getMousePos().y <= y + h);
+}
+
+void System::button(float x, float y, float w, float h, void (*func)()) {
+	SDL_Rect buttonRect = { int(x), int(y), int(w), int(h) };
+	if (leftMouseButton() && mouseInBox(x, y, w, h)) {
+		SDL_SetRenderDrawColor(getRenderer(), 220, 220, 220, 255);
+		SDL_RenderDrawRect(getRenderer(), &buttonRect);
+	} else {
+		SDL_SetRenderDrawColor(getRenderer(), 182, 182, 180, 255);
+	}
 }
 
 void System::setSharedResources(SharedResources* sh){
@@ -248,6 +263,9 @@ void System::update(Entity) {
 }
 
 void System::postUpdate(Entity) {
+}
+
+void System::draw(Entity entity) {
 }
 
 void System::end(Entity) {

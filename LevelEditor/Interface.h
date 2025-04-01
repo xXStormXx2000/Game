@@ -12,7 +12,6 @@ class Interface : public System {
 	DynamicArray<std::filesystem::path> audioFiles;
 	DynamicArray<std::filesystem::path> musicFiles;
 
-	bool mouseInBox(float, float, float, float);
 	int select = -1;
 	int blinkTime = 0;
 

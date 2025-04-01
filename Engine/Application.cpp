@@ -161,7 +161,7 @@ void Application::collisionHandling() {
 	CollisionEventMap collisions = this->physicsEngine.getAllCollisions();
 	this->physicsEngine.resolveCollision(collisions);
 
-	for (const std::pair<int, Component*>& pair : this->scene.getComponents<Transform>()) {
+	for (const std::pair<Entity, Component*>& pair : this->scene.getComponents<Transform>()) {
 		if(this->scene.getComponent<EntityFlags>(pair.first).getFlag(Dynamic))
 			this->physicsEngine.applyVelocity(pair.first);
 	}

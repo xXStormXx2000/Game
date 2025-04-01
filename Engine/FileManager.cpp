@@ -37,7 +37,7 @@ void FileManager::loadScene(const std::filesystem::path& path, DynamicArray<Syst
             entitys.insert(entity);
             EntityFlags* ef = new EntityFlags;
             file >> ef->flags;
-            entitysFlags[entity.getId()] = dynamic_cast<Component*>(ef);
+            entitysFlags[entity] = dynamic_cast<Component*>(ef);
             continue;
         }
 
@@ -50,11 +50,11 @@ void FileManager::loadScene(const std::filesystem::path& path, DynamicArray<Syst
         for (int i = 0; i < componentsTypes.size(); i++) {
             Component* comp = componentsTypes.at(i)->readFile(file, str);
 			if (comp == nullptr) continue;
-			components[typeid(*componentsTypes.at(i))][entity.getId()] = comp;
+			components[typeid(*componentsTypes.at(i))][entity] = comp;
         }
         if (str == "Render") {
 			// not good code need to be redone
-            entitysToRender[dynamic_cast<Transform*>(components[typeid(Transform)][entity.getId()])->position.z].pushBack(entity);
+            entitysToRender[dynamic_cast<Transform*>(components[typeid(Transform)][entity])->position.z].pushBack(entity);
         }
         if (str == "Textures") {
             file >> str;
@@ -77,7 +77,7 @@ void FileManager::loadScene(const std::filesystem::path& path, DynamicArray<Syst
         }
 
         if (str == "Collision") {
-            if (dynamic_cast<EntityFlags*>(entitysFlags[entity.getId()])->getFlag(Dynamic)) {
+            if (dynamic_cast<EntityFlags*>(entitysFlags[entity])->getFlag(Dynamic)) {
                 dynamicCollisionEntitys.pushBack(entity);
             }
             collisionEntitys.pushBack(entity);

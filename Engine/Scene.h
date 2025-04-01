@@ -8,7 +8,7 @@
 #include "Components.h"
 #include "Debug.h"
 
-using CompMap = std::unordered_map<int, Component*>;
+using CompMap = std::unordered_map<Entity, Component*>;
 using CompMapList = std::unordered_map <std::type_index, CompMap>;
 
 class Scene {
@@ -46,19 +46,25 @@ public:
 	void setComponents(CompMapList&);
 
 	template<class T>
-	T& getComponent(int entityId) {
-		assert(this->getComponents<T>().find(entityId) != this->getComponents<T>().end() && "Entity has no such component");
-		return *(dynamic_cast<T*>(this->getComponents<T>()[entityId]));
+	T& getComponent(Entity entity) {
+		assert(this->getComponents<T>().find(entity) != this->getComponents<T>().end() && "Entity has no such component");
+		return *(dynamic_cast<T*>(this->getComponents<T>()[entity]));
 	}
 
 	template<class T>
-	void addComponent(int entityId, T* component) {
-		this->getComponents<T>()[entityId] = dynamic_cast<Component*>(component);
+	void addComponent(Entity entity, T* component) {
+		this->getComponents<T>()[entity] = dynamic_cast<Component*>(component);
 	}
 
 	template<class T>
-	void removeComponent(int entityId) {
-		this->getComponents<T>().erase(entityId);
+	void removeComponent(Entity entity) {
+		this->getComponents<T>().erase(entity);
 	}
+
+	template<class T>
+	bool haveComponent(Entity entity) {
+		return (this->getComponents<T>().find(entity) != this->getComponents<T>().end());
+	}
+
 	Entity createEntity();
 };

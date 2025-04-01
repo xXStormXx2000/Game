@@ -13,7 +13,7 @@ CollisionEvent PhysicsEngine::createCollisionEvent(Entity entity, Entity other, 
     return cEvent;
 }
 
-DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(int entity, const DynamicArray<int>& possibleCollisions) {
+DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(Entity entity, const DynamicArray<Entity>& possibleCollisions) {
     CollisionEvent collisionEventX;
     CollisionEvent collisionEventY;
     
@@ -31,7 +31,7 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(int entity, const 
     tf.position += cl->offset;
 
     for (int i = 0; i < possibleCollisions.size(); i++) {
-        int otherEntity = possibleCollisions.at(i);
+        Entity otherEntity = possibleCollisions.at(i);
         // Retrieve components for the other entity
         Transform otherTf = *getTfComponent(otherEntity);
         EntityFlags otherEf = *getEfComponent(otherEntity);
@@ -91,7 +91,7 @@ DynamicArray<CollisionEvent> PhysicsEngine::checkForCollision(int entity, const 
     return out;
 }
 
-void PhysicsEngine::generateCollisionZones(Vector3D pos, float width, float height, DynamicArray<std::pair<int, Transform>>& entitys, DynamicArray<DynamicArray<std::pair<int, Transform>>>& collisionZones) {
+void PhysicsEngine::generateCollisionZones(Vector3D pos, float width, float height, DynamicArray<std::pair<Entity, Transform>>& entitys, DynamicArray<DynamicArray<std::pair<Entity, Transform>>>& collisionZones) {
     const int minEntitys = 5;
     if (width * height <= this->minArea || entitys.size() <= minEntitys) {
         collisionZones.pushBack(entitys);
@@ -105,9 +105,9 @@ void PhysicsEngine::generateCollisionZones(Vector3D pos, float width, float heig
         height /= 2;
         posTwo.y += height;
     }
-    DynamicArray<std::pair<int, Transform>> entitysOne;
-    DynamicArray<std::pair<int, Transform>> entitysTwo;
-    for (std::pair<int, Transform>& entity : entitys) {
+    DynamicArray<std::pair<Entity, Transform>> entitysOne;
+    DynamicArray<std::pair<Entity, Transform>> entitysTwo;
+    for (std::pair<Entity, Transform>& entity : entitys) {
         Transform& tf = entity.second;
         if (simpleCollisionCheck(pos, { width, height, 0}, tf.position, tf.velocity)) {
             entitysOne.pushBack(entity);
@@ -120,30 +120,30 @@ void PhysicsEngine::generateCollisionZones(Vector3D pos, float width, float heig
     generateCollisionZones(posTwo, width, height, entitysTwo, collisionZones);
 }
 
-PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(DynamicArray<std::pair<int, Transform>>& aCollisionBoxes) {
-    DynamicArray<DynamicArray<std::pair<int, Transform>>> collisionZones(1);
+PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(DynamicArray<std::pair<Entity, Transform>>& aCollisionBoxes) {
+    DynamicArray<DynamicArray<std::pair<Entity, Transform>>> collisionZones(1);
     float width = this->scene->getWidth();
     float height = this->scene->getWidth();
-    for (std::pair<int, Transform>& entity : aCollisionBoxes) {
+    for (std::pair<Entity, Transform>& entity : aCollisionBoxes) {
         Transform& tf = entity.second;
         if (!simpleCollisionCheck({0, 0, 0}, { width, height, 0}, tf.position, tf.velocity)) {
             collisionZones[0].pushBack(entity);
         }
     }
     generateCollisionZones({ 0, 0, 0 }, width, height, aCollisionBoxes, collisionZones);
-    std::unordered_map<int, DynamicArray<int>> lookup;
+    std::unordered_map<Entity, DynamicArray<int>> lookup;
     for (int i = 0; i < collisionZones.size(); i++) {
-        for (auto& [id, tf] : collisionZones[i]) {
-            lookup[id].pushBack(i);
+        for (auto& [entity, tf] : collisionZones[i]) {
+            lookup[entity].pushBack(i);
         }
     }
     CollisionMap collisionMap;
-    for (auto& [id, tf] : aCollisionBoxes) {
-        for (int zone : lookup[id]) {
-            for (auto& [otherId, otherTf] : collisionZones[zone]) {
-                if (id == otherId) continue;
+    for (auto& [entity, tf] : aCollisionBoxes) {
+        for (int zone : lookup[entity]) {
+            for (auto& [otherEntity, otherTf] : collisionZones[zone]) {
+                if (entity == otherEntity) continue;
                 if (!simpleCollisionCheck(tf.position, tf.velocity, otherTf.position, otherTf.velocity)) continue;
-                collisionMap[id].pushBack(otherId);
+                collisionMap[entity].pushBack(otherEntity);
             }
         }
     }
@@ -152,20 +152,20 @@ PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(DynamicArray<std
 
 void PhysicsEngine::preventIntersection(const CollisionEvent& colEvent) {
     // Resolve collision along the appropriate axis
-    int id = colEvent.entity.getId();
-    EntityFlags* ef = getEfComponent(id);
+    Entity entity = colEvent.entity;
+    EntityFlags* ef = getEfComponent(entity);
     if (!ef->getFlag(Dynamic)) return;
 
-    Transform* tf = getTfComponent(id);
+    Transform* tf = getTfComponent(entity);
 
-    int otherId = colEvent.other.getId();
-    Transform otherTf = *getTfComponent(otherId);
-    EntityFlags otherEf = *getEfComponent(otherId);
+    Entity otherEntity = colEvent.other;
+    Transform otherTf = *getTfComponent(otherEntity);
+    EntityFlags otherEf = *getEfComponent(otherEntity);
 
     if (!ef->getFlag(Solid) || !otherEf.getFlag(Solid)) return;
 
-    Collider cl = *getClComponent(id);
-    Collider otherCl = *getClComponent(otherId);
+    Collider cl = *getClComponent(entity);
+    Collider otherCl = *getClComponent(otherEntity);
 
     auto helper = [&](Flags moved, int dir, float& pos, float vel, float size, float otherPos, float otherSize) -> void {
         if (!dir) return;
@@ -217,17 +217,17 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
     debugMessage(overlaping.size());
 #endif
 
-    DynamicArray<std::pair<int,Transform>> aCollisionBoxes = velocityAdjustCollisionBoxes();
+    DynamicArray<std::pair<Entity,Transform>> aCollisionBoxes = velocityAdjustCollisionBoxes();
     calculateMinArea();
     CollisionMap possibleCollisions = generateCollisionMap(aCollisionBoxes);
     if (possibleCollisions.size() == 0) return {};
-    using Event = std::tuple<float, int, int, Vector3D>;
-    std::map<float, std::unordered_map<int, std::unordered_map<int, Vector3D>>> collisionQueue;
-    std::unordered_map<int, std::unordered_set<float>> lookup;
+    using Event = std::tuple<float, Entity, Entity, Vector3D>;
+    std::map<float, std::unordered_map<Entity, std::unordered_map<Entity, Vector3D>>> collisionQueue;
+    std::unordered_map<Entity, std::unordered_set<float>> lookup;
 
     for (Entity entity : this->collisionEntitys) {
         if (possibleCollisions.find(entity.getId()) == possibleCollisions.end()) continue;
-        DynamicArray<CollisionEvent> entityCols = checkForCollision(entity.getId(), possibleCollisions.at(entity.getId()));
+        DynamicArray<CollisionEvent> entityCols = checkForCollision(entity, possibleCollisions.at(entity));
         for (CollisionEvent& colEvent : entityCols) {
             collisionQueue[colEvent.time][entity.getId()][colEvent.other.getId()] = colEvent.collisionDirection;
             lookup[entity.getId()].insert(colEvent.time);
@@ -236,8 +236,8 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
     CollisionEventMap out;
     while (collisionQueue.size() != 0) {
         float time = collisionQueue.begin()->first;
-        std::unordered_set<int> entitys;
-        std::unordered_map<int, std::unordered_map<int, Vector3D>>& collisions = collisionQueue.begin()->second;
+        std::unordered_set<Entity> entitys;
+        std::unordered_map<Entity, std::unordered_map<Entity, Vector3D>>& collisions = collisionQueue.begin()->second;
 
         for (auto& collisionEvents : collisions) {
             for (auto& c : collisionEvents.second) {
@@ -249,7 +249,7 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
         }
         collisionQueue.erase(time);
 
-        auto helper = [&](int entity) {
+        auto helper = [&](Entity entity) {
             for (float t : lookup[entity]) {
                 if (collisionQueue.find(t) == collisionQueue.end()) continue;
                 collisionQueue[t].erase(entity);
@@ -261,9 +261,9 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
                 lookup[entity].insert(colEvent.time);
             }
         };
-        for (int entity : entitys) {
+        for (Entity entity : entitys) {
             helper(entity);
-            for (int otherEntity : possibleCollisions[entity]) {
+            for (Entity otherEntity : possibleCollisions[entity]) {
                 helper(otherEntity);
             }
         }
@@ -271,8 +271,8 @@ CollisionEventMap PhysicsEngine::getAllCollisions() {
     return out;
 }
 
-DynamicArray<std::pair<int, Transform>> PhysicsEngine::velocityAdjustCollisionBoxes() {
-    DynamicArray<std::pair<int, Transform>> collisionBoxes;
+DynamicArray<std::pair<Entity, Transform>> PhysicsEngine::velocityAdjustCollisionBoxes() {
+    DynamicArray<std::pair<Entity, Transform>> collisionBoxes;
     for (Entity entity : this->collisionEntitys) {
         Transform tf = *this->getTfComponent(entity.getId());
         const Collider* cl = this->getClComponent(entity.getId());
@@ -294,15 +294,15 @@ DynamicArray<std::pair<int, Transform>> PhysicsEngine::velocityAdjustCollisionBo
     return collisionBoxes;
 }
 
-Transform* PhysicsEngine::getTfComponent(int entityId) {
+Transform* PhysicsEngine::getTfComponent(Entity entityId) {
 	return dynamic_cast<Transform*>(this->tfMap->at(entityId));
 }
 
-EntityFlags* PhysicsEngine::getEfComponent(int entityId) {
+EntityFlags* PhysicsEngine::getEfComponent(Entity entityId) {
 	return dynamic_cast<EntityFlags*>(this->efMap->at(entityId));
 }
 
-Collider* PhysicsEngine::getClComponent(int entityId) {
+Collider* PhysicsEngine::getClComponent(Entity entityId) {
 	return dynamic_cast<Collider*>(this->clMap->at(entityId));
 }
 
@@ -343,8 +343,8 @@ void PhysicsEngine::addAndRemoveEntitys() {
     }
 }
 
-void PhysicsEngine::addCustomCollisionResolve(int id, System* ptr) {
-    this->customCollisionResolve[id].pushBack(ptr);
+void PhysicsEngine::addCustomCollisionResolve(Entity entity, System* ptr) {
+    this->customCollisionResolve[entity].pushBack(ptr);
 }
 
 void PhysicsEngine::setScene(Scene* scene) {
@@ -363,8 +363,8 @@ void PhysicsEngine::setSharedResources(SharedResources* sh) {
 }
 
 void PhysicsEngine::resolveCollision(const CollisionEventMap& collisionsMap) {
-    for (const auto&  [id, col] : collisionsMap) {
-        DynamicArray<System*>& systems = this->customCollisionResolve[id];
+    for (const auto&  [entity, col] : collisionsMap) {
+        DynamicArray<System*>& systems = this->customCollisionResolve[entity];
         for (int i = 0; i < col.size(); i++) {
             const CollisionEvent& collision = col.at(i);
             for (System* sys : systems) sys->onCollision(collision);
@@ -380,9 +380,9 @@ void PhysicsEngine::setDynamicCollisionEntitys(DynamicArray<Entity>& entitys) {
     for (Entity entity : entitys) this->dynamicCollisionEntitys.insert(entity);
 }
 
-void PhysicsEngine::applyVelocity(int id){
-    Transform* tf = getTfComponent(id);
-    EntityFlags* ef = getEfComponent(id);
+void PhysicsEngine::applyVelocity(Entity entity){
+    Transform* tf = getTfComponent(entity);
+    EntityFlags* ef = getEfComponent(entity);
     Vector3D move = tf->velocity;
     if (!ef->getFlag(MovedX)) tf->position.x += move.x;
     if (!ef->getFlag(MovedY)) tf->position.y += move.y;

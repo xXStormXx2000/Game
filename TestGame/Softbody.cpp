@@ -1,6 +1,6 @@
 #include "Softbody.h"
 
-Softbody::Softbody() : softbodys(128, DynamicArray<Entity>(128)) {
+Softbody::Softbody() : softbodys(64, DynamicArray<Entity>(64)) {
 	
 }
 
