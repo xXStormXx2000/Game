@@ -123,10 +123,11 @@ void PhysicsEngine::generateCollisionZones(Vector3D pos, float width, float heig
 PhysicsEngine::CollisionMap PhysicsEngine::generateCollisionMap(DynamicArray<std::pair<Entity, Transform>>& aCollisionBoxes) {
     DynamicArray<DynamicArray<std::pair<Entity, Transform>>> collisionZones(1);
     float width = this->scene->getWidth();
-    float height = this->scene->getWidth();
+    float height = this->scene->getHeight();
     for (std::pair<Entity, Transform>& entity : aCollisionBoxes) {
         Transform& tf = entity.second;
-        if (!simpleCollisionCheck({0, 0, 0}, { width, height, 0}, tf.position, tf.velocity)) {
+        if (0 > tf.position.x || width < tf.position.x + tf.velocity.x ||
+            0 > tf.position.y || height < tf.position.y + tf.velocity.y) {
             collisionZones[0].pushBack(entity);
         }
     }
@@ -193,29 +194,6 @@ void PhysicsEngine::preventIntersection(const CollisionEvent& colEvent) {
 }
 
 CollisionEventMap PhysicsEngine::getAllCollisions() {
-
-#if 0
-    std::unordered_set<int> overlaping;
-    for (Entity e : this->dynamicCollisionEntitys) {
-        const Transform* tf = getTfComponent(e.getId());
-        const Collider* c = getClComponent(e.getId());
-        Vector3D cl = { c->width, c->height, 0 };
-        cl *= 0.8;
-        cl.hadamardProduct(tf->scale);
-        for (Entity oe : this->dynamicCollisionEntitys) {
-            if (e.getId() == oe.getId()) continue;
-            const Transform* otf = getTfComponent(oe.getId());
-            const Collider* oc = getClComponent(oe.getId());
-            Vector3D ocl = { oc->width, oc->height, 0 };
-            ocl.hadamardProduct(otf->scale);
-            ocl *= 0.8;
-            if (!simpleCollisionCheck(tf->position, cl, otf->position, ocl)) continue;
-            overlaping.insert(e.getId());
-            overlaping.insert(oe.getId());
-        }
-    }
-    debugMessage(overlaping.size());
-#endif
 
     DynamicArray<std::pair<Entity,Transform>> aCollisionBoxes = velocityAdjustCollisionBoxes();
     calculateMinArea();
