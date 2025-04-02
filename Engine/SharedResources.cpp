@@ -1,23 +1,49 @@
 #include "SharedResources.h"
 
 void SharedResources::updateMouseState() {
-    this->mouseButtonBitmask = SDL_GetMouseState(&this->mouseX, &this->mouseY);
+	this->mouseButtonPressed = SDL_GetMouseState(&this->mouseX, &this->mouseY) & ~this->mouseButtonDown;
+	this->mouseButtonReleased = ~SDL_GetMouseState(&this->mouseX, &this->mouseY) & this->mouseButtonDown;
+    this->mouseButtonDown = SDL_GetMouseState(&this->mouseX, &this->mouseY);
 }
 
 Vector3D SharedResources::getMousePos() {
     return { float(this->mouseX), float(this->mouseY), 0 };
 }
 
-bool SharedResources::leftMouseButton() {
-    return this->mouseButtonBitmask & 0b1;
+bool SharedResources::leftMouseButtonPressed() {
+	return this->mouseButtonPressed & 0b1;
 }
 
-bool SharedResources::middleMouseButton() {
-    return this->mouseButtonBitmask & 0b10;
+bool SharedResources::middleMouseButtonPressed() {
+	return this->mouseButtonPressed & 0b10;
 }
 
-bool SharedResources::rightMouseButton() {
-    return this->mouseButtonBitmask & 0b100;
+bool SharedResources::rightMouseButtonPressed() {
+	return this->mouseButtonPressed & 0b100;
+}
+
+bool SharedResources::leftMouseButtonDown() {
+    return this->mouseButtonDown & 0b1;
+}
+
+bool SharedResources::middleMouseButtonDown() {
+    return this->mouseButtonDown & 0b10;
+}
+
+bool SharedResources::rightMouseButtonDown() {
+    return this->mouseButtonDown & 0b100;
+}
+
+bool SharedResources::leftMouseButtonReleased() {
+	return this->mouseButtonReleased & 0b1;
+}
+
+bool SharedResources::middleMouseButtonReleased() {
+	return this->mouseButtonReleased & 0b10;
+}
+
+bool SharedResources::rightMouseButtonReleased() {
+	return this->mouseButtonReleased & 0b100;
 }
 
 DynamicArray<CollisionEvent> SharedResources::getCollisionEvents(int id) {
@@ -29,40 +55,40 @@ void SharedResources::setCollisionEvents(CollisionEventMap newCollisionEvents) {
 }
 
 void SharedResources::resetKeysPressed() {
-    for (int i = 0; i < 32; i++) {
+    for (int i = 0; i < 4; i++) {
         this->keysPressed[i] = 0;
     }
 }
 
 bool SharedResources::getKeyPressed(char key) {
-    return this->keysPressed[key / 8] & 1 << (key%8);
+    return this->keysPressed[key / 64] & 1ull << (key%64);
 }
 
 void SharedResources::setKeyPressed(char key) {
-    this->keysPressed[key / 8] |= 1 << (key % 8);
+    this->keysPressed[key / 64] |= 1ull << (key % 64);
 }
 
 bool SharedResources::getKeyDown(char key) {
-    return this->keysDown[key / 8] & 1 << (key % 8);
+    return this->keysDown[key / 64] & 1ull << (key % 64);
 }
 
 void SharedResources::setKeyDown(char key, bool input) {
-    this->keysDown[key / 8] &= ~(1 << (key % 8));
-    this->keysDown[key / 8] |= input << (key % 8);
+    this->keysDown[key / 64] &= ~(1ull << (key % 64));
+    this->keysDown[key / 64] |= uint64_t(input) << (key % 64);
 }
 
 void SharedResources::resetKeysReleased() {
-    for (int i = 0; i < 32; i++) {
+    for (int i = 0; i < 4; i++) {
         this->keysReleased[i] = 0;
     }
 }
 
 bool SharedResources::getKeyReleased(char key) {
-    return this->keysReleased[key / 8] & 1 << (key % 8);
+    return this->keysReleased[key / 64] & 1ull << (key % 64);
 }
 
 void SharedResources::setKeyReleased(char key) {
-    this->keysReleased[key / 8] |= 1 << (key % 8);
+    this->keysReleased[key / 64] |= 1ull << (key % 64);
 }
 
 void SharedResources::setDeltaTime(float dt) {

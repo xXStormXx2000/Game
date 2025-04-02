@@ -94,16 +94,40 @@ Vector3D System::getMousePos() {
 	return this->sharedResources->getMousePos();
 }
 
-bool System::leftMouseButton() {
-	return this->sharedResources->leftMouseButton();
+bool System::leftMouseButtonPressed() {
+	return this->sharedResources->leftMouseButtonPressed();
 }
 
-bool System::middleMouseButton() {
-	return this->sharedResources->middleMouseButton();
+bool System::middleMouseButtonPressed() {
+	return this->sharedResources->middleMouseButtonPressed();
 }
 
-bool System::rightMouseButton() {
-	return this->sharedResources->rightMouseButton();
+bool System::rightMouseButtonPressed() {
+	return this->sharedResources->rightMouseButtonPressed();
+}
+
+bool System::leftMouseButtonDown() {
+	return this->sharedResources->leftMouseButtonDown();
+}
+
+bool System::middleMouseButtonDown() {
+	return this->sharedResources->middleMouseButtonDown();
+}
+
+bool System::rightMouseButtonDown() {
+	return this->sharedResources->rightMouseButtonDown();
+}
+
+bool System::leftMouseButtonReleased() {
+	return this->sharedResources->leftMouseButtonReleased();
+}
+
+bool System::middleMouseButtonReleased() {
+	return this->sharedResources->middleMouseButtonReleased();
+}
+
+bool System::rightMouseButtonReleased() {
+	return this->sharedResources->rightMouseButtonReleased();
 }
 
 std::string System::getTextInput() {
@@ -166,7 +190,7 @@ bool System::mouseInBox(float x, float y, float w, float h) {
 
 void System::button(float x, float y, float w, float h, void (*func)()) {
 	SDL_Rect buttonRect = { int(x), int(y), int(w), int(h) };
-	if (leftMouseButton() && mouseInBox(x, y, w, h)) {
+	if (leftMouseButtonDown() && mouseInBox(x, y, w, h)) {
 		SDL_SetRenderDrawColor(getRenderer(), 220, 220, 220, 255);
 		SDL_RenderDrawRect(getRenderer(), &buttonRect);
 	} else {

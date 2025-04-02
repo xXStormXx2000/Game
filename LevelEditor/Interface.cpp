@@ -60,7 +60,7 @@ void Interface::update(Entity) {
     if (keyDown('s')) setCameraOffset(getCameraOffset() + Vector3D({ 0, speed, 0 }));
 
     float x = 10, y = 10;
-    if (leftMouseButton()) {
+    if (leftMouseButtonPressed()) {
         select = -1;
         if(this->getTextInputState()) this->toggleTextInputState();
 		if (!mouseInBox(x, y, 120, 63)) {
