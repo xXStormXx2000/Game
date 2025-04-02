@@ -24,10 +24,15 @@ protected:
 	void addEntity(Entity, EntityFlags*);
 
 	template<class T>
-	T& getComponent(int entityId) {
-		return this->scene->getComponent<T>(entityId);
+	T& getComponent(Entity entity) {
+		return this->scene->getComponent<T>(entity);
 	};
 	
+	template<class T>
+	bool haveComponent(Entity entity) {
+		return this->scene->haveComponent<T>(entity);
+	};
+
 	bool keyPressed(char);
 	bool keyDown(char);
 	bool keyReleased(char);

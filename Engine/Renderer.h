@@ -30,7 +30,7 @@ namespace std {
 		}
 	};
 }
-using DrawMap = std::map<float, DynamicArray<Entity>>;
+
 struct TileSet {
 	Vector3D offset = { 0,0,0 }; // pixels
 	int tileWidth = 0, tileHeight = 0; // pixels
@@ -41,6 +41,8 @@ struct TileSet {
 	TileSet readFile(std::ifstream&);
 	void writeFile(std::ofstream&);
 };
+
+using DrawMap = std::map<float, std::pair<std::unordered_set<Entity>, std::unordered_set<int>>>;
 
 class Renderer {
 	SDL_Window* window;
@@ -56,7 +58,7 @@ class Renderer {
 	Vector3D cameraOffset = { 0, 0, 0 };
 	Entity cameraFollowEntity = -1;
 
-	SDL_Rect cameraTransform(Transform, const Sprite&);
+	Vector3D cameraPosTransform(Vector3D);
 
 	DrawMap entitys;
 
@@ -80,15 +82,12 @@ public:
 	void createTexture(const std::filesystem::path&);
 	void destroyTextures();
 
-	void setEntitys(DrawMap&);
-
-	void setTileSets(DynamicArray<TileSet>&);
-
 	void addTileSet(TileSet&);
 
 	TileSet& getTileSets(int);
 
 	void addEntity(Entity);
+	void addEntity(Entity, float);
 	void removeEntity(Entity);
 
 	float getCameraWidth();
