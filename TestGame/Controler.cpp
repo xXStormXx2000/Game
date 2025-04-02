@@ -7,8 +7,8 @@ void Controler::onCollision(const CollisionEvent&) {
 }
 
 void Controler::start(Entity entity) {
-	setCameraWidth(getWindowWidth());
-	setCameraHeight(getWindowHeight());
+	setCameraWidth(getWindowWidth()/1.5);
+	setCameraHeight(getWindowHeight()/1.5);
 	setCameraOffset({ -getCameraWidth() / 2 + 8, -getCameraHeight() / 2 + 8, 0 });
 	setCameraFollowEntity(entity.getId());
 	addEntityTag("Player", entity);

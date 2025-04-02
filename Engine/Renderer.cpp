@@ -32,19 +32,13 @@ void TileSet::writeFile(std::ofstream& file) {
 
 
 
-SDL_Rect Renderer::cameraTransform(Transform tf, const Sprite& sp) {
-	tf.position -= this->cameraOffset;
-	if (this->cameraFollowEntity.getId() != -1)
-		tf.position -= this->scene->getComponent<Transform>(this->cameraFollowEntity.getId()).position;
-	SDL_Rect target;
-	tf.position += sp.offset;
+Vector3D Renderer::cameraPosTransform(Vector3D absPos) {
+	absPos -= this->getCameraOffset();
+	if (this->getCameraFollowEntity() != -1)
+		absPos -= this->scene->getComponent<Transform>(this->getCameraFollowEntity().getId()).position;
 	float xScale = this->sharedResources->getWindowWidth() / this->cameraWidth;
-	float yScale = this->sharedResources->getWindowHeight()/this->cameraHeight;
-	target.x = tf.position.x * xScale;
-	target.y = tf.position.y * yScale;
-	target.w = sp.width * tf.scale.x  * xScale;
-	target.h = sp.height * tf.scale.y * yScale;
-	return target;
+	float yScale = this->sharedResources->getWindowHeight() / this->cameraHeight;
+	return absPos.hadamardProduct({ xScale, yScale, 1 });
 }
 
 Renderer::Renderer(SDL_Window* window): window(window), renderer(NULL), scene(nullptr), font(NULL), sharedResources(nullptr) {
@@ -97,27 +91,20 @@ void Renderer::render() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderPresent(this->renderer);
 	SDL_RenderClear(this->renderer);
-	for (auto entityList: this->entitys) for (Entity entity: entityList.second) {
-		if (entity.getId() < -1) {
-			float xScale = this->sharedResources->getWindowWidth() / this->cameraWidth;
-			float yScale = this->sharedResources->getWindowHeight() / this->cameraHeight;
-
-			TileSet tileSet = this->tileSets[-(entity.getId() + 2)];
-			Vector3D camPos = -this->cameraOffset;
-			if (this->cameraFollowEntity.getId() != -1)
-				camPos -= this->scene->getComponent<Transform>(this->cameraFollowEntity.getId()).position;
-			camPos.x *= xScale;
-			camPos.y *= yScale;
-
-			tileSet.tileWidth *= xScale;
-			tileSet.tileHeight *= yScale;
-			
+	float xScale = this->sharedResources->getWindowWidth() / this->cameraWidth;
+	float yScale = this->sharedResources->getWindowHeight() / this->cameraHeight;
+	for (auto [depht, entityList] : this->entitys) {
+		for (int tileSetID: entityList.second) {
+			TileSet& tileSet = this->tileSets[tileSetID];
+			float w = tileSet.tileWidth * xScale;
+			float h = tileSet.tileHeight * yScale;
 			for (const Tile& tile : tileSet.tiles) {
 				SDL_Rect target;
-				target.x = tileSet.tileWidth  * tile.posX + int(camPos.x);
-				target.y = tileSet.tileHeight * tile.posY + int(camPos.y);
-				target.w = tileSet.tileWidth;
-				target.h = tileSet.tileHeight;
+				Vector3D pos = cameraPosTransform({ float(tile.posX*tileSet.tileWidth), float(tile.posY*tileSet.tileHeight), 0 });
+				target.x = pos.x;
+				target.y = pos.y;
+				target.w = w;
+				target.h = h;
 
 				SDL_Rect texturePortion;
 				texturePortion.x = tileSet.textureTileWidth * tile.tileX;
@@ -129,8 +116,8 @@ void Renderer::render() {
 					debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
 				}
 			}
-
-		} else {
+		}
+		for (Entity entity: entityList.first) {
 			EntityFlags flags = this->scene->getComponent<EntityFlags>(entity.getId());
 			if (!flags.getFlag(Active) || !flags.getFlag(Visible)) continue;
 			assert(this->scene != nullptr && "Renderer can't find scene");
@@ -138,8 +125,12 @@ void Renderer::render() {
 
 			Sprite& sp = this->scene->getComponent<Sprite>(entity.getId());
 
-			SDL_Rect target = cameraTransform(tf, sp);
-
+			SDL_Rect target;
+			Vector3D pos = cameraPosTransform(tf.position + sp.offset);
+			target.x = pos.x;
+			target.y = pos.y;
+			target.w = sp.width * tf.scale.x * xScale;
+			target.h = sp.height * tf.scale.y * yScale;
 			if (SDL_RenderCopy(this->renderer, this->sprites[sp.spriteIndex], &sp.texturePortion, &target) != 0) {
 				debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
 			}
@@ -166,31 +157,27 @@ void Renderer::destroyTextures() {
 	this->sprites.empty();
 }
 
-void Renderer::setEntitys(DrawMap& newEntitys) {
-	this->entitys = std::move(newEntitys);
-}
-
-void Renderer::setTileSets(DynamicArray<TileSet>& ts) {
-	this->tileSets = std::move(ts);
-}
-
 void Renderer::addTileSet(TileSet& tileSet) {
 	this->tileSets.pushBack(std::move(tileSet));
-	this->entitys[tileSet.depht].pushBack(-(int(this->tileSets.size()) + 1));
+	this->entitys[tileSet.depht].second.insert(this->tileSets.size() - 1);
 }
 
 TileSet& Renderer::getTileSets(int num) {
 	return this->tileSets[num];
 }
 
+void Renderer::addEntity(Entity entity, float depth) {
+	this->entitys[depth].first.insert(entity);
+}
+
 void Renderer::addEntity(Entity entity) {
 	Transform tf = this->scene->getComponent<Transform>(entity.getId());
-	this->entitys[tf.position.z].pushBack(entity);
+	this->entitys[tf.position.z].first.insert(entity);
 }
 
 void Renderer::removeEntity(Entity entity) {
 	Transform tf = this->scene->getComponent<Transform>(entity.getId());
-	this->entitys[tf.position.z].erase(this->entitys[tf.position.z].find(entity));
+	this->entitys[tf.position.z].first.erase(this->entitys[tf.position.z].first.find(entity));
 }
 
 float Renderer::getCameraWidth() {
