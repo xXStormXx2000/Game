@@ -44,7 +44,7 @@ public:
         return *this;
     }
     valueType& operator[](size_t index) {
-        return *(mPtr[index]);
+        return mPtr[index];
     }
     valueType* operator->() {
         return mPtr;
@@ -101,7 +101,7 @@ public:
         return *this;
     }
     valueType& operator[](size_t index) {
-        return *(mPtr[index]);
+        return mPtr[index];
     }
     valueType* operator->() {
         return mPtr;
