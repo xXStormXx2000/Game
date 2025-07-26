@@ -17,7 +17,6 @@ public:
 struct Transform : public Component {
 	Vector3D position = { 0, 0, 0 }; // pixels
 	Vector3D velocity = { 0, 0, 0 }; // pixels/s
-	//Vector3D rotation = { 0, 0, 0 }; // rad
 	Vector3D scale = { 1, 1, 1 };
 	Component* readFile(std::ifstream&, std::string&);
 	void writeFile(std::ofstream&);
@@ -26,18 +25,6 @@ struct Transform : public Component {
 struct Collider : public Component {
 	Vector3D offset = { 0,0,0 }; // pixels
 	float width = 0, height = 0; // pixels
-	Component* readFile(std::ifstream&, std::string&);
-	void writeFile(std::ofstream&);
-};
-
-struct Rigidbody : public Component {
-	float mass = 1; // kg
-	float density = 1; // kg/pixels^3
-	float friction = 0;
-	float restitution = 0;
-	Vector3D centerOfMass = { 0, 0, 0 }; // pixels
-	Vector3D acceleration = { 0, 0, 0 }; // pixels/s^2
-	//Vector3D angularVelocity = { 0, 0, 0 }; // rad/s
 	Component* readFile(std::ifstream&, std::string&);
 	void writeFile(std::ofstream&);
 };

@@ -58,26 +58,6 @@ void Collider::writeFile(std::ofstream& file) {
 	file << this->width << ' ' << this->height << '\n';
 }
 
-Component* Rigidbody::readFile(std::ifstream& file, std::string& str) {
-
-	if (str == "Rigidbody") {
-		Rigidbody* rb = new Rigidbody;
-		file >> rb->mass >> rb->density >> rb->friction >> rb->restitution;
-		file >> rb->centerOfMass.x >> rb->centerOfMass.y >> rb->centerOfMass.z;
-		file >> rb->acceleration.x >> rb->acceleration.y >> rb->acceleration.z;
-		//file >> rb->angularVelocity.x >> rb->angularVelocity.y >> rb->angularVelocity.z;
-		return dynamic_cast<Component*>(rb);
-	}
-	return nullptr;
-}
-
-void Rigidbody::writeFile(std::ofstream& file) {
-	file << "Rigidbody\n";
-	file << this->mass << ' ' << this->density << ' ' << this->friction << ' ' << this->restitution << '\n';
-	file << this->centerOfMass.x << ' ' << this->centerOfMass.y << ' ' << this->centerOfMass.z << '\n';
-	file << this->acceleration.x << ' ' << this->acceleration.y << ' ' << this->acceleration.z << '\n';
-	//file << this->angularVelocity.x << ' ' << this->angularVelocity.y << ' ' << this->angularVelocity.z << '\n';
-}
 
 Component* Sprite::readFile(std::ifstream& file, std::string& str) {
 	if (str == "Sprite") {

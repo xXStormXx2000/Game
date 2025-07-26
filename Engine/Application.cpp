@@ -42,7 +42,6 @@ Application::Application(const char* title, const char* icon, int width, int hei
 	this->addComponent<EntityFlags>();
 	this->addComponent<Transform>();
 	this->addComponent<Collider>();
-	this->addComponent<Rigidbody>();
 	this->addComponent<Sprite>();
 
 	this->appRunning = true;
