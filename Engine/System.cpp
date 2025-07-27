@@ -65,6 +65,10 @@ void System::setCameraOffset(Vector3D offset) {
 	this->renderer->setCameraOffset(offset);
 }
 
+Vector3D System::getCameraPos() {
+	return this->renderer->getCameraPos();
+}
+
 void System::addEntityTag(const std::string& tag, Entity entity) {
 	this->sharedResources->addEntityTag(tag, entity);
 }
@@ -159,16 +163,18 @@ SDL_Renderer* System::getRenderer() {
 }
 
 Vector3D System::getSceneOrigin() {
-	return -this->renderer->getCameraOffset();
+	return this->renderer->cameraPosTransform({ 0, 0, 0 });
 }
 
-Vector3D System::absPosToScenePos(Vector3D absPos) {
-	float xScale = this->sharedResources->getWindowWidth() / this->renderer->getCameraWidth();
-	float yScale = this->sharedResources->getWindowHeight() / this->renderer->getCameraHeight();
-	absPos -= this->getCameraOffset();
-	if (this->getCameraFollowEntity() != -1)
-		absPos -= getComponent<Transform>(this->getCameraFollowEntity().getId()).position;
-	return absPos.hadamardProduct({ xScale, yScale, 1});
+Vector3D System::absPosToScenePos(const Vector3D& absPos) {
+	return this->renderer->cameraPosTransform(absPos);
+}
+
+Vector3D System::screenPosToScenePos(Vector3D screenPos) {
+	screenPos += getCameraPos();
+	screenPos.x *= getCameraWidth()/getWindowWidth();
+	screenPos.y *= getCameraHeight()/getWindowHeight();
+	return screenPos;
 }
 
 void System::addTexture(const std::filesystem::path& path) {

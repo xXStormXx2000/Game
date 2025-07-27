@@ -74,6 +74,8 @@ protected:
 	Vector3D getCameraOffset();
 	void setCameraOffset(Vector3D);
 
+	Vector3D getCameraPos();
+
 	void addEntityTag(const std::string&, Entity);
 	void removeEntityTag(const std::string&, Entity);
 	const std::unordered_set<Entity>& getTagEntitys(const std::string&);
@@ -107,8 +109,8 @@ protected:
 	SDL_Renderer* getRenderer();
 
 	Vector3D getSceneOrigin();
-
-	Vector3D absPosToScenePos(Vector3D);
+	Vector3D absPosToScenePos(const Vector3D&);
+	Vector3D screenPosToScenePos(Vector3D);
 
 	void addTexture(const std::filesystem::path&);
 

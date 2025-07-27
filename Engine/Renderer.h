@@ -26,7 +26,7 @@ namespace std {
 		typedef std::size_t result_type;
 
 		result_type operator()(argument_type const& obj) const {
-			return uint64_t(obj.posX)<<32 + uint64_t(obj.tileY);
+			return (uint64_t(obj.posX) << uint64_t(32)) + uint64_t(obj.tileY);
 		}
 	};
 }
@@ -58,7 +58,7 @@ class Renderer {
 	Vector3D cameraOffset = { 0, 0, 0 };
 	Entity cameraFollowEntity = -1;
 
-	Vector3D cameraPosTransform(Vector3D);
+	
 
 	DrawMap entitys;
 
@@ -102,6 +102,8 @@ public:
 	Vector3D getCameraOffset();
 	void setCameraOffset(Vector3D);
 
+	Vector3D getCameraPos();
+
 	void drawText(const std::string&, Vector3D);
 
 	void setSharedResources(SharedResources*);
@@ -109,5 +111,7 @@ public:
 	SDL_Renderer* getRenderer();
 
 	~Renderer();
+
+	Vector3D cameraPosTransform(Vector3D);
 };
 

@@ -103,8 +103,8 @@ void Renderer::render() {
 				Vector3D pos = cameraPosTransform({ float(tile.posX*tileSet.tileWidth), float(tile.posY*tileSet.tileHeight), 0 });
 				target.x = pos.x;
 				target.y = pos.y;
-				target.w = w;
-				target.h = h;
+				target.w = round(w);
+				target.h = round(h);
 
 				SDL_Rect texturePortion;
 				texturePortion.x = tileSet.textureTileWidth * tile.tileX;
@@ -129,8 +129,8 @@ void Renderer::render() {
 			Vector3D pos = cameraPosTransform(tf.position + sp.offset);
 			target.x = pos.x;
 			target.y = pos.y;
-			target.w = sp.width * tf.scale.x * xScale;
-			target.h = sp.height * tf.scale.y * yScale;
+			target.w = round(sp.width * tf.scale.x * xScale);
+			target.h = round(sp.height * tf.scale.y * yScale);
 			if (SDL_RenderCopy(this->renderer, this->sprites[sp.spriteIndex], &sp.texturePortion, &target) != 0) {
 				debugMessage("SDL_RenderCopy Error: " << SDL_GetError());
 			}
@@ -210,6 +210,13 @@ Vector3D Renderer::getCameraOffset() {
 
 void Renderer::setCameraOffset(Vector3D offset) {
 	this->cameraOffset = offset;
+}
+
+Vector3D Renderer::getCameraPos() {
+	Vector3D pos = this->getCameraOffset();
+	if (this->getCameraFollowEntity() != -1)
+		pos += this->scene->getComponent<Transform>(this->getCameraFollowEntity().getId()).position;
+	return pos;
 }
 
 void Renderer::setSharedResources(SharedResources* sr) {
